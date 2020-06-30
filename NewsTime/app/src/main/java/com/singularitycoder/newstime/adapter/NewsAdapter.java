@@ -6,26 +6,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
+import com.singularitycoder.newstime.helpers.HelperGeneral;
 import com.singularitycoder.newstime.model.NewsArticle;
 
 import java.util.Collections;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @NonNull
     private final String TAG = "NewsAdapter";
 
+    @NonNull
+    private final HelperGeneral helperObject = new HelperGeneral();
+
+    @NonNull
     private List<NewsArticle> newsList = Collections.emptyList();
+
+    @Nullable
     private Context context;
+
+    @Nullable
+    private NewsViewListener newsViewListener;
 
     public NewsAdapter(List<NewsArticle> newsList, Context context) {
         this.newsList = newsList;
@@ -49,7 +63,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             newsViewHolder.tvDescription.setText(newsArticle.getDescription());
             newsViewHolder.tvPublishedAt.setText("Published at: " + newsArticle.getPublishedAt());
             newsViewHolder.tvSource.setText("Source: " + newsArticle.getSource().getName());
-            glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.ivHeaderImage);
+            helperObject.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.ivHeaderImage);
         }
     }
 
@@ -63,31 +77,50 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return position;
     }
 
-    private static void glideImage(Context context, String imgUrl, ImageView imageView) {
-        RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.color.colorAccent)
-                .error(R.mipmap.ic_launcher)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+    public interface NewsViewListener {
+        void onNewsItemClicked(int position);
+    }
 
-        Glide.with(context)
-                .load(imgUrl)
-                .apply(requestOptions)
-                .into(imageView);
+    public final void setNewsViewListener(NewsViewListener newsViewListener) {
+        this.newsViewListener = newsViewListener;
     }
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvAuthor, tvTitle, tvDescription, tvPublishedAt, tvSource;
+        @Nullable
+        @BindView(R.id.tv_author)
+        TextView tvAuthor;
+        @Nullable
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
+        @Nullable
+        @BindView(R.id.tv_description)
+        TextView tvDescription;
+        @Nullable
+        @BindView(R.id.tv_published_at)
+        TextView tvPublishedAt;
+        @Nullable
+        @BindView(R.id.tv_source)
+        TextView tvSource;
+        @Nullable
+        @BindView(R.id.iv_header_image)
         ImageView ivHeaderImage;
+
+        @NonNull
+        private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvAuthor = itemView.findViewById(R.id.tv_author);
-            tvTitle = itemView.findViewById(R.id.tv_title);
-            tvDescription = itemView.findViewById(R.id.tv_description);
-            tvPublishedAt = itemView.findViewById(R.id.tv_published_at);
-            ivHeaderImage = itemView.findViewById(R.id.iv_header_image);
-            tvSource = itemView.findViewById(R.id.tv_source);
+            ButterKnife.bind(this, itemView);
+
+            compositeDisposable.add(
+                    RxView.clicks(itemView)
+                            .map(o -> itemView)
+                            .subscribe(
+                                    button -> newsViewListener.onNewsItemClicked(getAdapterPosition()),
+                                    throwable -> Toast.makeText(context, throwable.getMessage(), Toast.LENGTH_SHORT).show()
+                            )
+            );
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.singularitycoder.newstime.view;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.singularitycoder.newstime.helpers.ApiIdlingResource;
 import com.singularitycoder.newstime.helpers.HelperGeneral;
 import com.singularitycoder.newstime.helpers.RequestStateMediator;
 import com.singularitycoder.newstime.helpers.UiState;
+import com.singularitycoder.newstime.helpers.WebViewActivity;
 import com.singularitycoder.newstime.model.NewsArticle;
 import com.singularitycoder.newstime.model.NewsResponse;
 import com.singularitycoder.newstime.viewmodel.NewsViewModel;
@@ -82,14 +84,21 @@ public final class MainActivity extends AppCompatActivity {
     @Nullable
     private NewsAdapter newsAdapter;
 
+    // todo material design
+    // todo room
+    // todo webview
+    // todo unit, espresso
+    // todo use fragments
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        helperObject.setStatusBarColor(this, R.color.colorPrimaryDark);
         super.onCreate(savedInstanceState);
+        helperObject.setStatusBarColor(this, R.color.colorPrimaryDark);
         setContentView(R.layout.activity_main);
         initialise();
         setUpRecyclerView();
         getNewsData();
+        setClickListeners();
         swipeRefreshLayout.setOnRefreshListener(this::getNewsData);
     }
 
@@ -118,6 +127,13 @@ public final class MainActivity extends AppCompatActivity {
         } else {
             tvNoInternet.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setClickListeners() {
+        newsAdapter.setNewsViewListener(position -> {
+            startActivity(new Intent(MainActivity.this, WebViewActivity.class)
+                    .putExtra("SOURCE_URL", newsList.get(position).getSource().getName()));
+        });
     }
 
     private Observer liveDataObserver() {
