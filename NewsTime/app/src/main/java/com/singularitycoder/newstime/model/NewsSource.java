@@ -1,9 +1,9 @@
-package com.singularitycoder.newstime;
+package com.singularitycoder.newstime.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NewsSubItemSource {
+public final class NewsSource {
 
     @SerializedName("id")
     @Expose

@@ -1,11 +1,11 @@
-package com.singularitycoder.newstime;
+package com.singularitycoder.newstime.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NewsItemResponse {
+public final class NewsResponse {
 
     @SerializedName("status")
     @Expose
@@ -17,7 +17,7 @@ public class NewsItemResponse {
 
     @SerializedName("articles")
     @Expose
-    private List<NewsSubItemArticle> articles = null;
+    private List<NewsArticle> articles = null;
 
     public String getStatus() {
         return status;
@@ -35,11 +35,11 @@ public class NewsItemResponse {
         this.totalResults = totalResults;
     }
 
-    public List<NewsSubItemArticle> getArticles() {
+    public List<NewsArticle> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<NewsSubItemArticle> articles) {
+    public void setArticles(List<NewsArticle> articles) {
         this.articles = articles;
     }
 }

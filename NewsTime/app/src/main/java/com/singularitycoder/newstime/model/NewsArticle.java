@@ -1,13 +1,13 @@
-package com.singularitycoder.newstime;
+package com.singularitycoder.newstime.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NewsSubItemArticle {
+public final class NewsArticle {
 
     @SerializedName("source")
     @Expose
-    private NewsSubItemSource source;
+    private NewsSource source;
 
     @SerializedName("author")
     @Expose
@@ -29,11 +29,11 @@ public class NewsSubItemArticle {
     @Expose
     private String publishedAt;
 
-    public NewsSubItemSource getSource() {
+    public NewsSource getSource() {
         return source;
     }
 
-    public void setSource(NewsSubItemSource source) {
+    public void setSource(NewsSource source) {
         this.source = source;
     }
 

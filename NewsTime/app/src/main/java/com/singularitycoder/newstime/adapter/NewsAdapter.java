@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime;
+package com.singularitycoder.newstime.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,17 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.singularitycoder.newstime.R;
+import com.singularitycoder.newstime.model.NewsArticle;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "NewsAdapter";
+    @NonNull
+    private final String TAG = "NewsAdapter";
 
-    ArrayList<NewsSubItemArticle> newsList;
-    Context context;
+    private List<NewsArticle> newsList = Collections.emptyList();
+    private Context context;
 
-    NewsAdapter(ArrayList<NewsSubItemArticle> newsList, Context context) {
+    public NewsAdapter(List<NewsArticle> newsList, Context context) {
         this.newsList = newsList;
         this.context = context;
     }
@@ -37,15 +41,15 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NewsSubItemArticle newsSubItemArticle = newsList.get(position);
+        NewsArticle newsArticle = newsList.get(position);
         if (null != holder) {
             NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
-            newsViewHolder.tvAuthor.setText("Author: " + newsSubItemArticle.getAuthor());
-            newsViewHolder.tvTitle.setText(newsSubItemArticle.getTitle());
-            newsViewHolder.tvDescription.setText(newsSubItemArticle.getDescription());
-            newsViewHolder.tvPublishedAt.setText("Published at: " + newsSubItemArticle.getPublishedAt());
-            newsViewHolder.tvSource.setText("Source: " + newsSubItemArticle.getSource().getName());
-            glideImage(context, newsSubItemArticle.getUrlToImage(), newsViewHolder.ivHeaderImage);
+            newsViewHolder.tvAuthor.setText("Author: " + newsArticle.getAuthor());
+            newsViewHolder.tvTitle.setText(newsArticle.getTitle());
+            newsViewHolder.tvDescription.setText(newsArticle.getDescription());
+            newsViewHolder.tvPublishedAt.setText("Published at: " + newsArticle.getPublishedAt());
+            newsViewHolder.tvSource.setText("Source: " + newsArticle.getSource().getName());
+            glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.ivHeaderImage);
         }
     }
 
