@@ -15,7 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.singularitycoder.newstime.R;
 
-public class WebViewActivity extends AppCompatActivity {
+public final class WebViewActivity extends AppCompatActivity {
 
     @NonNull
     private final String TAG = "HelperWebViewActivity";
@@ -82,7 +82,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     final class NewsWebViewClient extends WebViewClient {
         public void onPageFinished(WebView view, String url) {
-            webView.loadUrl("javascript:startup()");
+//            webView.loadUrl("javascript:startup()");
             mProgressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
         }

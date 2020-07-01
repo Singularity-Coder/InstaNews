@@ -130,14 +130,12 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private void setClickListeners() {
-        newsAdapter.setNewsViewListener(position -> {
-            startActivity(new Intent(MainActivity.this, WebViewActivity.class)
-                    .putExtra("SOURCE_URL", newsList.get(position).getSource().getName()));
-        });
+        newsAdapter.setNewsViewListener(position -> startActivity(new Intent(MainActivity.this, WebViewActivity.class)
+                .putExtra("SOURCE_URL", newsList.get(position).getSource().getName())));
     }
 
-    private Observer liveDataObserver() {
-        Observer<RequestStateMediator> observer = null;
+    private Observer<RequestStateMediator<Object, UiState, String, String>> liveDataObserver() {
+        Observer<RequestStateMediator<Object, UiState, String, String>> observer = null;
         if (helperObject.hasInternet(this)) {
             observer = requestStateMediator -> {
 

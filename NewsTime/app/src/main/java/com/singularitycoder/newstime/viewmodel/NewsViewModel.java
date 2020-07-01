@@ -26,15 +26,15 @@ public final class NewsViewModel extends ViewModel {
     @NonNull
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public LiveData<RequestStateMediator> getNewsFromRepository(
+    public LiveData<RequestStateMediator<Object, UiState, String, String>> getNewsFromRepository(
             @Nullable final String country,
             @NonNull final String category,
             @Nullable final ApiIdlingResource idlingResource) throws IllegalArgumentException {
 
         if (null != idlingResource) idlingResource.setIdleState(false);
 
-        final RequestStateMediator requestStateMediator = new RequestStateMediator();
-        final MutableLiveData<RequestStateMediator> mutableLiveData = new MutableLiveData<>();
+        final RequestStateMediator<Object, UiState, String, String> requestStateMediator = new RequestStateMediator<>();
+        final MutableLiveData<RequestStateMediator<Object, UiState, String, String>> mutableLiveData = new MutableLiveData<>();
         final NewsRepository newsRepository = NewsRepository.getInstance();
 
         requestStateMediator.set(null, UiState.LOADING, "Loading...", null);
