@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -27,7 +32,7 @@ import com.singularitycoder.newstime.helpers.ApiIdlingResource;
 import com.singularitycoder.newstime.helpers.HelperGeneral;
 import com.singularitycoder.newstime.helpers.RequestStateMediator;
 import com.singularitycoder.newstime.helpers.UiState;
-import com.singularitycoder.newstime.helpers.WebViewActivity;
+import com.singularitycoder.newstime.helpers.WebViewFragment;
 import com.singularitycoder.newstime.model.NewsArticle;
 import com.singularitycoder.newstime.model.NewsResponse;
 import com.singularitycoder.newstime.viewmodel.NewsViewModel;
@@ -45,6 +50,9 @@ import static java.lang.String.valueOf;
 public final class MainActivity extends AppCompatActivity {
 
     @Nullable
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @Nullable
     @BindView(R.id.tv_no_internet)
     TextView tvNoInternet;
     @Nullable
@@ -59,6 +67,9 @@ public final class MainActivity extends AppCompatActivity {
     @Nullable
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Nullable
+    @BindView(R.id.con_lay_news_home_root)
+    ConstraintLayout conLayNewsHomeRoot;
 
     @NonNull
     private final String TAG = "MainActivity";
@@ -96,6 +107,7 @@ public final class MainActivity extends AppCompatActivity {
         helperObject.setStatusBarColor(this, R.color.colorPrimaryDark);
         setContentView(R.layout.activity_main);
         initialise();
+        setUpToolBar();
         setUpRecyclerView();
         getNewsData();
         setClickListeners();
@@ -106,6 +118,13 @@ public final class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         unbinder = ButterKnife.bind(this);
         progressDialog = new ProgressDialog(this);
+    }
+
+    private void setUpToolBar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("News Time");
+        }
     }
 
     private void setUpRecyclerView() {
@@ -130,8 +149,21 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     private void setClickListeners() {
-        newsAdapter.setNewsViewListener(position -> startActivity(new Intent(MainActivity.this, WebViewActivity.class)
-                .putExtra("SOURCE_URL", newsList.get(position).getSource().getName())));
+        newsAdapter.setNewsViewListener(position -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
+            showFragment(bundle, R.id.con_lay_news_home_root, new WebViewFragment());
+        });
+    }
+
+    private void showFragment(Bundle bundle, int parentLayout, Fragment fragment) {
+        fragment.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(parentLayout, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private Observer<RequestStateMediator<Object, UiState, String, String>> liveDataObserver() {
@@ -159,7 +191,8 @@ public final class MainActivity extends AppCompatActivity {
                             swipeRefreshLayout.setRefreshing(false);
 
                             Toast.makeText(MainActivity.this, valueOf(requestStateMediator.getData()), Toast.LENGTH_SHORT).show();
-                            if (null != progressDialog && progressDialog.isShowing()) progressDialog.dismiss();
+                            if (null != progressDialog && progressDialog.isShowing())
+                                progressDialog.dismiss();
                             tvNoInternet.setVisibility(View.GONE);
                         }
                     });
@@ -172,7 +205,8 @@ public final class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         tvNothing.setVisibility(View.VISIBLE);
                         tvNothing.setText("Nothing to show :(");
-                        if (null != progressDialog && progressDialog.isShowing()) progressDialog.dismiss();
+                        if (null != progressDialog && progressDialog.isShowing())
+                            progressDialog.dismiss();
                         tvNoInternet.setVisibility(View.GONE);
                         Toast.makeText(this, valueOf(requestStateMediator.getMessage()), Toast.LENGTH_LONG).show();
                     });
@@ -183,7 +217,8 @@ public final class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         tvNothing.setVisibility(View.GONE);
                         swipeRefreshLayout.setRefreshing(false);
-                        if (null != progressDialog && progressDialog.isShowing()) progressDialog.dismiss();
+                        if (null != progressDialog && progressDialog.isShowing())
+                            progressDialog.dismiss();
                         tvNoInternet.setVisibility(View.GONE);
                         Toast.makeText(this, valueOf(requestStateMediator.getMessage()), Toast.LENGTH_LONG).show();
                         Log.d(TAG, "liveDataObserver: error: " + requestStateMediator.getMessage());

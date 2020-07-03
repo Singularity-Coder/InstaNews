@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".helpers.WebViewActivity"
+            android:name=".helpers.WebViewFragment"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
     </application>
