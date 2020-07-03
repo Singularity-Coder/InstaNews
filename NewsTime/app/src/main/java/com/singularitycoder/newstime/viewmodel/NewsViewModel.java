@@ -1,9 +1,11 @@
 package com.singularitycoder.newstime.viewmodel;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,20 +13,59 @@ import androidx.lifecycle.ViewModel;
 import com.singularitycoder.newstime.helpers.ApiIdlingResource;
 import com.singularitycoder.newstime.helpers.RequestStateMediator;
 import com.singularitycoder.newstime.helpers.UiState;
+import com.singularitycoder.newstime.model.NewsArticle;
 import com.singularitycoder.newstime.repository.NewsRepository;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public final class NewsViewModel extends ViewModel {
+public final class NewsViewModel extends AndroidViewModel {
 
     @NonNull
     private final String TAG = "NewsViewModel";
 
     @NonNull
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    @NonNull
+    private NewsRepository newsRepository = NewsRepository.getInstance();
+
+    @Nullable
+    private LiveData<List<NewsArticle>> newsArticleList;
+
+    public NewsViewModel(@NonNull Application application) {
+        super(application);
+        newsRepository = new NewsRepository(application);
+        newsArticleList = newsRepository.getAllFromRoomDb();
+    }
+
+    // ROOM START______________________________________________________________
+
+    public final void insertIntoRoomDbFromRepository(NewsArticle newsArticle) {
+        newsRepository.insertIntoRoomDb(newsArticle);
+    }
+
+    public final void updateInRoomDbFromRepository(NewsArticle newsArticle) {
+        newsRepository.updateInRoomDb(newsArticle);
+    }
+
+    public final void deleteFromRoomDbFromRepository(NewsArticle newsArticle) {
+        newsRepository.deleteFromRoomDb(newsArticle);
+    }
+
+    public final void deleteAllFromRoomDbFromRepository() {
+        newsRepository.deleteAllFromRoomDb();
+    }
+
+    public final LiveData<List<NewsArticle>> getAllFromRoomDbFromRepository() {
+        return newsArticleList;
+    }
+
+    // ROOM END______________________________________________________________
 
     public LiveData<RequestStateMediator<Object, UiState, String, String>> getNewsFromRepository(
             @Nullable final String country,
@@ -35,7 +76,7 @@ public final class NewsViewModel extends ViewModel {
 
         final RequestStateMediator<Object, UiState, String, String> requestStateMediator = new RequestStateMediator<>();
         final MutableLiveData<RequestStateMediator<Object, UiState, String, String>> mutableLiveData = new MutableLiveData<>();
-        final NewsRepository newsRepository = NewsRepository.getInstance();
+        newsRepository = NewsRepository.getInstance();
 
         requestStateMediator.set(null, UiState.LOADING, "Loading...", null);
         mutableLiveData.postValue(requestStateMediator);

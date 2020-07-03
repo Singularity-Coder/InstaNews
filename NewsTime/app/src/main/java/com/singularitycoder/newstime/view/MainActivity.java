@@ -95,11 +95,9 @@ public final class MainActivity extends AppCompatActivity {
     @Nullable
     private NewsAdapter newsAdapter;
 
-    // todo material design
     // todo room
-    // todo webview
     // todo unit, espresso
-    // todo use fragments
+    // todo dagger
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

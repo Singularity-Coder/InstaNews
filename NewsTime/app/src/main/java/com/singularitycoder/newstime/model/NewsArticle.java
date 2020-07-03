@@ -1,33 +1,61 @@
 package com.singularitycoder.newstime.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.bytebuddy.build.ToStringPlugin;
+
+@Entity(tableName = "article_table")
 public final class NewsArticle {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "RoomId")
+    private int roomId;
 
     @SerializedName("source")
     @Expose
     private NewsSource source;
 
+    @ColumnInfo(name = "source")
+    private String sourceForRoom;
+
+    @ColumnInfo(name = "author")
     @SerializedName("author")
     @Expose
     private String author;
 
+    @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
     private String title;
 
+    @ColumnInfo(name = "description")
     @SerializedName("description")
     @Expose
     private String description;
 
+    @ColumnInfo(name = "urlToImage")
     @SerializedName("urlToImage")
     @Expose
     private String urlToImage;
 
+    @ColumnInfo(name = "publishedAt")
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
 
     public NewsSource getSource() {
         return source;
@@ -35,6 +63,14 @@ public final class NewsArticle {
 
     public void setSource(NewsSource source) {
         this.source = source;
+    }
+
+    public String getSourceForRoom() {
+        return sourceForRoom;
+    }
+
+    public void setSourceForRoom(String sourceForRoom) {
+        this.sourceForRoom = sourceForRoom;
     }
 
     public String getAuthor() {
