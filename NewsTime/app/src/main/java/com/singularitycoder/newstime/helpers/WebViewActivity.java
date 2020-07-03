@@ -76,10 +76,6 @@ public final class WebViewActivity extends AppCompatActivity {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void done(View view) {
-        finish();
-    }
-
     final class NewsWebViewClient extends WebViewClient {
         public void onPageFinished(WebView view, String url) {
 //            webView.loadUrl("javascript:startup()");

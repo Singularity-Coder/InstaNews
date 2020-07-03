@@ -32,7 +32,8 @@ public final class NewsRepository {
             @Nullable final String country,
             @NonNull final String category) {
         ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
-        Single<NewsResponse> observer = apiService.getNewsList(country, category, "YOUR_NEWSAPI.ORG_API_KEY");
+//        Single<NewsResponse> observer = apiService.getNewsList(country, category, "YOUR_NEWSAPI.ORG_API_KEY");
+        Single<NewsResponse> observer = apiService.getNewsList(country, category, "c39be54286e4427c9f8cd00f97a96398");
         return observer;
     }
 }
