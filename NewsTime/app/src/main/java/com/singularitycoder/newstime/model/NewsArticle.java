@@ -8,21 +8,18 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.bytebuddy.build.ToStringPlugin;
-
-@Entity(tableName = "article_table")
+@Entity(tableName = "table_article")
 public final class NewsArticle {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "RoomId")
     private int roomId;
 
+//    @ColumnInfo(name = "source")
+    @Ignore
     @SerializedName("source")
     @Expose
     private NewsSource source;
-
-    @ColumnInfo(name = "source")
-    private String sourceForRoom;
 
     @ColumnInfo(name = "author")
     @SerializedName("author")
@@ -63,14 +60,6 @@ public final class NewsArticle {
 
     public void setSource(NewsSource source) {
         this.source = source;
-    }
-
-    public String getSourceForRoom() {
-        return sourceForRoom;
-    }
-
-    public void setSourceForRoom(String sourceForRoom) {
-        this.sourceForRoom = sourceForRoom;
     }
 
     public String getAuthor() {

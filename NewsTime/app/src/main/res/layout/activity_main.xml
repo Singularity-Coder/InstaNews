@@ -8,7 +8,9 @@
     android:background="#D5D3D3"
     tools:context=".view.MainActivity">
 
-    <include layout="@layout/content_toolbar" />
+    <include
+        android:id="@+id/toolbar_layout"
+        layout="@layout/content_toolbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -17,7 +19,7 @@
         android:clipChildren="true"
         android:clipToPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_news"
@@ -50,7 +52,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
 
     <TextView
         android:id="@+id/tv_nothing"
@@ -66,5 +68,5 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_no_internet" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

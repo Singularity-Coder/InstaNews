@@ -7,11 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import com.singularitycoder.newstime.dao.NewsDao;
+import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.roomdao.NewsDaoRoom;
 import com.singularitycoder.newstime.helpers.ApiEndPoints;
 import com.singularitycoder.newstime.helpers.NewsTimeRoomDatabase;
 import com.singularitycoder.newstime.helpers.RetrofitService;
-import com.singularitycoder.newstime.model.NewsArticle;
 import com.singularitycoder.newstime.model.NewsResponse;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public final class NewsRepository {
     private static NewsRepository _instance;
 
     @Nullable
-    private NewsDao newsDao;
+    private NewsDaoRoom newsDaoRoom;
 
     @Nullable
     private LiveData<List<NewsArticle>> newsArticleList;
@@ -37,8 +37,8 @@ public final class NewsRepository {
 
     public NewsRepository(Application application) {
         NewsTimeRoomDatabase database = NewsTimeRoomDatabase.getInstance(application);
-        newsDao = database.newsDao();
-        newsArticleList = newsDao.getAllNews();
+        newsDaoRoom = database.newsDao();
+        newsArticleList = newsDaoRoom.getAllNews();
     }
 
     public static NewsRepository getInstance() {
@@ -51,19 +51,19 @@ public final class NewsRepository {
     // ROOM START______________________________________________________________
 
     public final void insertIntoRoomDb(NewsArticle newsArticle) {
-        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDao.insertNews(newsArticle));
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.insertNews(newsArticle));
     }
 
     public final void updateInRoomDb(NewsArticle newsArticle) {
-        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDao.updateNews(newsArticle));
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.updateNews(newsArticle));
     }
 
     public final void deleteFromRoomDb(NewsArticle newsArticle) {
-        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDao.deleteNews(newsArticle));
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.deleteNews(newsArticle));
     }
 
     public final void deleteAllFromRoomDb() {
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(() -> newsDao.deleteAllNews());
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(() -> newsDaoRoom.deleteAllNews());
     }
 
     public final LiveData<List<NewsArticle>> getAllFromRoomDb() {

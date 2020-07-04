@@ -1,11 +1,9 @@
 package com.singularitycoder.newstime.view;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,6 +82,12 @@ public final class MainActivity extends AppCompatActivity {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Nullable
+    private NewsViewModel newsViewModel;
+
+    @NonNull
+    private NewsResponse newsResponse = new NewsResponse();
+
+    @Nullable
     private ApiIdlingResource idlingResource;
 
     @Nullable
@@ -95,7 +99,6 @@ public final class MainActivity extends AppCompatActivity {
     @Nullable
     private NewsAdapter newsAdapter;
 
-    // todo room
     // todo unit, espresso
     // todo dagger
 
@@ -116,6 +119,7 @@ public final class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         unbinder = ButterKnife.bind(this);
         progressDialog = new ProgressDialog(this);
+        newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
     }
 
     private void setUpToolBar() {
@@ -135,7 +139,6 @@ public final class MainActivity extends AppCompatActivity {
 
     private void getNewsData() {
         if (helperObject.hasInternet(this)) {
-            NewsViewModel newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
             newsViewModel.getNewsFromRepository(
                     "in",
                     "technology",
@@ -143,6 +146,11 @@ public final class MainActivity extends AppCompatActivity {
             ).observe(MainActivity.this, liveDataObserver());
         } else {
             tvNoInternet.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
+            newsList.clear();
+
+            // If offline get List from Room DB
+            newsViewModel.getAllFromRoomDbFromRepository().observe(this, liveDataObserverForRoomDb());;
         }
     }
 
@@ -164,6 +172,19 @@ public final class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private Observer<List<NewsArticle>> liveDataObserverForRoomDb() {
+        Observer<List<NewsArticle>> observer = null;
+        observer = (List<NewsArticle> newsArticles) -> {
+            if (null != newsArticles) {
+                newsViewModel.deleteAllFromRoomDbFromRepository();
+                newsList.clear();
+                newsList.addAll(newsArticles);
+                newsAdapter.notifyDataSetChanged();
+            }
+        };
+        return observer;
+    }
+
     private Observer<RequestStateMediator<Object, UiState, String, String>> liveDataObserver() {
         Observer<RequestStateMediator<Object, UiState, String, String>> observer = null;
         if (helperObject.hasInternet(this)) {
@@ -182,11 +203,16 @@ public final class MainActivity extends AppCompatActivity {
                 if (UiState.SUCCESS == requestStateMediator.getStatus()) {
                     runOnUiThread(() -> {
                         if (("NEWS").equals(requestStateMediator.getKey())) {
-                            NewsResponse newsResponse = (NewsResponse) requestStateMediator.getData();
+                            newsResponse = (NewsResponse) requestStateMediator.getData();
                             List<NewsArticle> newsArticles = newsResponse.getArticles();
                             newsList.addAll(newsArticles);
                             newsAdapter.notifyDataSetChanged();
                             swipeRefreshLayout.setRefreshing(false);
+
+                            // Insert into DB
+                            for (NewsArticle newsArticle : newsResponse.getArticles()) {
+                                newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
+                            }
 
                             Toast.makeText(MainActivity.this, valueOf(requestStateMediator.getData()), Toast.LENGTH_SHORT).show();
                             if (null != progressDialog && progressDialog.isShowing())

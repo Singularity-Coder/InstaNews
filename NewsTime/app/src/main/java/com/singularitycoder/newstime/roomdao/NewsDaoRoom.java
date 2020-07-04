@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.dao;
+package com.singularitycoder.newstime.roomdao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -13,7 +13,7 @@ import com.singularitycoder.newstime.model.NewsArticle;
 import java.util.List;
 
 @Dao
-public interface NewsDao {
+public interface NewsDaoRoom {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertNews(NewsArticle newsArticle);
@@ -24,12 +24,12 @@ public interface NewsDao {
     @Delete
     void deleteNews(NewsArticle newsArticle);
 
-    @Query("SELECT * FROM article_table WHERE RoomId=:id")
+    @Query("SELECT * FROM table_article WHERE RoomId=:id")
     NewsArticle getNews(int id);
 
-    @Query("SELECT * FROM article_table ORDER BY RoomId ASC")
+    @Query("SELECT * FROM table_article ORDER BY RoomId ASC")
     LiveData<List<NewsArticle>> getAllNews();
 
-    @Query("DELETE FROM article_table")
+    @Query("DELETE FROM table_article")
     void deleteAllNews();
 }

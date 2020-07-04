@@ -3,6 +3,7 @@ package com.singularitycoder.newstime.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Collections;
 import java.util.List;
 
 public final class NewsResponse {
@@ -17,7 +18,7 @@ public final class NewsResponse {
 
     @SerializedName("articles")
     @Expose
-    private List<NewsArticle> articles = null;
+    private List<NewsArticle> articles = Collections.EMPTY_LIST;
 
     public String getStatus() {
         return status;

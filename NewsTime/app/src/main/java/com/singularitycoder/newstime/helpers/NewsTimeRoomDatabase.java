@@ -8,8 +8,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.singularitycoder.newstime.dao.NewsDao;
 import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.roomdao.NewsDaoRoom;
 
 @Database(entities = {NewsArticle.class}, version = 1, exportSchema = false)
 public abstract class NewsTimeRoomDatabase extends RoomDatabase {
@@ -18,11 +18,11 @@ public abstract class NewsTimeRoomDatabase extends RoomDatabase {
     private static NewsTimeRoomDatabase instance;
 
     @Nullable
-    public abstract NewsDao newsDao();
+    public abstract NewsDaoRoom newsDao();
 
     @NonNull
     public static synchronized NewsTimeRoomDatabase getInstance(Context context) {
-        if (instance == null) {
+        if (null == instance) {
             instance = Room
                     .databaseBuilder(context.getApplicationContext(), NewsTimeRoomDatabase.class, "newstime_database")
                     .fallbackToDestructiveMigration()

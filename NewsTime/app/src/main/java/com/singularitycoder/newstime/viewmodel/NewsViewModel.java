@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.singularitycoder.newstime.helpers.ApiIdlingResource;
 import com.singularitycoder.newstime.helpers.RequestStateMediator;
@@ -67,7 +66,7 @@ public final class NewsViewModel extends AndroidViewModel {
 
     // ROOM END______________________________________________________________
 
-    public LiveData<RequestStateMediator<Object, UiState, String, String>> getNewsFromRepository(
+    public final LiveData<RequestStateMediator<Object, UiState, String, String>> getNewsFromRepository(
             @Nullable final String country,
             @NonNull final String category,
             @Nullable final ApiIdlingResource idlingResource) throws IllegalArgumentException {
