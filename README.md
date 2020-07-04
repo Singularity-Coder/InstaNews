@@ -1,2 +1,2 @@
-# News-Time
+# InstaNews
 Daily News App!
