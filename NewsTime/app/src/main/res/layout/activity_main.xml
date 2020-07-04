@@ -12,6 +12,36 @@
         android:id="@+id/toolbar_layout"
         layout="@layout/content_toolbar" />
 
+    <TextView
+        android:id="@+id/tv_choose_country"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/colorPrimary"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Country: India"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
+
+    <TextView
+        android:id="@+id/tv_choose_category"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/colorPrimary"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Category: technology"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_choose_country" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
@@ -19,7 +49,7 @@
         android:clipChildren="true"
         android:clipToPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout">
+        app:layout_constraintTop_toBottomOf="@+id/tv_choose_category">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_news"
