@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.model.NewsItem;
 
 import java.util.List;
 
@@ -16,19 +16,19 @@ import java.util.List;
 public interface NewsDaoRoom {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertNews(NewsArticle newsArticle);
+    void insertNews(NewsItem.NewsArticle newsArticle);
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    void updateNews(NewsArticle newsArticle);
+    void updateNews(NewsItem.NewsArticle newsArticle);
 
     @Delete
-    void deleteNews(NewsArticle newsArticle);
+    void deleteNews(NewsItem.NewsArticle newsArticle);
 
     @Query("SELECT * FROM table_article WHERE RoomId=:id")
-    NewsArticle getNews(int id);
+    NewsItem.NewsArticle getNews(int id);
 
     @Query("SELECT * FROM table_article ORDER BY RoomId ASC")
-    LiveData<List<NewsArticle>> getAllNews();
+    LiveData<List<NewsItem.NewsArticle>> getAllNews();
 
     @Query("DELETE FROM table_article")
     void deleteAllNews();

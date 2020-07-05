@@ -8,10 +8,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.roomdao.NewsDaoRoom;
 
-@Database(entities = {NewsArticle.class}, version = 1, exportSchema = false)
+@Database(entities = {NewsItem.NewsArticle.class}, version = 1, exportSchema = false)
 public abstract class NewsTimeRoomDatabase extends RoomDatabase {
 
     @Nullable

@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.singularitycoder.newstime.helpers.ApiIdlingResource;
 import com.singularitycoder.newstime.helpers.RequestStateMediator;
 import com.singularitycoder.newstime.helpers.UiState;
-import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.repository.NewsRepository;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public final class NewsViewModel extends AndroidViewModel {
     private NewsRepository newsRepository = NewsRepository.getInstance();
 
     @Nullable
-    private LiveData<List<NewsArticle>> newsArticleList;
+    private LiveData<List<NewsItem.NewsArticle>> newsArticleList;
 
     public NewsViewModel(@NonNull Application application) {
         super(application);
@@ -44,15 +44,15 @@ public final class NewsViewModel extends AndroidViewModel {
 
     // ROOM START______________________________________________________________
 
-    public final void insertIntoRoomDbThroughRepository(NewsArticle newsArticle) {
+    public final void insertIntoRoomDbThroughRepository(NewsItem.NewsArticle newsArticle) {
         newsRepository.insertIntoRoomDb(newsArticle);
     }
 
-    public final void updateInRoomDbThroughRepository(NewsArticle newsArticle) {
+    public final void updateInRoomDbThroughRepository(NewsItem.NewsArticle newsArticle) {
         newsRepository.updateInRoomDb(newsArticle);
     }
 
-    public final void deleteFromRoomDbThroughRepository(NewsArticle newsArticle) {
+    public final void deleteFromRoomDbThroughRepository(NewsItem.NewsArticle newsArticle) {
         newsRepository.deleteFromRoomDb(newsArticle);
     }
 
@@ -60,7 +60,7 @@ public final class NewsViewModel extends AndroidViewModel {
         newsRepository.deleteAllFromRoomDb();
     }
 
-    public final LiveData<List<NewsArticle>> getAllFromRoomDbThroughRepository() {
+    public final LiveData<List<NewsItem.NewsArticle>> getAllFromRoomDbThroughRepository() {
         return newsArticleList;
     }
 

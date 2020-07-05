@@ -28,8 +28,7 @@ import com.singularitycoder.newstime.helpers.HelperGeneral;
 import com.singularitycoder.newstime.helpers.RequestStateMediator;
 import com.singularitycoder.newstime.helpers.UiState;
 import com.singularitycoder.newstime.helpers.WebViewFragment;
-import com.singularitycoder.newstime.model.NewsArticle;
-import com.singularitycoder.newstime.model.NewsResponse;
+import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.viewmodel.NewsViewModel;
 
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     private final String TAG = "MainActivity";
 
     @NonNull
-    private final List<NewsArticle> newsList = new ArrayList<>();
+    private final List<NewsItem.NewsArticle> newsList = new ArrayList<>();
 
     @NonNull
     private final HelperGeneral helperObject = new HelperGeneral();
@@ -56,8 +55,8 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     @Nullable
     private NewsViewModel newsViewModel;
 
-    @NonNull
-    private NewsResponse newsResponse = new NewsResponse();
+    @Nullable
+    private NewsItem.NewsResponse newsResponse;
 
     @Nullable
     private ApiIdlingResource idlingResource;
@@ -137,6 +136,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
         newsAdapter.setNewsViewListener(position -> {
             Bundle bundle = new Bundle();
             bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
+            bundle.putString("SOURCE_TITLE", newsList.get(position).getTitle());
             showFragment(bundle, R.id.con_lay_news_home_root, new WebViewFragment());
         });
     }
@@ -189,9 +189,9 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
                 .commit();
     }
 
-    private Observer<List<NewsArticle>> liveDataObserverForRoomDb() {
-        Observer<List<NewsArticle>> observer = null;
-        observer = (List<NewsArticle> newsArticles) -> {
+    private Observer<List<NewsItem.NewsArticle>> liveDataObserverForRoomDb() {
+        Observer<List<NewsItem.NewsArticle>> observer = null;
+        observer = (List<NewsItem.NewsArticle> newsArticles) -> {
             if (null != newsArticles) {
 //                newsViewModel.deleteAllFromRoomDbFromRepository();
                 newsList.clear();
@@ -228,14 +228,14 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
                     runOnUiThread(() -> {
                         if (("NEWS").equals(requestStateMediator.getKey())) {
                             newsList.clear();
-                            newsResponse = (NewsResponse) requestStateMediator.getData();
-                            List<NewsArticle> newsArticles = newsResponse.getArticles();
+                            newsResponse = (NewsItem.NewsResponse) requestStateMediator.getData();
+                            List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
                             newsList.addAll(newsArticles);
                             newsAdapter.notifyDataSetChanged();
                             binding.swipeRefreshLayout.setRefreshing(false);
 
                             // Insert into DB
-                            for (NewsArticle newsArticle : newsResponse.getArticles()) {
+                            for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
 //                                newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
                             }
 

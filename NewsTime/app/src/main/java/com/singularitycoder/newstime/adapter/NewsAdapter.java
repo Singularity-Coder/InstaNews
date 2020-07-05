@@ -14,7 +14,7 @@ import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ItemNewsBinding;
 import com.singularitycoder.newstime.helpers.HelperGeneral;
-import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.model.NewsItem;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final HelperGeneral helperObject = new HelperGeneral();
 
     @NonNull
-    private List<NewsArticle> newsList = Collections.emptyList();
+    private List<NewsItem.NewsArticle> newsList = Collections.emptyList();
 
     @Nullable
     private Context context;
@@ -38,7 +38,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Nullable
     private NewsViewListener newsViewListener;
 
-    public NewsAdapter(List<NewsArticle> newsList, Context context) {
+    public NewsAdapter(List<NewsItem.NewsArticle> newsList, Context context) {
         this.newsList = newsList;
         this.context = context;
     }
@@ -52,7 +52,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NewsArticle newsArticle = newsList.get(position);
+        NewsItem.NewsArticle newsArticle = newsList.get(position);
         if (null != holder) {
             NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
             newsViewHolder.binding.tvAuthor.setText("Author: " + newsArticle.getAuthor());

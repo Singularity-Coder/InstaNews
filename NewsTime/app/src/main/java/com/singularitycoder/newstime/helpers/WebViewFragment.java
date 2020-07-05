@@ -53,7 +53,6 @@ public final class WebViewFragment extends Fragment {
         binding = FragmentWebViewBinding.inflate(inflater, container, false);
         View viewRoot = binding.getRoot();
         getBundleData();
-        initialiseViews(viewRoot);
         setUpToolBar();
         initialiseWebView();
         showWebView();
@@ -64,22 +63,24 @@ public final class WebViewFragment extends Fragment {
     private void getBundleData() {
         if (null != getArguments()) {
             String url = getArguments().getString("SOURCE_URL");
+            String title = getArguments().getString("SOURCE_TITLE");
+
             toolbarTitle = url;
-            String escapedQuery = null;
+
+            String escapedQueryUrl = null;
+            String escapedQueryTitle = null;
+
             try {
-                escapedQuery = URLEncoder.encode(url, "UTF-8");
+                escapedQueryUrl = URLEncoder.encode(url, "UTF-8");
+                escapedQueryTitle = URLEncoder.encode(title, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            newsSourceUrl = "http://www.google.com/#q=" + escapedQuery;
+            newsSourceUrl = "http://www.google.com/#q=" + escapedQueryUrl + " " + escapedQueryTitle;
         } else {
             newsSourceUrl = "empty";
             toolbarTitle = "empty";
         }
-    }
-
-    private void initialiseViews(View rootView) {
-//        binding.progressCircular = new ProgressBar(getContext());
     }
 
     private void setUpToolBar() {

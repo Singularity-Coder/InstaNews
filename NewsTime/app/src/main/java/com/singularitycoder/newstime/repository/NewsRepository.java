@@ -7,12 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import com.singularitycoder.newstime.model.NewsArticle;
+import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.roomdao.NewsDaoRoom;
 import com.singularitycoder.newstime.helpers.ApiEndPoints;
 import com.singularitycoder.newstime.helpers.NewsTimeRoomDatabase;
 import com.singularitycoder.newstime.helpers.RetrofitService;
-import com.singularitycoder.newstime.model.NewsResponse;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public final class NewsRepository {
     private NewsDaoRoom newsDaoRoom;
 
     @Nullable
-    private LiveData<List<NewsArticle>> newsArticleList;
+    private LiveData<List<NewsItem.NewsArticle>> newsArticleList;
 
     public NewsRepository() {
     }
@@ -50,15 +49,15 @@ public final class NewsRepository {
 
     // ROOM START______________________________________________________________
 
-    public final void insertIntoRoomDb(NewsArticle newsArticle) {
+    public final void insertIntoRoomDb(NewsItem.NewsArticle newsArticle) {
         AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.insertNews(newsArticle));
     }
 
-    public final void updateInRoomDb(NewsArticle newsArticle) {
+    public final void updateInRoomDb(NewsItem.NewsArticle newsArticle) {
         AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.updateNews(newsArticle));
     }
 
-    public final void deleteFromRoomDb(NewsArticle newsArticle) {
+    public final void deleteFromRoomDb(NewsItem.NewsArticle newsArticle) {
         AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.deleteNews(newsArticle));
     }
 
@@ -66,19 +65,19 @@ public final class NewsRepository {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(() -> newsDaoRoom.deleteAllNews());
     }
 
-    public final LiveData<List<NewsArticle>> getAllFromRoomDb() {
+    public final LiveData<List<NewsItem.NewsArticle>> getAllFromRoomDb() {
         return newsArticleList;
     }
 
     // ROOM END______________________________________________________________
 
     @Nullable
-    public Single<NewsResponse> getNewsFromApi(
+    public Single<NewsItem.NewsResponse> getNewsFromApi(
             @Nullable final String country,
             @NonNull final String category) {
         ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
 //        Single<NewsResponse> observer = apiService.getNewsList(country, category, "YOUR_NEWSAPI.ORG_API_KEY");
-        Single<NewsResponse> observer = apiService.getNewsList(country, category, "c39be54286e4427c9f8cd00f97a96398");
+        Single<NewsItem.NewsResponse> observer = apiService.getNewsList(country, category, "c39be54286e4427c9f8cd00f97a96398");
         return observer;
     }
 }
