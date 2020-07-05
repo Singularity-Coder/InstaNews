@@ -44,23 +44,23 @@ public final class NewsViewModel extends AndroidViewModel {
 
     // ROOM START______________________________________________________________
 
-    public final void insertIntoRoomDbFromRepository(NewsArticle newsArticle) {
+    public final void insertIntoRoomDbThroughRepository(NewsArticle newsArticle) {
         newsRepository.insertIntoRoomDb(newsArticle);
     }
 
-    public final void updateInRoomDbFromRepository(NewsArticle newsArticle) {
+    public final void updateInRoomDbThroughRepository(NewsArticle newsArticle) {
         newsRepository.updateInRoomDb(newsArticle);
     }
 
-    public final void deleteFromRoomDbFromRepository(NewsArticle newsArticle) {
+    public final void deleteFromRoomDbThroughRepository(NewsArticle newsArticle) {
         newsRepository.deleteFromRoomDb(newsArticle);
     }
 
-    public final void deleteAllFromRoomDbFromRepository() {
+    public final void deleteAllFromRoomDbThroughRepository() {
         newsRepository.deleteAllFromRoomDb();
     }
 
-    public final LiveData<List<NewsArticle>> getAllFromRoomDbFromRepository() {
+    public final LiveData<List<NewsArticle>> getAllFromRoomDbThroughRepository() {
         return newsArticleList;
     }
 

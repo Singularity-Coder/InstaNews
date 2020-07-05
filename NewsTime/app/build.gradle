@@ -116,15 +116,11 @@ dependencies {
     // RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
 
-    // ButterKnife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-
     // Room Database
     implementation "androidx.room:room-runtime:2.2.5"
     annotationProcessor "androidx.room:room-compiler:2.2.5"
     androidTestImplementation 'androidx.room:room-testing:2.2.5'
 
     // Room Debug
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
 }

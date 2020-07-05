@@ -11,44 +11,21 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.singularitycoder.newstime.R;
+import com.singularitycoder.newstime.databinding.FragmentWebViewBinding;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 public final class WebViewFragment extends Fragment {
-
-    @Nullable
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @Nullable
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @Nullable
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-    @Nullable
-    @BindView(R.id.web_view)
-    WebView webView;
 
     @NonNull
     private final String TAG = "WebViewFragment";
-
-    @NonNull
-    private Unbinder unbinder;
 
     @NonNull
     private final HelperGeneral helperObject = new HelperGeneral();
@@ -58,6 +35,9 @@ public final class WebViewFragment extends Fragment {
 
     @NonNull
     private String toolbarTitle = "";
+
+    @Nullable
+    private FragmentWebViewBinding binding;
 
     public WebViewFragment() {
     }
@@ -70,14 +50,15 @@ public final class WebViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_web_view, container, false);
+        binding = FragmentWebViewBinding.inflate(inflater, container, false);
+        View viewRoot = binding.getRoot();
         getBundleData();
-        initialiseViews(rootView);
+        initialiseViews(viewRoot);
         setUpToolBar();
         initialiseWebView();
         showWebView();
-        swipeRefreshLayout.setOnRefreshListener(this::showWebView);
-        return rootView;
+        binding.swipeRefreshLayout.setOnRefreshListener(this::showWebView);
+        return viewRoot;
     }
 
     private void getBundleData() {
@@ -98,39 +79,36 @@ public final class WebViewFragment extends Fragment {
     }
 
     private void initialiseViews(View rootView) {
-        ButterKnife.bind(this, rootView);
-        unbinder = ButterKnife.bind(this, rootView);
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar = new ProgressBar(getContext());
+//        binding.progressCircular = new ProgressBar(getContext());
     }
 
     private void setUpToolBar() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (null != activity) {
-            activity.setSupportActionBar(toolbar);
+            activity.setSupportActionBar(binding.toolbarLayout.toolbar);
             activity.setTitle(toolbarTitle);
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private void initialiseWebView() {
-        webView.requestFocusFromTouch();
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setSaveFormData(true);
-        webView.getSettings().setAllowContentAccess(true);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setAllowFileAccessFromFileURLs(true);
-        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.getSettings().setSupportZoom(true);
-        webView.setClickable(true);
-        webView.clearCache(true);
+        binding.webView.requestFocusFromTouch();
+        binding.webView.getSettings().setJavaScriptEnabled(true);
+        binding.webView.getSettings().setDomStorageEnabled(true);
+        binding.webView.getSettings().setSaveFormData(true);
+        binding.webView.getSettings().setAllowContentAccess(true);
+        binding.webView.getSettings().setAllowFileAccess(true);
+        binding.webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        binding.webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        binding.webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        binding.webView.getSettings().setSupportZoom(true);
+        binding.webView.setClickable(true);
+        binding.webView.clearCache(true);
         getActivity().deleteDatabase("webview.db");
         getActivity().deleteDatabase("webviewCache.db");
-        webView.setWebViewClient(new NewsWebViewClient());
-        webView.setWebChromeClient(new WebChromeClient() {
+        binding.webView.setWebViewClient(new NewsWebViewClient());
+        binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 // Do something here
@@ -140,8 +118,8 @@ public final class WebViewFragment extends Fragment {
     }
 
     private void showWebView() {
-        webView.loadUrl(newsSourceUrl);
-        swipeRefreshLayout.setRefreshing(false);
+        binding.webView.loadUrl(newsSourceUrl);
+        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
     private class NewsWebViewClient extends WebViewClient {
@@ -150,7 +128,7 @@ public final class WebViewFragment extends Fragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             try {
-                progressBar.setVisibility(View.VISIBLE);
+                binding.progressCircular.setVisibility(View.VISIBLE);
             } catch (WindowManager.BadTokenException ignored) {
             }
         }
@@ -159,7 +137,7 @@ public final class WebViewFragment extends Fragment {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             try {
-                progressBar.setVisibility(View.VISIBLE);
+                binding.progressCircular.setVisibility(View.VISIBLE);
             } catch (WindowManager.BadTokenException ignored) {
             }
             return false;
@@ -168,14 +146,14 @@ public final class WebViewFragment extends Fragment {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            progressBar.setVisibility(View.GONE);
-            swipeRefreshLayout.setRefreshing(false);
+            binding.progressCircular.setVisibility(View.GONE);
+            binding.swipeRefreshLayout.setRefreshing(false);
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        binding = null;
     }
 }

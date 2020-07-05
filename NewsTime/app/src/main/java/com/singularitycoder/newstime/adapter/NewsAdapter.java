@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,14 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
+import com.singularitycoder.newstime.databinding.ItemNewsBinding;
 import com.singularitycoder.newstime.helpers.HelperGeneral;
 import com.singularitycoder.newstime.model.NewsArticle;
 
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
 public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -58,12 +55,12 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         NewsArticle newsArticle = newsList.get(position);
         if (null != holder) {
             NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
-            newsViewHolder.tvAuthor.setText("Author: " + newsArticle.getAuthor());
-            newsViewHolder.tvTitle.setText(newsArticle.getTitle());
-            newsViewHolder.tvDescription.setText(newsArticle.getDescription());
-            newsViewHolder.tvPublishedAt.setText("Published at: " + newsArticle.getPublishedAt());
-            newsViewHolder.tvSource.setText("Source: " + newsArticle.getSource().getName());
-            helperObject.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.ivHeaderImage);
+            newsViewHolder.binding.tvAuthor.setText("Author: " + newsArticle.getAuthor());
+            newsViewHolder.binding.tvTitle.setText(newsArticle.getTitle());
+            newsViewHolder.binding.tvDescription.setText(newsArticle.getDescription());
+            newsViewHolder.binding.tvPublishedAt.setText("Published at: " + newsArticle.getPublishedAt());
+            newsViewHolder.binding.tvSource.setText("Source: " + newsArticle.getSource().getName());
+            helperObject.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.binding.ivHeaderImage);
         }
     }
 
@@ -88,30 +85,14 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     class NewsViewHolder extends RecyclerView.ViewHolder {
 
         @Nullable
-        @BindView(R.id.tv_author)
-        TextView tvAuthor;
-        @Nullable
-        @BindView(R.id.tv_title)
-        TextView tvTitle;
-        @Nullable
-        @BindView(R.id.tv_description)
-        TextView tvDescription;
-        @Nullable
-        @BindView(R.id.tv_published_at)
-        TextView tvPublishedAt;
-        @Nullable
-        @BindView(R.id.tv_source)
-        TextView tvSource;
-        @Nullable
-        @BindView(R.id.iv_header_image)
-        ImageView ivHeaderImage;
+        private ItemNewsBinding binding;
 
         @NonNull
         private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemNewsBinding.bind(itemView);
 
             compositeDisposable.add(
                     RxView.clicks(itemView)

@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".helpers.WebViewFragment">
 
-    <include layout="@layout/content_toolbar" />
+    <include
+        android:id="@+id/toolbar_layout"
+        layout="@layout/content_toolbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -23,7 +25,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
