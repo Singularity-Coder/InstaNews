@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ItemNewsBinding;
-import com.singularitycoder.newstime.helpers.HelperGeneral;
+import com.singularitycoder.newstime.helper.HelperGeneral;
 import com.singularitycoder.newstime.model.NewsItem;
 
 import java.util.Collections;

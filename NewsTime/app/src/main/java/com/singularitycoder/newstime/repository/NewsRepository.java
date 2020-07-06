@@ -9,9 +9,9 @@ import androidx.lifecycle.LiveData;
 
 import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.roomdao.NewsDaoRoom;
-import com.singularitycoder.newstime.helpers.ApiEndPoints;
-import com.singularitycoder.newstime.helpers.NewsTimeRoomDatabase;
-import com.singularitycoder.newstime.helpers.RetrofitService;
+import com.singularitycoder.newstime.helper.ApiEndPoints;
+import com.singularitycoder.newstime.helper.NewsTimeRoomDatabase;
+import com.singularitycoder.newstime.helper.RetrofitService;
 
 import java.util.List;
 

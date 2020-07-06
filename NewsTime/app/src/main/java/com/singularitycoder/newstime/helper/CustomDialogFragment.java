@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.helpers;
+package com.singularitycoder.newstime.helper;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -22,12 +22,12 @@ import androidx.test.espresso.IdlingResource;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.adapter.NewsAdapter;
 import com.singularitycoder.newstime.databinding.ActivityMainBinding;
-import com.singularitycoder.newstime.helpers.ApiIdlingResource;
-import com.singularitycoder.newstime.helpers.CustomDialogFragment;
-import com.singularitycoder.newstime.helpers.HelperGeneral;
-import com.singularitycoder.newstime.helpers.RequestStateMediator;
-import com.singularitycoder.newstime.helpers.UiState;
-import com.singularitycoder.newstime.helpers.WebViewFragment;
+import com.singularitycoder.newstime.helper.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.CustomDialogFragment;
+import com.singularitycoder.newstime.helper.HelperGeneral;
+import com.singularitycoder.newstime.helper.RequestStateMediator;
+import com.singularitycoder.newstime.helper.UiState;
+import com.singularitycoder.newstime.helper.WebViewFragment;
 import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.viewmodel.NewsViewModel;
 
@@ -101,7 +101,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     private void setUpToolBar() {
         setSupportActionBar(binding.toolbarLayout.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("News Time");
+            getSupportActionBar().setTitle(getString(R.string.app_name));
         }
     }
 
