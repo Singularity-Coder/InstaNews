@@ -3,6 +3,8 @@ package com.singularitycoder.newstime;
 import android.content.Context;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -51,15 +53,31 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityUiTest {
 
+    @NonNull
     private static final String TAG = "MainActivityUiTest";
+
+    @NonNull
     private static final String APP_PACKAGE_NAME = "com.singularitycoder.newstime";
 
+    @Nullable
     private MainActivity mainActivity;
+
+    @Nullable
     private TextView tvNoInternet, tvNothing;
+
+    @Nullable
     private TextView tvChooseCountry, tvChooseCategory;
+
+    @Nullable
     private IdlingResource idlingResource;
+
+    @Nullable
     private NewsViewModel newsViewModel;
+
+    @Nullable
     private CountingIdlingResource countingIdlingResource;
+
+    @Nullable
     private UiDevice uiDevice;
 
     @Rule
