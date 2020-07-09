@@ -42,6 +42,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.instanceOf;
@@ -120,6 +121,9 @@ public class MainActivityUiTest {
 
     @Test
     public void tvChooseCountry_onClick_showCountryDialog() {
+
+        getInstrumentation().waitForIdleSync();
+
         // Click Choose Country TextView
         onView(withId(R.id.tv_choose_country))
                 .perform(click());
@@ -137,6 +141,9 @@ public class MainActivityUiTest {
 
     @Test
     public void tvChooseCategory_onClick_showCategoryDialog() {
+
+        getInstrumentation().waitForIdleSync();
+
         // Click Choose Category TextView
         onView(withId(R.id.tv_choose_category))
                 .perform(click());

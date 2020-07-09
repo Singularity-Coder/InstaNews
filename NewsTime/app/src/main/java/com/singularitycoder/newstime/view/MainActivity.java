@@ -76,8 +76,10 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     @Nullable
     private ActivityMainBinding binding;
 
-    // todo unit, espresso
+    // todo unit tests
     // todo dagger
+    // todo Own image caching mechanism
+    // todo material design
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
