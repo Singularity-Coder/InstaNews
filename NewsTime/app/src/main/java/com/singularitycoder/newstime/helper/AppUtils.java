@@ -51,19 +51,21 @@ import com.singularitycoder.newstime.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public final class HelperGeneral extends AppCompatActivity {
+public final class AppUtils extends AppCompatActivity {
 
     @NonNull
     private final String TAG = "HelperGeneral";
@@ -282,6 +284,20 @@ public final class HelperGeneral extends AppCompatActivity {
         return outputDate + " at " + outputTime;
     }
 
+    public final String formatDate(String inputDate) {
+        String outputDate = "";
+        try {
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US);
+            Date date = inputFormat.parse(inputDate);
+
+            if (null != date) outputDate = outputFormat.format(date);
+        } catch (Exception ex) {
+            Log.e("log", ex.toString());
+        }
+        return outputDate;
+    }
+
     public final boolean hasValidPassword(final String password) {
         Pattern pattern;
         Matcher matcher;
@@ -307,7 +323,7 @@ public final class HelperGeneral extends AppCompatActivity {
     public final void glideImage(Context context, String imgUrl, ImageView imageView) {
         RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.color.colorAccent)
-                .error(R.mipmap.ic_launcher)
+                .error(android.R.color.holo_red_light)
                 .encodeQuality(40)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
 
@@ -321,7 +337,7 @@ public final class HelperGeneral extends AppCompatActivity {
                 .load(imgUrl)
                 .apply(
                         new RequestOptions()
-                                .error(R.mipmap.ic_launcher)
+                                .error(android.R.color.holo_red_light)
                                 .placeholder(R.color.colorAccent)
                                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .centerCrop()

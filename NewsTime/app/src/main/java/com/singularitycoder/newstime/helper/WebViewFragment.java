@@ -28,7 +28,7 @@ public final class WebViewFragment extends Fragment {
     private final String TAG = "WebViewFragment";
 
     @NonNull
-    private final HelperGeneral helperObject = new HelperGeneral();
+    private final AppUtils helperObject = new AppUtils();
 
     @Nullable
     private String newsSourceUrl;
@@ -51,7 +51,7 @@ public final class WebViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentWebViewBinding.inflate(inflater, container, false);
-        View viewRoot = binding.getRoot();
+        final View viewRoot = binding.getRoot();
         getBundleData();
         setUpToolBar();
         initialiseWebView();
@@ -62,8 +62,8 @@ public final class WebViewFragment extends Fragment {
 
     private void getBundleData() {
         if (null != getArguments()) {
-            String url = getArguments().getString("SOURCE_URL");
-            String title = getArguments().getString("SOURCE_TITLE");
+            final String url = getArguments().getString("SOURCE_URL");
+            final String title = getArguments().getString("SOURCE_TITLE");
 
             toolbarTitle = url;
 
@@ -84,7 +84,7 @@ public final class WebViewFragment extends Fragment {
     }
 
     private void setUpToolBar() {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (null != activity) {
             activity.setSupportActionBar(binding.toolbarLayout.toolbar);
             activity.setTitle(toolbarTitle);
@@ -123,13 +123,13 @@ public final class WebViewFragment extends Fragment {
         binding.swipeRefreshLayout.setRefreshing(false);
     }
 
-    private class NewsWebViewClient extends WebViewClient {
+    private final class NewsWebViewClient extends WebViewClient {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             try {
-                binding.progressCircular.setVisibility(View.VISIBLE);
+                binding.swipeRefreshLayout.setRefreshing(true);
             } catch (WindowManager.BadTokenException ignored) {
             }
         }
@@ -138,7 +138,7 @@ public final class WebViewFragment extends Fragment {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             try {
-                binding.progressCircular.setVisibility(View.VISIBLE);
+                binding.swipeRefreshLayout.setRefreshing(true);
             } catch (WindowManager.BadTokenException ignored) {
             }
             return false;
@@ -147,14 +147,7 @@ public final class WebViewFragment extends Fragment {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            binding.progressCircular.setVisibility(View.GONE);
             binding.swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

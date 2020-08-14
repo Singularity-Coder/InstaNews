@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
-import com.singularitycoder.newstime.helper.RequestStateMediator;
+import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.model.NewsItem;
 import com.singularitycoder.newstime.repository.NewsRepository;
@@ -66,19 +66,18 @@ public final class NewsViewModel extends AndroidViewModel {
 
     // ROOM END______________________________________________________________
 
-    public final LiveData<RequestStateMediator<Object, UiState, String, String>> getNewsFromRepository(
+    public final LiveData<StateMediator<Object, UiState, String, String>> getNewsFromRepository(
             @Nullable final String country,
             @NonNull final String category,
             @Nullable final ApiIdlingResource idlingResource) throws IllegalArgumentException {
 
         if (null != idlingResource) idlingResource.setIdleState(false);
 
-        final RequestStateMediator<Object, UiState, String, String> requestStateMediator = new RequestStateMediator<>();
-        final MutableLiveData<RequestStateMediator<Object, UiState, String, String>> mutableLiveData = new MutableLiveData<>();
-        newsRepository = NewsRepository.getInstance();
+        final StateMediator<Object, UiState, String, String> stateMediator = new StateMediator<>();
+        final MutableLiveData<StateMediator<Object, UiState, String, String>> mutableLiveData = new MutableLiveData<>();
 
-        requestStateMediator.set(null, UiState.LOADING, "Loading...", null);
-        mutableLiveData.postValue(requestStateMediator);
+        stateMediator.set(null, UiState.LOADING, "Loading...", null);
+        mutableLiveData.postValue(stateMediator);
 
         compositeDisposable.add(
                 newsRepository.getNewsFromApi(country, category)
@@ -89,16 +88,16 @@ public final class NewsViewModel extends AndroidViewModel {
                             public void onSuccess(Object o) {
                                 Log.d(TAG, "onResponse: resp: " + o);
                                 if (null != o) {
-                                    requestStateMediator.set(o, UiState.SUCCESS, "Got Data!", "NEWS");
-                                    mutableLiveData.postValue(requestStateMediator);
+                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", "NEWS");
+                                    mutableLiveData.postValue(stateMediator);
                                     if (null != idlingResource) idlingResource.setIdleState(true);
                                 }
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                requestStateMediator.set(null, UiState.ERROR, e.getMessage(), null);
-                                mutableLiveData.postValue(requestStateMediator);
+                                stateMediator.set(null, UiState.ERROR, e.getMessage(), null);
+                                mutableLiveData.postValue(stateMediator);
                                 if (null != idlingResource) idlingResource.setIdleState(true);
                             }
                         })

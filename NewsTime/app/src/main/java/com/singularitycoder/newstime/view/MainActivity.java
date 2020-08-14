@@ -23,9 +23,9 @@ import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.adapter.NewsAdapter;
 import com.singularitycoder.newstime.databinding.ActivityMainBinding;
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.helper.CustomDialogFragment;
-import com.singularitycoder.newstime.helper.HelperGeneral;
-import com.singularitycoder.newstime.helper.RequestStateMediator;
+import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
 import com.singularitycoder.newstime.model.NewsItem;
@@ -47,7 +47,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     private final List<NewsItem.NewsArticle> newsList = new ArrayList<>();
 
     @NonNull
-    private final HelperGeneral helperObject = new HelperGeneral();
+    private final AppUtils appUtils = new AppUtils();
 
     @NonNull
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -84,7 +84,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        helperObject.setStatusBarColor(this, R.color.colorPrimaryDark);
+        appUtils.setStatusBarColor(this, R.color.colorPrimaryDark);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initialise();
@@ -108,7 +108,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     }
 
     private void setUpRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyclerNews.setLayoutManager(layoutManager);
         newsAdapter = new NewsAdapter(newsList, this);
         binding.recyclerNews.setAdapter(newsAdapter);
@@ -116,27 +116,32 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     }
 
     private void getNewsData() {
-        if (helperObject.hasInternet(this)) {
-            newsViewModel.getNewsFromRepository(
-                    strSelectedCountry,
-                    strSelectedCategory,
-                    idlingResource
-            ).observe(MainActivity.this, liveDataObserver());
-        } else {
-            binding.tvNoInternet.setVisibility(View.VISIBLE);
-            binding.swipeRefreshLayout.setRefreshing(false);
-            newsList.clear();
+        if (appUtils.hasInternet(this)) showOnlineState();
+        else showOfflineState();
+    }
 
-            // If offline get List from Room DB
-            newsViewModel.getAllFromRoomDbThroughRepository().observe(this, liveDataObserverForRoomDb());
-        }
+    private void showOnlineState() {
+        newsViewModel.getNewsFromRepository(
+                strSelectedCountry,
+                strSelectedCategory,
+                idlingResource
+        ).observe(MainActivity.this, liveDataObserver());
+    }
+
+    private void showOfflineState() {
+        binding.tvNoInternet.setVisibility(View.VISIBLE);
+        binding.swipeRefreshLayout.setRefreshing(false);
+        newsList.clear();
+
+        // If offline get List from Room DB
+        newsViewModel.getAllFromRoomDbThroughRepository().observe(this, liveDataObserverForRoomDb());
     }
 
     private void setClickListeners() {
         binding.tvChooseCountry.setOnClickListener(view -> btnShowCountriesDialog());
         binding.tvChooseCategory.setOnClickListener(view -> btnShowCategoriesDialog());
         newsAdapter.setNewsViewListener(position -> {
-            Bundle bundle = new Bundle();
+            final Bundle bundle = new Bundle();
             bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
             bundle.putString("SOURCE_TITLE", newsList.get(position).getTitle());
             showFragment(bundle, R.id.con_lay_news_home_root, new WebViewFragment());
@@ -144,7 +149,7 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     }
 
     private void btnShowCountriesDialog() {
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putString("DIALOG_TYPE", "list");
         bundle.putString("KEY_LIST_DIALOG_TYPE", "countries");
         bundle.putString("KEY_TITLE", "Choose Country");
@@ -152,18 +157,18 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
         bundle.putString("KEY_CONTEXT_OBJECT", "MainActivity");
         bundle.putStringArray("KEY_LIST", new String[]{"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"});
 
-        DialogFragment dialogFragment = new CustomDialogFragment();
+        final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        final Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
         if (previousFragment != null) fragmentTransaction.remove(previousFragment);
         fragmentTransaction.addToBackStack(null);
         dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
     }
 
     private void btnShowCategoriesDialog() {
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putString("DIALOG_TYPE", "list");
         bundle.putString("KEY_LIST_DIALOG_TYPE", "categories");
         bundle.putString("KEY_TITLE", "Choose Category");
@@ -171,17 +176,17 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
         bundle.putString("KEY_CONTEXT_OBJECT", "MainActivity");
         bundle.putStringArray("KEY_LIST", new String[]{"business", "entertainment", "health", "science", "sports", "technology"});
 
-        DialogFragment dialogFragment = new CustomDialogFragment();
+        final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        final Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
         if (previousFragment != null) fragmentTransaction.remove(previousFragment);
         fragmentTransaction.addToBackStack(null);
         dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
     }
 
-    private void showFragment(Bundle bundle, int parentLayout, Fragment fragment) {
+    private void showFragment(@Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
         fragment.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -204,77 +209,84 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
         return observer;
     }
 
-    private void showProgress() {
-        if (null != progressDialog && !progressDialog.isShowing()) progressDialog.show();
+    private void showLoading() {
+       binding.swipeRefreshLayout.setRefreshing(true);
     }
 
-    private void hideProgress() {
-        if (null != progressDialog && progressDialog.isShowing()) progressDialog.dismiss();
+    private void hideLoading() {
+        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
-    private Observer<RequestStateMediator<Object, UiState, String, String>> liveDataObserver() {
-        Observer<RequestStateMediator<Object, UiState, String, String>> observer = null;
-        if (helperObject.hasInternet(this)) {
-            observer = requestStateMediator -> {
+    private Observer<StateMediator<Object, UiState, String, String>> liveDataObserver() {
+        Observer<StateMediator<Object, UiState, String, String>> observer = null;
+        if (appUtils.hasInternet(this)) {
+            observer = stateMediator -> {
 
-                if (UiState.LOADING == requestStateMediator.getStatus()) {
-                    runOnUiThread(() -> {
-                        progressDialog.setMessage(valueOf(requestStateMediator.getMessage()));
-                        progressDialog.setCancelable(false);
-                        progressDialog.setCanceledOnTouchOutside(false);
-                        showProgress();
-                    });
-                }
+                if (UiState.LOADING == stateMediator.getStatus()) showLoadingState(stateMediator);
 
-                if (UiState.SUCCESS == requestStateMediator.getStatus()) {
-                    runOnUiThread(() -> {
-                        if (("NEWS").equals(requestStateMediator.getKey())) {
-                            newsList.clear();
-                            newsResponse = (NewsItem.NewsResponse) requestStateMediator.getData();
-                            List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
-                            newsList.addAll(newsArticles);
-                            newsAdapter.notifyDataSetChanged();
-                            binding.swipeRefreshLayout.setRefreshing(false);
+                if (UiState.SUCCESS == stateMediator.getStatus()) showSuccessState(stateMediator);
 
-                            // Insert into DB
-                            for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
-//                                newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
-                            }
+                if (UiState.EMPTY == stateMediator.getStatus()) showEmptyState(stateMediator);
 
-                            Toast.makeText(MainActivity.this, valueOf(requestStateMediator.getData()), Toast.LENGTH_SHORT).show();
-                            hideProgress();
-                            binding.tvNoInternet.setVisibility(View.GONE);
-                        }
-                    });
-                }
-
-                if (UiState.EMPTY == requestStateMediator.getStatus()) {
-                    runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Something is wrong!", Toast.LENGTH_SHORT).show();
-                        binding.swipeRefreshLayout.setRefreshing(false);
-                        binding.progressCircular.setVisibility(View.GONE);
-                        binding.tvNothing.setVisibility(View.VISIBLE);
-                        binding.tvNothing.setText("Nothing to show :(");
-                        hideProgress();
-                        binding.tvNoInternet.setVisibility(View.GONE);
-                        Toast.makeText(this, valueOf(requestStateMediator.getMessage()), Toast.LENGTH_LONG).show();
-                    });
-                }
-
-                if (UiState.ERROR == requestStateMediator.getStatus()) {
-                    runOnUiThread(() -> {
-                        binding.progressCircular.setVisibility(View.GONE);
-                        binding.tvNothing.setVisibility(View.GONE);
-                        binding.swipeRefreshLayout.setRefreshing(false);
-                        hideProgress();
-                        binding.tvNoInternet.setVisibility(View.GONE);
-                        Toast.makeText(this, valueOf(requestStateMediator.getMessage()), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "liveDataObserver: error: " + requestStateMediator.getMessage());
-                    });
-                }
+                if (UiState.ERROR == stateMediator.getStatus()) showErrorState(stateMediator);
             };
         }
         return observer;
+    }
+
+    private void showLoadingState(StateMediator<Object, UiState, String, String> stateMediator) {
+        runOnUiThread(() -> {
+            progressDialog.setMessage(valueOf(stateMediator.getMessage()));
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            showLoading();
+        });
+    }
+
+    private void showSuccessState(StateMediator<Object, UiState, String, String> stateMediator) {
+        runOnUiThread(() -> {
+            if (("NEWS").equals(stateMediator.getKey())) {
+                newsList.clear();
+                newsResponse = (NewsItem.NewsResponse) stateMediator.getData();
+                List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
+                newsList.addAll(newsArticles);
+                newsAdapter.notifyDataSetChanged();
+                binding.swipeRefreshLayout.setRefreshing(false);
+
+                // Insert into DB
+                for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
+//                                newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
+                }
+
+                Toast.makeText(MainActivity.this, valueOf(stateMediator.getData()), Toast.LENGTH_SHORT).show();
+                hideLoading();
+                binding.tvNoInternet.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void showEmptyState(StateMediator<Object, UiState, String, String> stateMediator) {
+        runOnUiThread(() -> {
+            binding.swipeRefreshLayout.setRefreshing(false);
+            binding.progressCircular.setVisibility(View.GONE);
+            binding.tvNothing.setVisibility(View.VISIBLE);
+            binding.tvNothing.setText("Nothing to show :(");
+            hideLoading();
+            binding.tvNoInternet.setVisibility(View.GONE);
+            Toast.makeText(this, valueOf(stateMediator.getMessage()), Toast.LENGTH_LONG).show();
+        });
+    }
+
+    private void showErrorState(StateMediator<Object, UiState, String, String> stateMediator) {
+        runOnUiThread(() -> {
+            binding.progressCircular.setVisibility(View.GONE);
+            binding.tvNothing.setVisibility(View.GONE);
+            binding.swipeRefreshLayout.setRefreshing(false);
+            hideLoading();
+            binding.tvNoInternet.setVisibility(View.GONE);
+            Toast.makeText(this, valueOf(stateMediator.getMessage()), Toast.LENGTH_LONG).show();
+            Log.d(TAG, "liveDataObserver: error: " + stateMediator.getMessage());
+        });
     }
 
     @Override

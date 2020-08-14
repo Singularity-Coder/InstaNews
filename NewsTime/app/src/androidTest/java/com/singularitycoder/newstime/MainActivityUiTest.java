@@ -18,7 +18,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
 
-import com.singularitycoder.newstime.helper.RequestStateMediator;
+import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
 import com.singularitycoder.newstime.model.NewsItem;
@@ -208,20 +208,20 @@ public class MainActivityUiTest {
         onView(withId(R.id.tv_no_internet))
                 .check(matches(not(isDisplayed())));
 
-        MutableLiveData<RequestStateMediator<Object, UiState, String, String>> mutableLiveData = new MutableLiveData<>();
+        MutableLiveData<StateMediator<Object, UiState, String, String>> mutableLiveData = new MutableLiveData<>();
 
         // Observe UI state changes
         activityTestRule.getActivity().runOnUiThread(() -> {
-            Observer<RequestStateMediator<Object, UiState, String, String>> liveDataObserver = requestStateMediator -> {
+            Observer<StateMediator<Object, UiState, String, String>> liveDataObserver = stateMediator -> {
 
-                if (UiState.LOADING == requestStateMediator.getStatus()) {
+                if (UiState.LOADING == stateMediator.getStatus()) {
                     // loading dialog visible
                     onView(withText("Loading..."))
                             .inRoot(isDialog())
                             .check(matches(isDisplayed()));
                 }
 
-                if (UiState.SUCCESS == requestStateMediator.getStatus()) {
+                if (UiState.SUCCESS == stateMediator.getStatus()) {
                     // loading dialog gone
                     onView(withText("Loading..."))
                             .inRoot(isDialog())
@@ -233,14 +233,14 @@ public class MainActivityUiTest {
                             .check(matches(isDisplayed()));
                 }
 
-                if (UiState.EMPTY == requestStateMediator.getStatus()) {
+                if (UiState.EMPTY == stateMediator.getStatus()) {
                     // loading dialog gone
                     onView(withText("Loading..."))
                             .inRoot(isDialog())
                             .check(matches(not(isDisplayed())));
                 }
 
-                if (UiState.ERROR == requestStateMediator.getStatus()) {
+                if (UiState.ERROR == stateMediator.getStatus()) {
                     // loading dialog gone
                     onView(withText("Loading..."))
                             .inRoot(isDialog())

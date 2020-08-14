@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ItemNewsBinding;
-import com.singularitycoder.newstime.helper.HelperGeneral;
+import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.model.NewsItem;
 
 import java.util.Collections;
@@ -27,7 +27,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final String TAG = "NewsAdapter";
 
     @NonNull
-    private final HelperGeneral helperObject = new HelperGeneral();
+    private final AppUtils appUtils = new AppUtils();
 
     @NonNull
     private List<NewsItem.NewsArticle> newsList = Collections.emptyList();
@@ -58,9 +58,9 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             newsViewHolder.binding.tvAuthor.setText("Author: " + newsArticle.getAuthor());
             newsViewHolder.binding.tvTitle.setText(newsArticle.getTitle());
             newsViewHolder.binding.tvDescription.setText(newsArticle.getDescription());
-            newsViewHolder.binding.tvPublishedAt.setText("Published at: " + newsArticle.getPublishedAt());
+            newsViewHolder.binding.tvPublishedAt.setText("Published at: " + appUtils.formatDate(newsArticle.getPublishedAt()));
             newsViewHolder.binding.tvSource.setText("Source: " + newsArticle.getSource().getName());
-            helperObject.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.binding.ivHeaderImage);
+            appUtils.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.binding.ivHeaderImage);
         }
     }
 

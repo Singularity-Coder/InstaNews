@@ -40,7 +40,7 @@ public final class NewsRepository {
         newsArticleList = newsDaoRoom.getAllNews();
     }
 
-    public static NewsRepository getInstance() {
+    public static synchronized NewsRepository getInstance() {
         if (_instance == null) {
             _instance = new NewsRepository();
         }

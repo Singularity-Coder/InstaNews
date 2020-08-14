@@ -15,7 +15,7 @@ import java.util.Map;
 public final class CustomDialogFragment extends DialogFragment {
 
     @NonNull
-    private final HelperGeneral helperGeneral = new HelperGeneral();
+    private final AppUtils appUtils = new AppUtils();
 
     @Nullable
     private SimpleAlertDialogListener simpleAlertDialogListener;
@@ -102,7 +102,7 @@ public final class CustomDialogFragment extends DialogFragment {
         }
 
         builder.setTitle(title);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         String[] selectArray = list;
         builder.setItems(selectArray, (dialog, which) -> {
             for (int i = 0; i < list.length; i++) {

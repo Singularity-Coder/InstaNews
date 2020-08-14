@@ -3,7 +3,7 @@ package com.singularitycoder.newstime.helper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public final class RequestStateMediator<T, E, V, K> {
+public final class StateMediator<T, E, V, K> {
 
     @Nullable
     private T dataObject;
