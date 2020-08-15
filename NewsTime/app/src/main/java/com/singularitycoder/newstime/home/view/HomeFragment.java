@@ -40,6 +40,8 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
 
     // todo view holder styles
     // todo Intro screens ViewPager2
+    // todo dark mode
+    // todo translations
     // todo offline mode not working
     // todo hide tabs on scroll
     // todo unit tests
