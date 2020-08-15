@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
-import com.singularitycoder.newstime.databinding.ItemNewsBinding;
+import com.singularitycoder.newstime.databinding.ListItemNewsBinding;
 import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.home.model.NewsItem;
 
@@ -46,7 +46,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_news, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_news, parent, false);
         return new NewsViewHolder(view);
     }
 
@@ -85,14 +85,14 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     class NewsViewHolder extends RecyclerView.ViewHolder {
 
         @Nullable
-        private ItemNewsBinding binding;
+        private ListItemNewsBinding binding;
 
         @NonNull
         private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemNewsBinding.bind(itemView);
+            binding = ListItemNewsBinding.bind(itemView);
 
             compositeDisposable.add(
                     RxView.clicks(itemView)

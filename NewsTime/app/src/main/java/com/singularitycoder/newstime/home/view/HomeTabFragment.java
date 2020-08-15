@@ -19,24 +19,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.test.espresso.IdlingResource;
 
 import com.singularitycoder.newstime.R;
-import com.singularitycoder.newstime.home.adapter.NewsAdapter;
-import com.singularitycoder.newstime.databinding.FragmentMainBinding;
+import com.singularitycoder.newstime.databinding.FragmentHomeTabBinding;
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
+import com.singularitycoder.newstime.home.adapter.NewsAdapter;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.disposables.CompositeDisposable;
-
 import static java.lang.String.valueOf;
 
-public final class MainFragment extends Fragment {
+public final class HomeTabFragment extends Fragment {
 
     @NonNull
     private final String TAG = "MainFragment";
@@ -46,9 +44,6 @@ public final class MainFragment extends Fragment {
 
     @NonNull
     private final AppUtils appUtils = new AppUtils();
-
-    @NonNull
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Nullable
     private NewsViewModel newsViewModel;
@@ -69,12 +64,12 @@ public final class MainFragment extends Fragment {
     private String strSelectedCategory = "technology";
 
     @Nullable
-    private FragmentMainBinding binding;
+    private FragmentHomeTabBinding binding;
 
-    public MainFragment() {
+    public HomeTabFragment() {
     }
 
-    public MainFragment(@NonNull final String strSelectedCategory) {
+    public HomeTabFragment(@NonNull final String strSelectedCategory) {
         this.strSelectedCategory = strSelectedCategory;
     }
 
@@ -86,7 +81,7 @@ public final class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentMainBinding.inflate(inflater, container, false);
+        binding = FragmentHomeTabBinding.inflate(inflater, container, false);
         final View viewRoot = binding.getRoot();
         initialise();
         setUpRecyclerView();
@@ -97,7 +92,7 @@ public final class MainFragment extends Fragment {
 
     private void initialise() {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
-        new HomeFragment().setLoadNewsOnChangeListener((country) -> {
+        new HomeFragment().setLoadNewsListener((country) -> {
             strSelectedCountry = country;
             getNewsData();
         });
@@ -249,7 +244,6 @@ public final class MainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        compositeDisposable.dispose();
         binding = null;
     }
 

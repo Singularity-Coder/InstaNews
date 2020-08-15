@@ -28,7 +28,7 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
     private final String[] tabTitles = new String[]{"technology", "science", "business", "entertainment", "health", "sports"};
 
     @Nullable
-    private LoadNewsOnChangeListener loadNewsOnChangeListener;
+    private LoadNewsListener loadNewsListener;
 
     @Nullable
     private FragmentHomeBinding binding;
@@ -109,9 +109,9 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
         @Override
         public Fragment createFragment(int position) {
             for (int i = 0; i < tabTitles.length; i++) {
-                if (position == i) return new MainFragment(tabTitles[i]);
+                if (position == i) return new HomeTabFragment(tabTitles[i]);
             }
-            return new MainFragment(tabTitles[0]);
+            return new HomeTabFragment(tabTitles[0]);
         }
 
         @Override
@@ -120,12 +120,12 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
         }
     }
 
-    interface LoadNewsOnChangeListener {
+    interface LoadNewsListener {
         void onChange(String country);
     }
 
-    public final void setLoadNewsOnChangeListener(@NonNull final LoadNewsOnChangeListener loadNewsOnChangeListener) {
-        this.loadNewsOnChangeListener = loadNewsOnChangeListener;
+    public final void setLoadNewsListener(@NonNull final LoadNewsListener loadNewsListener) {
+        this.loadNewsListener = loadNewsListener;
     }
 
     @Override
@@ -135,8 +135,7 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
             String[] countriesArrayAlias = {"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"};
             for (int i = 0; i < countriesArrayAlias.length; i++) {
                 if ((countriesArrayAlias[i]).equals(listItemText)) {
-                    if (null != loadNewsOnChangeListener)
-                        this.loadNewsOnChangeListener.onChange(countriesArray[i]);
+                    if (null != loadNewsListener) this.loadNewsListener.onChange(countriesArray[i]);
                 }
             }
             binding.tvChooseCountry.setText("Country: " + listItemText);

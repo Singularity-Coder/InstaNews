@@ -30,7 +30,8 @@
             android:background="@android:color/white"
             app:layout_collapseMode="pin"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="@android:color/black"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorPrimary"
             app:tabTextColor="@android:color/darker_gray" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -42,10 +43,10 @@
         android:background="@android:color/white"
         android:drawableEnd="@android:drawable/arrow_down_float"
         android:drawableTint="@color/colorPrimary"
-        android:elevation="8dp"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:visibility="visible"
         android:text="Country: India"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@android:color/black"
