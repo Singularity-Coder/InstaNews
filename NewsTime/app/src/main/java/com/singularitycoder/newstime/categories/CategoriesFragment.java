@@ -37,7 +37,7 @@ public final class CategoriesFragment extends Fragment {
     private final List<CategoriesItem> categoriesList = new ArrayList<>();
 
     @NonNull
-    private final AppUtils appUtils = new AppUtils();
+    private final AppUtils appUtils = AppUtils.getInstance();
 
     @Nullable
     private CategoriesAdapter categoriesAdapter;
@@ -77,10 +77,10 @@ public final class CategoriesFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        binding.recyclerCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         categoriesAdapter = new CategoriesAdapter(categoriesList, getContext());
-        binding.recyclerCategories.setAdapter(categoriesAdapter);
-        binding.recyclerCategories.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setAdapter(categoriesAdapter);
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void setCategories() {
@@ -98,6 +98,7 @@ public final class CategoriesFragment extends Fragment {
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2015/03/08/17/25/musician-664432_960_720.jpg", "Entertainment"));
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2018/01/01/01/56/yoga-3053488_960_720.jpg", "Health"));
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2012/11/28/11/11/quarterback-67701_960_720.jpg", "Sports"));
+        categoriesAdapter.notifyDataSetChanged();
     }
 
     private void showOfflineState() {
@@ -113,7 +114,7 @@ public final class CategoriesFragment extends Fragment {
                 if (position == i) {
                     Bundle bundle = new Bundle();
                     bundle.putString("KEY_CATEGORY", tabTitlesFirstLetterCaps[i]);
-                    showFragment(bundle, R.id.con_lay_base_frag_root, new HomeTabFragment(tabTitles[i]));
+                    showFragment(bundle, R.id.con_lay_base_activity_root, new HomeTabFragment(tabTitles[i]));
                 }
             }
         });
