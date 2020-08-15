@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.model;
+package com.singularitycoder.newstime.home.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

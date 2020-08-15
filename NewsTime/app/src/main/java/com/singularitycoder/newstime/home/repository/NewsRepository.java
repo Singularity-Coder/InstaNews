@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.repository;
+package com.singularitycoder.newstime.home.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import com.singularitycoder.newstime.model.NewsItem;
-import com.singularitycoder.newstime.roomdao.NewsDaoRoom;
+import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.home.roomdao.NewsDaoRoom;
 import com.singularitycoder.newstime.helper.ApiEndPoints;
 import com.singularitycoder.newstime.helper.NewsTimeRoomDatabase;
 import com.singularitycoder.newstime.helper.RetrofitService;

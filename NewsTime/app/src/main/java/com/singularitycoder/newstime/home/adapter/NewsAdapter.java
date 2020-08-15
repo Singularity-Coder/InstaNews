@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.adapter;
+package com.singularitycoder.newstime.home.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.jakewharton.rxbinding3.view.RxView;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ItemNewsBinding;
 import com.singularitycoder.newstime.helper.AppUtils;
-import com.singularitycoder.newstime.model.NewsItem;
+import com.singularitycoder.newstime.home.model.NewsItem;
 
 import java.util.Collections;
 import java.util.List;

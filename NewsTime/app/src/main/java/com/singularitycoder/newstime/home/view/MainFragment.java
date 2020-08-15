@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.view;
+package com.singularitycoder.newstime.home.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -19,15 +19,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.test.espresso.IdlingResource;
 
 import com.singularitycoder.newstime.R;
-import com.singularitycoder.newstime.adapter.NewsAdapter;
+import com.singularitycoder.newstime.home.adapter.NewsAdapter;
 import com.singularitycoder.newstime.databinding.FragmentMainBinding;
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
-import com.singularitycoder.newstime.model.NewsItem;
-import com.singularitycoder.newstime.viewmodel.NewsViewModel;
+import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public final class MainFragment extends Fragment {
 
     private void initialise() {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
-        new MainActivity().setLoadNewsOnChangeListener((country) -> {
+        new HomeFragment().setLoadNewsOnChangeListener((country) -> {
             strSelectedCountry = country;
             getNewsData();
         });

@@ -15,9 +15,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".view.MainActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            android:name=".BaseActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,9 +24,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".home.view.HomeFragment"
+            android:screenOrientation="portrait"
+            tools:ignore="Instantiatable,LockedOrientationActivity" />
+        <activity
             android:name=".helper.WebViewFragment"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="Instantiatable,LockedOrientationActivity" />
     </application>
 
 </manifest>

@@ -1,6 +1,9 @@
-package com.singularitycoder.newstime.view;
+package com.singularitycoder.newstime.home.view;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,48 +16,56 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.singularitycoder.newstime.R;
-import com.singularitycoder.newstime.databinding.ActivityMainBinding;
-import com.singularitycoder.newstime.helper.AppUtils;
+import com.singularitycoder.newstime.databinding.FragmentHomeBinding;
 import com.singularitycoder.newstime.helper.CustomDialogFragment;
 
-public final class MainActivity extends AppCompatActivity implements CustomDialogFragment.ListDialogListener {
+public final class HomeFragment extends Fragment implements CustomDialogFragment.ListDialogListener {
 
     @NonNull
-    private final String TAG = "MainActivity";
+    private final String TAG = "HomeFragment";
 
     @NonNull
     private final String[] tabTitles = new String[]{"technology", "science", "business", "entertainment", "health", "sports"};
-
-    @NonNull
-    private final AppUtils appUtils = new AppUtils();
 
     @Nullable
     private LoadNewsOnChangeListener loadNewsOnChangeListener;
 
     @Nullable
-    private ActivityMainBinding binding;
+    private FragmentHomeBinding binding;
 
+    // todo view holder styles
+    // todo offline mode not working
     // todo hide tabs on scroll
     // todo unit tests
     // todo dagger
     // todo Own image caching mechanism
     // todo material design
 
+    public HomeFragment() {
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appUtils.setStatusBarColor(this, R.color.colorPrimaryDark);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        final View viewRoot = binding.getRoot();
         setUpToolBar();
         setUpListeners();
         initialiseViewPager();
+        return viewRoot;
     }
 
     private void setUpToolBar() {
-        setSupportActionBar(binding.toolbarLayout.toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.app_name));
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(binding.toolbarLayout.toolbar);
+        if (null != activity) {
+            activity.setTitle(getString(R.string.app_name));
+            activity.setTitle("Home");
         }
     }
 
@@ -63,8 +74,8 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
     }
 
     private void initialiseViewPager() {
-        getSupportActionBar().setElevation(0);
-        binding.viewPager.setAdapter(new ViewPagerFragmentAdapter(this));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setElevation(0);
+        binding.viewPager.setAdapter(new ViewPagerFragmentAdapter(getActivity()));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
     }
 
@@ -73,16 +84,16 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
         bundle.putString("DIALOG_TYPE", "list");
         bundle.putString("KEY_LIST_DIALOG_TYPE", "countries");
         bundle.putString("KEY_TITLE", "Choose Country");
-        bundle.putString("KEY_CONTEXT_TYPE", "activity");
-        bundle.putString("KEY_CONTEXT_OBJECT", "MainActivity");
+        bundle.putString("KEY_CONTEXT_TYPE", "fragment");
+        bundle.putString("KEY_CONTEXT_OBJECT", "HomeFragment");
         bundle.putStringArray("KEY_LIST", new String[]{"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"});
 
         final DialogFragment dialogFragment = new CustomDialogFragment();
-//        dialogFragment.setTargetFragment(this, 601);
+        dialogFragment.setTargetFragment(this, 601);
         dialogFragment.setArguments(bundle);
-        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        final Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        final Fragment previousFragment = getActivity().getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
         if (previousFragment != null) fragmentTransaction.remove(previousFragment);
         fragmentTransaction.addToBackStack(null);
         dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
@@ -124,7 +135,8 @@ public final class MainActivity extends AppCompatActivity implements CustomDialo
             String[] countriesArrayAlias = {"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"};
             for (int i = 0; i < countriesArrayAlias.length; i++) {
                 if ((countriesArrayAlias[i]).equals(listItemText)) {
-                    if (null != loadNewsOnChangeListener) this.loadNewsOnChangeListener.onChange(countriesArray[i]);
+                    if (null != loadNewsOnChangeListener)
+                        this.loadNewsOnChangeListener.onChange(countriesArray[i]);
                 }
             }
             binding.tvChooseCountry.setText("Country: " + listItemText);

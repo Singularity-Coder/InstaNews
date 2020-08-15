@@ -27,9 +27,6 @@ public final class WebViewFragment extends Fragment {
     @NonNull
     private final String TAG = "WebViewFragment";
 
-    @NonNull
-    private final AppUtils helperObject = new AppUtils();
-
     @Nullable
     private String newsSourceUrl;
 

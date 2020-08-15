@@ -1,6 +1,6 @@
 package com.singularitycoder.newstime.helper;
 
-import com.singularitycoder.newstime.model.NewsItem;
+import com.singularitycoder.newstime.home.model.NewsItem;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;

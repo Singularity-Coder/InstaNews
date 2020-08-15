@@ -3,7 +3,6 @@ package com.singularitycoder.newstime.helper;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,7 +10,7 @@ import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.singularitycoder.newstime.view.MainFragment;
+import com.singularitycoder.newstime.home.view.HomeFragment;
 
 import java.util.Map;
 
@@ -104,8 +103,8 @@ public final class CustomDialogFragment extends DialogFragment {
     @UiThread
     public void listDialog(AlertDialog.Builder builder, String[] list, String title, String contextType, String contextObject, String listDialogType) {
 
-        if (("fragment").equals(contextType) && ("MainFragment").equals(contextObject)) {
-//            this.listDialogListener = (MainFragment) getTargetFragment();
+        if (("fragment").equals(contextType) && ("HomeFragment").equals(contextObject)) {
+            this.listDialogListener = (HomeFragment) getTargetFragment();
         }
 
         builder.setTitle(title);

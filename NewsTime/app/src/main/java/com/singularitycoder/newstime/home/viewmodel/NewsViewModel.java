@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.viewmodel;
+package com.singularitycoder.newstime.home.viewmodel;
 
 import android.app.Application;
 import android.util.Log;
@@ -12,8 +12,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
-import com.singularitycoder.newstime.model.NewsItem;
-import com.singularitycoder.newstime.repository.NewsRepository;
+import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.home.repository.NewsRepository;
 
 import java.util.List;
 

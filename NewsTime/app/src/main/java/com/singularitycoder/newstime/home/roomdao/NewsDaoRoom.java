@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.roomdao;
+package com.singularitycoder.newstime.home.roomdao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.singularitycoder.newstime.model.NewsItem;
+import com.singularitycoder.newstime.home.model.NewsItem;
 
 import java.util.List;
 

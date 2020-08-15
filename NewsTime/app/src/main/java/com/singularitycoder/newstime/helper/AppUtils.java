@@ -68,15 +68,19 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public final class AppUtils extends AppCompatActivity {
 
     @NonNull
-    private final String TAG = "HelperGeneral";
+    private final String TAG = "AppUtils";
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Nullable
+    private static AppUtils _instance;
+
+    @NonNull
+    public static synchronized AppUtils getInstance() {
+        if (null == _instance) _instance = new AppUtils();
+        return _instance;
     }
 
     public final boolean hasInternet(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert cm != null;
         return cm.getActiveNetworkInfo() != null;
     }
@@ -91,7 +95,7 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final void hideActivityKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        final InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view == null) {
             view = new View(activity);
@@ -100,20 +104,20 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final void hideFragmentKeyboard(Context context, View view) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        final InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public final String getFileExtension(Uri uri, Context context) {
-        ContentResolver contentResolver = context.getContentResolver();
-        MimeTypeMap mimeType = MimeTypeMap.getSingleton();
+        final ContentResolver contentResolver = context.getContentResolver();
+        final MimeTypeMap mimeType = MimeTypeMap.getSingleton();
         return mimeType.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     public final void showSnack(View view, String message, int snackTextColor, String actionBtnText, Callable<Void> voidFunction) {
-        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
-        View snackbarView = snackbar.getView();
-        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        final View snackbarView = snackbar.getView();
+        final TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(snackTextColor);
         snackbar.setAction(actionBtnText, view1 -> {
             try {
@@ -126,9 +130,9 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final void showSnackBar(View view, String message, int snackTextColor, String actionBtnText, View.OnClickListener actionClickListener){
-        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
-        View snackbarView = snackbar.getView();
-        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        final View snackbarView = snackbar.getView();
+        final TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(snackTextColor);
         snackbar.setAction(actionBtnText, view1 -> actionClickListener.onClick(view));
         snackbar.show();
@@ -137,7 +141,7 @@ public final class AppUtils extends AppCompatActivity {
     @SuppressLint("SourceLockedOrientationActivity")
     public final void setStatusBarColor(Activity activity, int statusBarColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
+            final Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColor));
@@ -174,7 +178,7 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final void showSettingsDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Give Permissions!");
         builder.setMessage("We need you to grant the permissions for the camera feature to work!");
         builder.setPositiveButton("OK", (dialog, which) -> {
@@ -187,7 +191,7 @@ public final class AppUtils extends AppCompatActivity {
 
     // Open device app settings to allow user to enable permissions
     public final void openSettings(Context context) {
-        Intent intent = new Intent();
+        final Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -195,7 +199,7 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final void checkFunctionExecutionTimings() {
-        TimingLogger timingLogger = new TimingLogger(TAG, "hasValidInput");
+        final TimingLogger timingLogger = new TimingLogger(TAG, "hasValidInput");
         timingLogger.addSplit("");
         timingLogger.dumpToLog();
     }
@@ -224,7 +228,7 @@ public final class AppUtils extends AppCompatActivity {
 
     public final Uri getLocalBitmapUri(Activity activity, ImageView imageView) {
         // Extract Bitmap from ImageView drawable
-        Drawable drawable = imageView.getDrawable();
+        final Drawable drawable = imageView.getDrawable();
         Bitmap bmp;
         if (drawable instanceof BitmapDrawable) {
             bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -249,17 +253,16 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final long getCurrentEpochTime() {
-        long time = System.currentTimeMillis();
-        return time;
+        return System.currentTimeMillis();
     }
 
     @SuppressLint("SimpleDateFormat")
     public final String currentDateTime() {
-        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        final String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
         // split date and time for event created date
-        String[] arrOfStr = dateTime.split(" ", 2);
-        ArrayList<String> dateAndTime = new ArrayList<>(Arrays.asList(arrOfStr));
+        final String[] arrOfStr = dateTime.split(" ", 2);
+        final ArrayList<String> dateAndTime = new ArrayList<>(Arrays.asList(arrOfStr));
 
         // convert date to dd/mm/yyyy
         Date dateObj = null;
@@ -268,7 +271,7 @@ public final class AppUtils extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String outputDate = new SimpleDateFormat("dd MMM yyyy").format(dateObj);
+        final String outputDate = new SimpleDateFormat("dd MMM yyyy").format(dateObj);
         Log.d(TAG, "date: " + outputDate);
 
         // convert time to 12 hr format
@@ -278,7 +281,7 @@ public final class AppUtils extends AppCompatActivity {
         } catch (final ParseException e) {
             e.printStackTrace();
         }
-        String outputTime = new SimpleDateFormat("hh:mm a").format(timeObj);
+        final String outputTime = new SimpleDateFormat("hh:mm a").format(timeObj);
         Log.d(TAG, "time: " + outputTime);
 
         return outputDate + " at " + outputTime;
@@ -287,9 +290,9 @@ public final class AppUtils extends AppCompatActivity {
     public final String formatDate(String inputDate) {
         String outputDate = "";
         try {
-            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US);
-            Date date = inputFormat.parse(inputDate);
+            final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+            final DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US);
+            final Date date = inputFormat.parse(inputDate);
 
             if (null != date) outputDate = outputFormat.format(date);
         } catch (Exception ex) {
@@ -321,7 +324,7 @@ public final class AppUtils extends AppCompatActivity {
     }
 
     public final void glideImage(Context context, String imgUrl, ImageView imageView) {
-        RequestOptions requestOptions = new RequestOptions()
+        final RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.color.colorAccent)
                 .error(android.R.color.holo_red_light)
                 .encodeQuality(40)

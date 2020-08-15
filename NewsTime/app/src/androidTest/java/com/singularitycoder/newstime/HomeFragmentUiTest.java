@@ -21,9 +21,9 @@ import androidx.test.uiautomator.UiDevice;
 import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
-import com.singularitycoder.newstime.model.NewsItem;
-import com.singularitycoder.newstime.view.MainActivity;
-import com.singularitycoder.newstime.viewmodel.NewsViewModel;
+import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.home.view.HomeFragment;
+import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -52,7 +52,7 @@ import static org.junit.Assert.assertEquals;
 
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityUiTest {
+public class HomeFragmentUiTest {
 
     @NonNull
     private static final String TAG = "MainActivityUiTest";
@@ -61,7 +61,7 @@ public class MainActivityUiTest {
     private static final String APP_PACKAGE_NAME = "com.singularitycoder.newstime";
 
     @Nullable
-    private MainActivity mainActivity;
+    private HomeFragment homeFragment;
 
     @Nullable
     private TextView tvNoInternet, tvNothing;
@@ -82,11 +82,11 @@ public class MainActivityUiTest {
     private UiDevice uiDevice;
 
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<HomeFragment> activityTestRule = new ActivityTestRule<>(HomeFragment.class);
 
     @Before
     public void setUp() throws Exception {
-        mainActivity = activityTestRule.getActivity();
+        homeFragment = activityTestRule.getActivity();
 
         idlingResource = activityTestRule.getActivity().getWaitingState();
         IdlingRegistry.getInstance().register(idlingResource);
@@ -95,9 +95,9 @@ public class MainActivityUiTest {
 
         newsViewModel = new ViewModelProvider(activityTestRule.getActivity()).get(NewsViewModel.class);
 
-        tvNoInternet = mainActivity.findViewById(R.id.tv_no_internet);
-        tvNothing = mainActivity.findViewById(R.id.tv_nothing);
-        tvChooseCountry = mainActivity.findViewById(R.id.tv_choose_country);
+        tvNoInternet = homeFragment.findViewById(R.id.tv_no_internet);
+        tvNothing = homeFragment.findViewById(R.id.tv_nothing);
+        tvChooseCountry = homeFragment.findViewById(R.id.tv_choose_country);
     }
 
     @Test
@@ -234,6 +234,6 @@ public class MainActivityUiTest {
     @After
     public void tearDown() throws Exception {
         if (null != idlingResource) IdlingRegistry.getInstance().unregister(idlingResource);
-        mainActivity = null;
+        homeFragment = null;
     }
 }
