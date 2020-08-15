@@ -3,6 +3,7 @@ package com.singularitycoder.newstime.helper;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,9 +11,14 @@ import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.singularitycoder.newstime.view.MainFragment;
+
 import java.util.Map;
 
 public final class CustomDialogFragment extends DialogFragment {
+
+    @NonNull
+    private final String TAG = "CustomDialogFragment";
 
     @NonNull
     private final AppUtils appUtils = new AppUtils();
@@ -34,7 +40,7 @@ public final class CustomDialogFragment extends DialogFragment {
             if (("simpleAlert").equals(getArguments().getString("DIALOG_TYPE"))) {
                 if (("activity").equals(getArguments().getString("KEY_CONTEXT_TYPE"))) {
                     try {
-                        simpleAlertDialogListener = (SimpleAlertDialogListener) context;
+                        this.simpleAlertDialogListener = (SimpleAlertDialogListener) context;
                     } catch (ClassCastException e) {
                         throw new ClassCastException(getActivity().toString() + " must implement SimpleAlertDialogListener");
                     }
@@ -44,7 +50,7 @@ public final class CustomDialogFragment extends DialogFragment {
             if (("list").equals(getArguments().getString("DIALOG_TYPE"))) {
                 if (("activity").equals(getArguments().getString("KEY_CONTEXT_TYPE"))) {
                     try {
-                        listDialogListener = (ListDialogListener) context;
+                        this.listDialogListener = (ListDialogListener) context;
                     } catch (ClassCastException e) {
                         throw new ClassCastException(getActivity().toString() + " must implement ListDialogViewListener");
                     }
@@ -67,8 +73,8 @@ public final class CustomDialogFragment extends DialogFragment {
                     String[] list = getArguments().getStringArray("KEY_LIST");
                     String title = getArguments().getString("KEY_TITLE");
                     String contextType = getArguments().getString("KEY_CONTEXT_TYPE");
-                    String  contextObject = getArguments().getString("KEY_CONTEXT_OBJECT");
-                    String  listDialogType = getArguments().getString("KEY_LIST_DIALOG_TYPE");
+                    String contextObject = getArguments().getString("KEY_CONTEXT_OBJECT");
+                    String listDialogType = getArguments().getString("KEY_LIST_DIALOG_TYPE");
                     listDialog(builder, list, title, contextType, contextObject, listDialogType);
                 }
             }
@@ -98,7 +104,8 @@ public final class CustomDialogFragment extends DialogFragment {
     @UiThread
     public void listDialog(AlertDialog.Builder builder, String[] list, String title, String contextType, String contextObject, String listDialogType) {
 
-        if (("fragment").equals(contextType) && ("").equals(contextObject)) {
+        if (("fragment").equals(contextType) && ("MainFragment").equals(contextObject)) {
+//            this.listDialogListener = (MainFragment) getTargetFragment();
         }
 
         builder.setTitle(title);
@@ -107,7 +114,8 @@ public final class CustomDialogFragment extends DialogFragment {
         builder.setItems(selectArray, (dialog, which) -> {
             for (int i = 0; i < list.length; i++) {
                 if (which == i) {
-                    if (null != listDialogListener) listDialogListener.onListDialogItemClick(selectArray[i], listDialogType);
+                    if (null != listDialogListener)
+                        this.listDialogListener.onListDialogItemClick(selectArray[i], listDialogType);
                 }
             }
         });

@@ -67,7 +67,7 @@ public class MainActivityUiTest {
     private TextView tvNoInternet, tvNothing;
 
     @Nullable
-    private TextView tvChooseCountry, tvChooseCategory;
+    private TextView tvChooseCountry;
 
     @Nullable
     private IdlingResource idlingResource;
@@ -98,7 +98,6 @@ public class MainActivityUiTest {
         tvNoInternet = mainActivity.findViewById(R.id.tv_no_internet);
         tvNothing = mainActivity.findViewById(R.id.tv_nothing);
         tvChooseCountry = mainActivity.findViewById(R.id.tv_choose_country);
-        tvChooseCategory = mainActivity.findViewById(R.id.tv_choose_category);
     }
 
     @Test
@@ -136,26 +135,6 @@ public class MainActivityUiTest {
         onView(withId(titleId))
                 .inRoot(isDialog())
                 .check(matches(withText("Choose Country")))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void tvChooseCategory_onClick_showCategoryDialog() {
-
-        getInstrumentation().waitForIdleSync();
-
-        // Click Choose Category TextView
-        onView(withId(R.id.tv_choose_category))
-                .perform(click());
-
-        // Get title of the dialog on screen
-        int titleId = activityTestRule.getActivity().getResources()
-                .getIdentifier("android.R.id.alertTitle", "id", "android");
-
-        // Assert Category Dialog
-        onView(withId(titleId))
-                .inRoot(isDialog())
-                .check(matches(withText("Choose Category")))
                 .check(matches(isDisplayed()));
     }
 
