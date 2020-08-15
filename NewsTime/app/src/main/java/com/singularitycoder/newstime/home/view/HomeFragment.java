@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentHomeBinding;
 import com.singularitycoder.newstime.helper.ApiEndPoints;
+import com.singularitycoder.newstime.helper.AppSharedPreference;
 import com.singularitycoder.newstime.helper.CustomDialogFragment;
 
 public final class HomeFragment extends Fragment implements CustomDialogFragment.ListDialogListener {
@@ -32,9 +33,13 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
     private LoadNewsListener loadNewsListener;
 
     @Nullable
+    private AppSharedPreference appSharedPreference;
+
+    @Nullable
     private FragmentHomeBinding binding;
 
     // todo view holder styles
+    // todo Intro screens ViewPager2
     // todo offline mode not working
     // todo hide tabs on scroll
     // todo unit tests
@@ -55,10 +60,15 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         final View viewRoot = binding.getRoot();
+        initialise();
         setUpToolBar();
         setUpListeners();
         initialiseViewPager();
         return viewRoot;
+    }
+
+    private void initialise() {
+        appSharedPreference = AppSharedPreference.getInstance(getContext());
     }
 
     private void setUpToolBar() {
@@ -137,6 +147,7 @@ public final class HomeFragment extends Fragment implements CustomDialogFragment
             for (int i = 0; i < countriesArrayAlias.length; i++) {
                 if ((countriesArrayAlias[i]).equals(listItemText)) {
                     if (null != loadNewsListener) this.loadNewsListener.onChange(countriesArray[i]);
+                    appSharedPreference.setCountry(countriesArray[i]);
                 }
             }
             binding.tvChooseCountry.setText("Country: " + listItemText);

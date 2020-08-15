@@ -10,10 +10,10 @@ import androidx.annotation.Nullable;
 public final class AppSharedPreference {
 
     @NonNull
-    private static final String KEY_MEMBER_TYPE = "memberType";
+    private static final String KEY_COUNTRY = "KEY_COUNTRY";
 
     @NonNull
-    private static final String KEY_FCM_TOKEN = "fcmToken";
+    private static final String KEY_FCM_TOKEN = "KEY_FCM_TOKEN";
 
     @Nullable
     private static AppSharedPreference _instance;
@@ -39,12 +39,12 @@ public final class AppSharedPreference {
         sharedPrefEditor.apply();
     }
 
-    public final void setMemberType(String memberType) {
-        sharedPrefEditor.putString(KEY_MEMBER_TYPE, memberType);
+    public final void setCountry(String country) {
+        sharedPrefEditor.putString(KEY_COUNTRY, country);
         sharedPrefEditor.commit();
     }
 
-    public final String getMemberType() {
-        return sharedPref.getString(KEY_MEMBER_TYPE, "");
+    public final String getCountry() {
+        return sharedPref.getString(KEY_COUNTRY, "");
     }
 }

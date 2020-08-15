@@ -22,6 +22,7 @@ import androidx.test.espresso.IdlingResource;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentHomeTabBinding;
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.AppSharedPreference;
 import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
@@ -57,6 +58,9 @@ public final class HomeTabFragment extends Fragment {
 
     @Nullable
     private NewsAdapter newsAdapter;
+
+    @Nullable
+    private AppSharedPreference appSharedPreference;
 
     @NonNull
     private String strSelectedCountry = "in";
@@ -114,6 +118,7 @@ public final class HomeTabFragment extends Fragment {
 
     private void initialise() {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+        appSharedPreference = AppSharedPreference.getInstance(getContext());
         new HomeFragment().setLoadNewsListener((country) -> {
             strSelectedCountry = country;
             getNewsData();
@@ -134,6 +139,9 @@ public final class HomeTabFragment extends Fragment {
     }
 
     private void showOnlineState() {
+        if (null != appSharedPreference.getCountry() && !("").equals(appSharedPreference.getCountry())) {
+            strSelectedCountry = appSharedPreference.getCountry();
+        }
         newsViewModel.getNewsFromRepository(
                 strSelectedCountry,
                 strSelectedCategory,
