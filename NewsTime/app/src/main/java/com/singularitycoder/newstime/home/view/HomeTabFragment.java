@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -83,11 +84,32 @@ public final class HomeTabFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeTabBinding.inflate(inflater, container, false);
         final View viewRoot = binding.getRoot();
+        getBundleData();
+        setUpToolBar();
         initialise();
         setUpRecyclerView();
         setClickListeners();
-        binding.swipeRefreshLayout.setOnRefreshListener(this::getNewsData);
+        setUpSwipeRefresh();
         return viewRoot;
+    }
+
+    private void getBundleData() {
+        if (null != getArguments()) {
+            binding.toolbar.setVisibility(View.VISIBLE);
+        } else {
+            binding.toolbar.setVisibility(View.GONE);
+        }
+    }
+
+    private void setUpToolBar() {
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (null != activity) {
+            activity.setSupportActionBar(binding.toolbar);
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (null != getArguments()) activity.setTitle(getArguments().getString("KEY_CATEGORY"));
+            else activity.setTitle("News");
+        }
+        binding.toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private void initialise() {
@@ -135,6 +157,11 @@ public final class HomeTabFragment extends Fragment {
             bundle.putString("SOURCE_TITLE", newsList.get(position).getTitle());
             showFragment(bundle, R.id.con_lay_news_home_root, new WebViewFragment());
         });
+    }
+
+    private void setUpSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener(this::getNewsData);
+        binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
     }
 
     private void showFragment(@Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {

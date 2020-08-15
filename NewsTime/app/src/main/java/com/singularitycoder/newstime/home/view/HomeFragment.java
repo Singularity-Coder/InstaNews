@@ -17,6 +17,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentHomeBinding;
+import com.singularitycoder.newstime.helper.ApiEndPoints;
 import com.singularitycoder.newstime.helper.CustomDialogFragment;
 
 public final class HomeFragment extends Fragment implements CustomDialogFragment.ListDialogListener {

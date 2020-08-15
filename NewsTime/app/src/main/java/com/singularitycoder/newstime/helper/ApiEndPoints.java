@@ -14,4 +14,8 @@ public interface ApiEndPoints {
             @Query("category") String category,
             @Query("apiKey") String apiKey
     );
+
+    default void printStuff() {
+        System.out.print("Hello");
+    }
 }
