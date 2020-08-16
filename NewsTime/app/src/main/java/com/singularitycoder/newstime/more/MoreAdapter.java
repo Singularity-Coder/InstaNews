@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,6 +80,14 @@ public final class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return position == 0 ? MORE_HEADER : MORE_ITEM;
     }
 
+    public interface ItemClickListener {
+        void onItemClick(final int position, @Nullable final TextView tvMoreSubtitle);
+    }
+
+    public final void setOnItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
     final class MoreHeaderViewHolder extends RecyclerView.ViewHolder {
 
         @Nullable
@@ -91,7 +99,7 @@ public final class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    final class MoreViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    final class MoreViewHolder extends RecyclerView.ViewHolder {
 
         @Nullable
         private ListItemMoreBinding binding;
@@ -99,20 +107,13 @@ public final class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public MoreViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ListItemMoreBinding.bind(itemView);
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(view -> {
+                try {
+                    itemClickListener.onItemClick(getAdapterPosition(), binding.tvMoreSubtitle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
-
-        @Override
-        public void onClick(View view) {
-            itemClickListener.onItemClick(view, getAdapterPosition(), itemView.findViewById(R.id.iv_more));
-        }
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position, ImageView imageView);
-    }
-
-    public void setOnItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
     }
 }

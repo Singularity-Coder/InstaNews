@@ -36,28 +36,12 @@
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <TextView
-        android:id="@+id/tv_choose_country"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@android:color/white"
-        android:drawableEnd="@android:drawable/arrow_down_float"
-        android:drawableTint="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:visibility="gone"
-        android:text="Country: India"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@+id/collapsing_toolbar" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_choose_country" />
+        app:layout_constraintTop_toBottomOf="@+id/collapsing_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

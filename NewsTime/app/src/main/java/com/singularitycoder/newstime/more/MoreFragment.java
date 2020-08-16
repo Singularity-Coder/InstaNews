@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -17,11 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentMoreBinding;
+import com.singularitycoder.newstime.helper.AppSharedPreference;
+import com.singularitycoder.newstime.helper.CustomDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class MoreFragment extends Fragment {
+public final class MoreFragment extends Fragment implements CustomDialogFragment.ListDialogListener {
 
     @NonNull
     private final String TAG = "MoreFragment";
@@ -31,6 +35,12 @@ public final class MoreFragment extends Fragment {
 
     @Nullable
     private MoreAdapter moreAdapter;
+
+    @Nullable
+    private AppSharedPreference appSharedPreference;
+
+    @Nullable
+    private TextView tvMoreSubtitle;
 
     @Nullable
     private FragmentMoreBinding binding;
@@ -47,11 +57,16 @@ public final class MoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMoreBinding.inflate(inflater, container, false);
         final View view = binding.getRoot();
+        initialise();
         setUpToolBar();
         setUpRecyclerView();
         loadData();
         setClickListeners();
         return view;
+    }
+
+    private void initialise() {
+        appSharedPreference = AppSharedPreference.getInstance(getContext());
     }
 
     private void setUpToolBar() {
@@ -82,17 +97,25 @@ public final class MoreFragment extends Fragment {
     }
 
     private void setClickListeners() {
-        final String[] tabTitles = new String[]{"technology", "science", "business", "entertainment", "health", "sports"};
-        final String[] tabTitlesFirstLetterCaps = new String[]{"Technology", "Science", "Business", "Entertainment", "Health", "Sports"};
-//        moreAdapter.setCategoryClickListener(position -> {
-//            for (int i = 0; i < tabTitles.length; i++) {
-//                if (position == i) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("KEY_CATEGORY", tabTitlesFirstLetterCaps[i]);
-//                    showFragment(bundle, R.id.con_lay_base_activity_root, new HomeTabFragment(tabTitles[i]));
-//                }
-//            }
-//        });
+        moreAdapter.setOnItemClickListener((position, tvMoreSubtitle) -> {
+
+            if (1 == position) {
+                btnShowCountriesDialog();
+                this.tvMoreSubtitle = tvMoreSubtitle;
+            }
+
+            if (2 == position) {
+
+            }
+
+            if (3 == position) {
+
+            }
+
+            if (4 == position) {
+
+            }
+        });
     }
 
     @Nullable
@@ -115,5 +138,39 @@ public final class MoreFragment extends Fragment {
                 .add(parentLayout, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void btnShowCountriesDialog() {
+        final Bundle bundle = new Bundle();
+        bundle.putString("DIALOG_TYPE", "list");
+        bundle.putString("KEY_LIST_DIALOG_TYPE", "countries");
+        bundle.putString("KEY_TITLE", "Choose Country");
+        bundle.putString("KEY_CONTEXT_TYPE", "fragment");
+        bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
+        bundle.putStringArray("KEY_LIST", new String[]{"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"});
+
+        final DialogFragment dialogFragment = new CustomDialogFragment();
+        dialogFragment.setTargetFragment(this, 601);
+        dialogFragment.setArguments(bundle);
+        final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        final Fragment previousFragment = getActivity().getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        if (previousFragment != null) fragmentTransaction.remove(previousFragment);
+        fragmentTransaction.addToBackStack(null);
+        dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
+    }
+
+    @Override
+    public void onListDialogItemClick(String listItemText, String listDialogType) {
+        if (("countries").equals(listDialogType)) {
+            String[] countriesArray = {"in", "jp", "cn", "ru", "us", "gb", "il", "de", "br", "au"};
+            String[] countriesArrayAlias = {"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"};
+            for (int i = 0; i < countriesArrayAlias.length; i++) {
+                if ((countriesArrayAlias[i]).equals(listItemText)) {
+                    appSharedPreference.setCountry(countriesArray[i]);
+                    tvMoreSubtitle.setText("Selected Country: " + countriesArrayAlias[i]);
+                }
+            }
+        }
     }
 }

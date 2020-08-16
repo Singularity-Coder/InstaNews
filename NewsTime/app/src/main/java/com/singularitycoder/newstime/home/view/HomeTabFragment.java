@@ -119,10 +119,6 @@ public final class HomeTabFragment extends Fragment {
     private void initialise() {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
         appSharedPreference = AppSharedPreference.getInstance(getContext());
-        new HomeFragment().setLoadNewsListener((country) -> {
-            strSelectedCountry = country;
-            getNewsData();
-        });
     }
 
     private void setUpRecyclerView() {
