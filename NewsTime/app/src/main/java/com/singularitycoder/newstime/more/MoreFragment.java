@@ -90,8 +90,8 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
     private void loadData() {
         moreList.add(new MoreItem(getAppVersion()));
         moreList.add(new MoreItem("News Location", "Choose a Country", R.drawable.ic_baseline_location_on_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("App Language", "Choose App Language", R.drawable.ic_baseline_language_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("News Layout", "Customise News Layout", R.drawable.ic_layout_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
+        moreList.add(new MoreItem("App Language", "Choose App Language", R.drawable.ic_baseline_language_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("App Theme", "Choose an App Theme", R.drawable.ic_theme_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreAdapter.notifyDataSetChanged();
     }
@@ -105,15 +105,18 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
             }
 
             if (2 == position) {
-
+                btnShowNewsLayoutsDialog();
+                this.tvMoreSubtitle = tvMoreSubtitle;
             }
 
             if (3 == position) {
-
+                btnShowAppLanguageDialog();
+                this.tvMoreSubtitle = tvMoreSubtitle;
             }
 
             if (4 == position) {
-
+                btnShowAppThemesDialog();
+                this.tvMoreSubtitle = tvMoreSubtitle;
             }
         });
     }
@@ -160,6 +163,70 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
     }
 
+    private void btnShowNewsLayoutsDialog() {
+        final Bundle bundle = new Bundle();
+        bundle.putString("DIALOG_TYPE", "list");
+        bundle.putString("KEY_LIST_DIALOG_TYPE", "layouts");
+        bundle.putString("KEY_TITLE", "Choose Layouts");
+        bundle.putString("KEY_CONTEXT_TYPE", "fragment");
+        bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
+        // compact - only one line each without body and author
+        // standard - fancy at every 5th position
+        // Details - full details
+        // Fancy - Image with text on it
+        bundle.putStringArray("KEY_LIST", new String[]{"Standard", "All Details", "Compact", "Fancy", "Only Text", "Only Image", "Only Headlines"});
+
+        final DialogFragment dialogFragment = new CustomDialogFragment();
+        dialogFragment.setTargetFragment(this, 602);
+        dialogFragment.setArguments(bundle);
+        final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        final Fragment previousFragment = getActivity().getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        if (previousFragment != null) fragmentTransaction.remove(previousFragment);
+        fragmentTransaction.addToBackStack(null);
+        dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
+    }
+
+    private void btnShowAppLanguageDialog() {
+        final Bundle bundle = new Bundle();
+        bundle.putString("DIALOG_TYPE", "list");
+        bundle.putString("KEY_LIST_DIALOG_TYPE", "languages");
+        bundle.putString("KEY_TITLE", "Choose App Language");
+        bundle.putString("KEY_CONTEXT_TYPE", "fragment");
+        bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
+        bundle.putStringArray("KEY_LIST", new String[]{"English", "Hindi", "Japanese", "Chinese"});
+
+        final DialogFragment dialogFragment = new CustomDialogFragment();
+        dialogFragment.setTargetFragment(this, 603);
+        dialogFragment.setArguments(bundle);
+        final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        final Fragment previousFragment = getActivity().getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        if (previousFragment != null) fragmentTransaction.remove(previousFragment);
+        fragmentTransaction.addToBackStack(null);
+        dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
+    }
+
+    private void btnShowAppThemesDialog() {
+        final Bundle bundle = new Bundle();
+        bundle.putString("DIALOG_TYPE", "list");
+        bundle.putString("KEY_LIST_DIALOG_TYPE", "themes");
+        bundle.putString("KEY_TITLE", "Choose App Theme");
+        bundle.putString("KEY_CONTEXT_TYPE", "fragment");
+        bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
+        bundle.putStringArray("KEY_LIST", new String[]{"Light Mode", "Dark Mode"});
+
+        final DialogFragment dialogFragment = new CustomDialogFragment();
+        dialogFragment.setTargetFragment(this, 604);
+        dialogFragment.setArguments(bundle);
+        final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        final Fragment previousFragment = getActivity().getSupportFragmentManager().findFragmentByTag("TAG_CustomDialogFragment");
+        if (previousFragment != null) fragmentTransaction.remove(previousFragment);
+        fragmentTransaction.addToBackStack(null);
+        dialogFragment.show(fragmentTransaction, "TAG_CustomDialogFragment");
+    }
+
     @Override
     public void onListDialogItemClick(String listItemText, String listDialogType) {
         if (("countries").equals(listDialogType)) {
@@ -168,9 +235,24 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
             for (int i = 0; i < countriesArrayAlias.length; i++) {
                 if ((countriesArrayAlias[i]).equals(listItemText)) {
                     appSharedPreference.setCountry(countriesArray[i]);
-                    tvMoreSubtitle.setText("Selected Country: " + countriesArrayAlias[i]);
+                    tvMoreSubtitle.setText("Country: " + countriesArrayAlias[i]);
                 }
             }
+        }
+
+        if (("layouts").equals(listDialogType)) {
+            appSharedPreference.setNewsLayout(listItemText);
+            tvMoreSubtitle.setText("Layout: " + listItemText);
+        }
+
+        if (("languages").equals(listDialogType)) {
+            appSharedPreference.setAppLanguage(listItemText);
+            tvMoreSubtitle.setText("App Language: " + listItemText);
+        }
+
+        if (("themes").equals(listDialogType)) {
+            appSharedPreference.setAppTheme(listItemText);
+            tvMoreSubtitle.setText("App Theme: " + listItemText);
         }
     }
 }

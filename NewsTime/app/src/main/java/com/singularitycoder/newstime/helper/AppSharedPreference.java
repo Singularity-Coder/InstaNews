@@ -13,6 +13,15 @@ public final class AppSharedPreference {
     private static final String KEY_COUNTRY = "KEY_COUNTRY";
 
     @NonNull
+    private static final String KEY_NEWS_LAYOUT = "KEY_NEWS_LAYOUT";
+
+    @NonNull
+    private static final String KEY_APP_LANGUAGE = "KEY_APP_LANGUAGE";
+
+    @NonNull
+    private static final String KEY_APP_THEME = "KEY_APP_THEME";
+
+    @NonNull
     private static final String KEY_FCM_TOKEN = "KEY_FCM_TOKEN";
 
     @Nullable
@@ -46,5 +55,32 @@ public final class AppSharedPreference {
 
     public final String getCountry() {
         return sharedPref.getString(KEY_COUNTRY, "");
+    }
+
+    public final void setNewsLayout(String newsLayout) {
+        sharedPrefEditor.putString(KEY_NEWS_LAYOUT, newsLayout);
+        sharedPrefEditor.commit();
+    }
+
+    public final String getNewsLayout() {
+        return sharedPref.getString(KEY_NEWS_LAYOUT, "");
+    }
+
+    public final void setAppLanguage(String appLanguage) {
+        sharedPrefEditor.putString(KEY_APP_LANGUAGE, appLanguage);
+        sharedPrefEditor.commit();
+    }
+
+    public final String getAppLanguage() {
+        return sharedPref.getString(KEY_APP_LANGUAGE, "");
+    }
+
+    public final void setAppTheme(String appTheme) {
+        sharedPrefEditor.putString(KEY_APP_THEME, appTheme);
+        sharedPrefEditor.commit();
+    }
+
+    public final String getAppTheme() {
+        return sharedPref.getString(KEY_APP_THEME, "");
     }
 }
