@@ -66,7 +66,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (viewType == LAYOUT_ALL_DETAILS) {
             v = layoutInflater.inflate(R.layout.list_item_news_all_details, parent, false);
-            return new NewsViewHolder(v);
+            return new AllDetailsViewHolder(v);
         }
 
         if (viewType == LAYOUT_COMPACT) {
@@ -81,7 +81,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (viewType == LAYOUT_ONLY_TEXT) {
             v = layoutInflater.inflate(R.layout.list_item_news_only_text, parent, false);
-            return new NewsViewHolder(v);
+            return new AllDetailsViewHolder(v);
         }
 
         if (viewType == LAYOUT_ONLY_IMAGE) {
@@ -103,12 +103,22 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final NewsItem.NewsArticle newsArticle = newsList.get(position);
         if (holder instanceof NewsViewHolder) {
             final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
-            newsViewHolder.binding.tvAuthor.setText("Author: " + newsArticle.getAuthor());
+            newsViewHolder.binding.tvAuthor.setText(newsArticle.getAuthor());
             newsViewHolder.binding.tvTitle.setText(newsArticle.getTitle());
             newsViewHolder.binding.tvDescription.setText(newsArticle.getDescription());
-            newsViewHolder.binding.tvPublishedAt.setText("Published at: " + appUtils.formatDate(newsArticle.getPublishedAt()));
-            newsViewHolder.binding.tvSource.setText("Source: " + newsArticle.getSource().getName());
+            newsViewHolder.binding.tvPublishedAt.setText(appUtils.formatDate(newsArticle.getPublishedAt()));
+            newsViewHolder.binding.tvSource.setText(newsArticle.getSource().getName());
             appUtils.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.binding.ivHeaderImage);
+        }
+
+        if (holder instanceof AllDetailsViewHolder) {
+            final AllDetailsViewHolder allDetailsViewHolder = (AllDetailsViewHolder) holder;
+            allDetailsViewHolder.binding.tvAuthor.setText("Author: " + newsArticle.getAuthor());
+            allDetailsViewHolder.binding.tvTitle.setText(newsArticle.getTitle());
+            allDetailsViewHolder.binding.tvDescription.setText(newsArticle.getDescription());
+            allDetailsViewHolder.binding.tvPublishedAt.setText("Published at: " + appUtils.formatDate(newsArticle.getPublishedAt()));
+            allDetailsViewHolder.binding.tvSource.setText("Source: " + newsArticle.getSource().getName());
+            appUtils.glideImage(context, newsArticle.getUrlToImage(), allDetailsViewHolder.binding.ivHeaderImage);
         }
     }
 
@@ -120,8 +130,6 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
 
-        Log.d(TAG, "getItemViewType: sp: " + appSharedPreference.getNewsLayout());
-
         if (null == appSharedPreference) return LAYOUT_ALL_DETAILS;
 
         if (("").equals(appSharedPreference.getNewsLayout()) || null == appSharedPreference.getNewsLayout()) {
@@ -129,6 +137,8 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         if (("Standard").equals(appSharedPreference.getNewsLayout())) {
+            if (0 == position) return LAYOUT_FANCY;
+            if (position % 5 == 0) return LAYOUT_FANCY;
             return LAYOUT_STANDARD;
         }
 
@@ -165,6 +175,17 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public final void setNewsViewListener(NewsViewListener newsViewListener) {
         this.newsViewListener = newsViewListener;
+    }
+
+    final class AllDetailsViewHolder extends RecyclerView.ViewHolder {
+        @Nullable
+        private ListItemNewsAllDetailsBinding binding;
+
+        AllDetailsViewHolder(@NonNull View itemView) {
+            super(itemView);
+            binding = ListItemNewsAllDetailsBinding.bind(itemView);
+            itemView.setOnClickListener(view -> newsViewListener.onNewsItemClicked(getAdapterPosition()));
+        }
     }
 
     final class NewsViewHolder extends RecyclerView.ViewHolder {
