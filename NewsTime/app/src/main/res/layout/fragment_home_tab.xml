@@ -34,7 +34,7 @@
             android:id="@+id/recycler_news"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_item_news" />
+            tools:listitem="@layout/list_item_news_all_details" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar

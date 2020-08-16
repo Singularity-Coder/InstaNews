@@ -73,7 +73,9 @@ public final class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (2 == position) setDefaultNewsLayout(moreViewHolder);
             if (3 == position) setDefaultAppLanguage(moreViewHolder);
             if (4 == position) setDefaultAppTheme(moreViewHolder);
-        } else if (holder instanceof MoreHeaderViewHolder) {
+        }
+
+        if (holder instanceof MoreHeaderViewHolder) {
             final MoreHeaderViewHolder moreHeaderViewHolder = (MoreHeaderViewHolder) holder;
             moreHeaderViewHolder.binding.tvVersion.setText(moreItem.getVersion());
         }
