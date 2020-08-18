@@ -15,14 +15,17 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".BaseActivity"
-            android:screenOrientation="portrait" >
+            android:name=".splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".BaseActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".home.view.HomeFragment"
             android:screenOrientation="portrait"
