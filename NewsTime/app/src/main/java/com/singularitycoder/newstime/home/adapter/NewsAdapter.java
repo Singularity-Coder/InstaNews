@@ -33,6 +33,7 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int LAYOUT_IMAGE_HEADLINES = 7;
     private static final int LAYOUT_HEADLINES_PLUS = 8;
     private static final int LAYOUT_FANCY_HEADLINES = 9;
+    private static final int LAYOUT_GRID_LAYOUT = 10;
 
     private int[] gradientBackgrounds = new int[]{
             R.drawable.gradient_1,
@@ -125,6 +126,11 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (viewType == LAYOUT_FANCY_HEADLINES) {
             v = layoutInflater.inflate(R.layout.list_item_news_fancy_headlines, parent, false);
             return new FancyHeadlinesViewHolder(v);
+        }
+
+        if (viewType == LAYOUT_GRID_LAYOUT) {
+            v = layoutInflater.inflate(R.layout.list_item_news_grid, parent, false);
+            return new NewsViewHolder(v);
         }
 
         v = layoutInflater.inflate(R.layout.list_item_news_all_details, parent, false);
@@ -220,6 +226,10 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (("Fancy Headlines").equals(appSharedPreference.getNewsLayout())) {
             return LAYOUT_FANCY_HEADLINES;
+        }
+
+        if (("Grid View").equals(appSharedPreference.getNewsLayout())) {
+            return LAYOUT_GRID_LAYOUT;
         }
 
         return LAYOUT_ALL_DETAILS;

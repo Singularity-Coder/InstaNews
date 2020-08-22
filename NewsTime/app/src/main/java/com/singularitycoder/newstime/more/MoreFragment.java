@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,6 +98,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         moreList.add(new MoreItem("Text-To-Speech", "Change TTS Settings", R.drawable.ic_text_to_speech_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("Change Font", "Change Text Style of News", R.drawable.ic_font_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("Change Text Size", "Change Text Size of News", R.drawable.ic_text_size_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
+        moreList.add(new MoreItem("Show Intro", "Shows Intro Screen at the start", R.drawable.ic_baseline_assistant_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreAdapter.notifyDataSetChanged();
     }
 
@@ -121,6 +123,11 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
             if (4 == position) {
                 btnShowAppThemesDialog();
                 this.tvMoreSubtitle = tvMoreSubtitle;
+            }
+
+            if (9 == position) {
+                Toast.makeText(getContext(), "Done!", Toast.LENGTH_SHORT).show();
+                appSharedPreference.setIntroFinished("no");
             }
         });
     }

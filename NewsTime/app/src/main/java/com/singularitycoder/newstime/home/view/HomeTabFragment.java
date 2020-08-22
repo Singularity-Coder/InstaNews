@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.test.espresso.IdlingResource;
 
 import com.singularitycoder.newstime.R;
@@ -136,8 +137,17 @@ public final class HomeTabFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        binding.recyclerNews.setLayoutManager(layoutManager);
+        if (("Grid View").equals(appSharedPreference.getNewsLayout())) {
+            binding.recyclerNews.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            final float scale = getResources().getDisplayMetrics().density;
+            final int sizeInDp = 16;
+            final int sizeInPixels = (int) (sizeInDp * scale + 0.5f);
+            binding.recyclerNews.setPadding(0, 0, sizeInPixels, 0);
+            binding.recyclerNews.setClipToPadding(false);
+            binding.recyclerNews.setClipChildren(true);
+        } else {
+            binding.recyclerNews.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         newsAdapter = new NewsAdapter(newsList, getContext());
         binding.recyclerNews.setAdapter(newsAdapter);
         binding.recyclerNews.setItemAnimator(new DefaultItemAnimator());

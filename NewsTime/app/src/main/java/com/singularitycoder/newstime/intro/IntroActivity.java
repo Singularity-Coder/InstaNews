@@ -34,7 +34,7 @@ public final class IntroActivity extends AppCompatActivity {
     AppUtils appUtils = AppUtils.getInstance();
 
     @Nullable
-    private AppSharedPreference sharedPreference;
+    private AppSharedPreference appSharedPreference;
 
     @Nullable
     private ActivityIntroBinding binding;
@@ -42,8 +42,8 @@ public final class IntroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreference = AppSharedPreference.getInstance(this);
-        if (("yes").equals(sharedPreference.getIntroFinished())) showHome();
+        appSharedPreference = AppSharedPreference.getInstance(this);
+        if (("yes").equals(appSharedPreference.getIntroFinished())) showHome();
         setTransparentStatusBar();
         binding = ActivityIntroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -103,7 +103,7 @@ public final class IntroActivity extends AppCompatActivity {
     }
 
     private void showHome() {
-        sharedPreference.setIntroFinished("yes");
+        appSharedPreference.setIntroFinished("yes");
         appUtils.setupWindowAnimations(IntroActivity.this);
         startActivity(new Intent(IntroActivity.this, BaseActivity.class));
         finish();
