@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.test.espresso.IdlingResource;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentHomeTabBinding;
@@ -29,8 +30,12 @@ import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
 import com.singularitycoder.newstime.home.adapter.NewsAdapter;
+import com.singularitycoder.newstime.home.adapter.NewsViewPagerAdapter;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
+import com.singularitycoder.newstime.intro.DepthPageTransformer;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +111,7 @@ public final class HomeTabFragment extends Fragment {
         getBundleData();
         setUpToolBar();
         initialise();
-        setUpRecyclerView();
+        setUpLayout();
         setClickListeners();
         setUpSwipeRefresh();
         return viewRoot;
@@ -134,6 +139,25 @@ public final class HomeTabFragment extends Fragment {
     private void initialise() {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
         appSharedPreference = AppSharedPreference.getInstance(getContext());
+    }
+
+    private void setUpLayout() {
+        if (null == appSharedPreference) {
+            binding.viewPager.setVisibility(View.GONE);
+            binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
+            setUpRecyclerView();
+            return;
+        }
+
+        if (("Vertical Swipe").equals(appSharedPreference.getNewsLayout()) || ("Horizontal Swipe").equals(appSharedPreference.getNewsLayout())) {
+            binding.viewPager.setVisibility(View.VISIBLE);
+            binding.swipeRefreshLayout.setVisibility(View.GONE);
+            setUpViewPager();
+        } else {
+            binding.viewPager.setVisibility(View.GONE);
+            binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
+            setUpRecyclerView();
+        }
     }
 
     private void setUpRecyclerView() {
@@ -179,6 +203,8 @@ public final class HomeTabFragment extends Fragment {
     }
 
     private void setClickListeners() {
+        if (null == newsAdapter) return;
+
         newsAdapter.setNewsViewListener(position -> {
             final Bundle bundle = new Bundle();
             bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
@@ -190,6 +216,42 @@ public final class HomeTabFragment extends Fragment {
     private void setUpSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener(this::getNewsData);
         binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+    }
+
+    private void setUpViewPager() {
+        binding.viewPager.setAdapter(new NewsViewPagerAdapter(newsList, getContext()));
+
+        if (("Vertical Swipe").equals(appSharedPreference.getNewsLayout())) {
+            binding.viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+        }
+
+        if (("Horizontal Swipe").equals(appSharedPreference.getNewsLayout())) {
+            binding.viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        }
+
+        binding.viewPager.setPageTransformer(new ZoomOutPageTransformer());
+        binding.viewPager.registerOnPageChangeCallback(getOnPageChangeCallback());
+//        binding.viewPager.setCurrentItem(0);
+//        binding.viewPager.getAdapter().notifyDataSetChanged();
+    }
+
+    @NotNull
+    private ViewPager2.OnPageChangeCallback getOnPageChangeCallback() {
+        return new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+                // changing the next button text 'NEXT' / 'GOT IT'
+                if (position == newsList.size() - 1) {
+                    // last page. make button text to GOT IT
+
+                } else {
+                    // still pages are left
+
+                }
+            }
+        };
     }
 
     private void showFragment(@Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
@@ -251,7 +313,12 @@ public final class HomeTabFragment extends Fragment {
                 newsResponse = (NewsItem.NewsResponse) stateMediator.getData();
                 List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
                 newsList.addAll(newsArticles);
-                newsAdapter.notifyDataSetChanged();
+                if (null != newsAdapter) {
+                    newsAdapter.notifyDataSetChanged();
+                }
+                if (null != binding.viewPager.getAdapter()) {
+                    binding.viewPager.getAdapter().notifyDataSetChanged();
+                }
                 binding.swipeRefreshLayout.setRefreshing(false);
 
                 // Insert into DB

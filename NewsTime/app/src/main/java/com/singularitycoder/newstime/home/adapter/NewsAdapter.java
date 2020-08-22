@@ -52,12 +52,12 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final String TAG = "NewsAdapter";
 
     @NonNull
-    private final AppUtils appUtils = new AppUtils();
+    private final AppUtils appUtils = AppUtils.getInstance();
 
     @Nullable
     private AppSharedPreference appSharedPreference;
 
-    @NonNull
+    @Nullable
     private List<NewsItem.NewsArticle> newsList = Collections.emptyList();
 
     @Nullable

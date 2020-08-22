@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi;
 import androidx.viewpager2.widget.ViewPager2;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class DepthPageTransformer implements ViewPager2.PageTransformer {
+public final class DepthPageTransformer implements ViewPager2.PageTransformer {
     private static final float MIN_SCALE = 0.75f;
 
     public void transformPage(View view, float position) {

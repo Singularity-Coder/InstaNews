@@ -82,7 +82,7 @@ public final class IntroActivity extends AppCompatActivity {
     }
 
     private void setUpViewPager() {
-        binding.viewPager.setAdapter(new ViewPager2Adapter(layouts, this));
+        binding.viewPager.setAdapter(new IntroViewPagerAdapter(layouts, this));
         binding.viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 //        binding.viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
 //        binding.viewPager.setCurrentItem(0);
