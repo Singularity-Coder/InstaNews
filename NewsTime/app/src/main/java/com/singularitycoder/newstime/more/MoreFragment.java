@@ -174,11 +174,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         bundle.putString("KEY_TITLE", "Choose Layouts");
         bundle.putString("KEY_CONTEXT_TYPE", "fragment");
         bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
-        // compact - only one line each without body and author
-        // standard - fancy at every 5th position
-        // Details - full details
-        // Fancy - Image with text on it
-        bundle.putStringArray("KEY_LIST", new String[]{"Standard", "All Details", "Compact", "Fancy", "Only Text", "Only Image", "Only Headlines"});
+        bundle.putStringArray("KEY_LIST", new String[]{"Standard", "All Details", "Compact", "Fancy", "Only Text", "Only Image", "Only Headlines", "Fancy Headlines", "Image Headlines", "Headlines Plus", "Grid View", "Vertical Swipe", "Horizontal Swipe"});
 
         final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setTargetFragment(this, 602);

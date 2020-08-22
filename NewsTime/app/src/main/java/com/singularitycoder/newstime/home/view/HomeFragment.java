@@ -31,20 +31,6 @@ public final class HomeFragment extends Fragment {
     @Nullable
     private FragmentHomeBinding binding;
 
-    // todo detail view - share, browser, favorite - swipe to go to next article
-    // todo audio speech to text
-    // todo font and textSize control
-    // todo view holder styles
-    // todo Intro screens ViewPager2
-    // todo dark mode
-    // todo translations
-    // todo offline mode not working
-    // todo hide tabs on scroll
-    // todo unit tests
-    // todo dagger
-    // todo Own image caching mechanism
-    // todo material design
-
     public HomeFragment() {
     }
 

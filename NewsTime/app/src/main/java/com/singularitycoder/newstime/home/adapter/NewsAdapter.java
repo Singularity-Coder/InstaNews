@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ListItemNewsAllDetailsBinding;
+import com.singularitycoder.newstime.databinding.ListItemNewsFancyHeadlinesBinding;
 import com.singularitycoder.newstime.helper.AppSharedPreference;
 import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.home.model.NewsItem;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -28,6 +30,22 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int LAYOUT_ONLY_TEXT = 4;
     private static final int LAYOUT_ONLY_IMAGE = 5;
     private static final int LAYOUT_ONLY_HEADLINES = 6;
+    private static final int LAYOUT_IMAGE_HEADLINES = 7;
+    private static final int LAYOUT_HEADLINES_PLUS = 8;
+    private static final int LAYOUT_FANCY_HEADLINES = 9;
+
+    private int[] gradientBackgrounds = new int[]{
+            R.drawable.gradient_1,
+            R.drawable.gradient_2,
+            R.drawable.gradient_3,
+            R.drawable.gradient_4,
+            R.drawable.gradient_5,
+            R.drawable.gradient_6,
+            R.drawable.gradient_7,
+            R.drawable.gradient_8,
+            R.drawable.gradient_9,
+            R.drawable.gradient_10
+    };
 
     @NonNull
     private final String TAG = "NewsAdapter";
@@ -94,6 +112,21 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return new NewsViewHolder(v);
         }
 
+        if (viewType == LAYOUT_IMAGE_HEADLINES) {
+            v = layoutInflater.inflate(R.layout.list_item_news_image_headlines, parent, false);
+            return new NewsViewHolder(v);
+        }
+
+        if (viewType == LAYOUT_HEADLINES_PLUS) {
+            v = layoutInflater.inflate(R.layout.list_item_news_headlines_plus, parent, false);
+            return new NewsViewHolder(v);
+        }
+
+        if (viewType == LAYOUT_FANCY_HEADLINES) {
+            v = layoutInflater.inflate(R.layout.list_item_news_fancy_headlines, parent, false);
+            return new FancyHeadlinesViewHolder(v);
+        }
+
         v = layoutInflater.inflate(R.layout.list_item_news_all_details, parent, false);
         return new NewsViewHolder(v);
     }
@@ -109,6 +142,17 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             newsViewHolder.binding.tvPublishedAt.setText(appUtils.formatDate(newsArticle.getPublishedAt()));
             newsViewHolder.binding.tvSource.setText(newsArticle.getSource().getName());
             appUtils.glideImage(context, newsArticle.getUrlToImage(), newsViewHolder.binding.ivHeaderImage);
+        }
+
+        if (holder instanceof FancyHeadlinesViewHolder) {
+            final FancyHeadlinesViewHolder fancyHeadlinesViewHolder = (FancyHeadlinesViewHolder) holder;
+            fancyHeadlinesViewHolder.binding.tvAuthor.setText(newsArticle.getAuthor());
+            fancyHeadlinesViewHolder.binding.tvTitle.setText(newsArticle.getTitle());
+            fancyHeadlinesViewHolder.binding.tvDescription.setText(newsArticle.getDescription());
+            fancyHeadlinesViewHolder.binding.tvPublishedAt.setText(appUtils.formatDate(newsArticle.getPublishedAt()));
+            fancyHeadlinesViewHolder.binding.tvSource.setText(newsArticle.getSource().getName());
+            appUtils.glideImage(context, newsArticle.getUrlToImage(), fancyHeadlinesViewHolder.binding.ivHeaderImage);
+            fancyHeadlinesViewHolder.binding.conLayListItemNews.setBackground(context.getResources().getDrawable(gradientBackgrounds[new Random().nextInt(10)]));
         }
 
         if (holder instanceof AllDetailsViewHolder) {
@@ -166,6 +210,18 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return LAYOUT_ONLY_HEADLINES;
         }
 
+        if (("Image Headlines").equals(appSharedPreference.getNewsLayout())) {
+            return LAYOUT_IMAGE_HEADLINES;
+        }
+
+        if (("Headlines Plus").equals(appSharedPreference.getNewsLayout())) {
+            return LAYOUT_HEADLINES_PLUS;
+        }
+
+        if (("Fancy Headlines").equals(appSharedPreference.getNewsLayout())) {
+            return LAYOUT_FANCY_HEADLINES;
+        }
+
         return LAYOUT_ALL_DETAILS;
     }
 
@@ -175,6 +231,17 @@ public final class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public final void setNewsViewListener(NewsViewListener newsViewListener) {
         this.newsViewListener = newsViewListener;
+    }
+
+    final class FancyHeadlinesViewHolder extends RecyclerView.ViewHolder {
+        @Nullable
+        private ListItemNewsFancyHeadlinesBinding binding;
+
+        FancyHeadlinesViewHolder(@NonNull View itemView) {
+            super(itemView);
+            binding = ListItemNewsFancyHeadlinesBinding.bind(itemView);
+            itemView.setOnClickListener(view -> newsViewListener.onNewsItemClicked(getAdapterPosition()));
+        }
     }
 
     final class AllDetailsViewHolder extends RecyclerView.ViewHolder {

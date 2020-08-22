@@ -71,6 +71,20 @@ public final class HomeTabFragment extends Fragment {
     @Nullable
     private FragmentHomeTabBinding binding;
 
+    // todo detail view - share, browser, favorite - swipe to go to next article
+    // todo audio speech to text
+    // todo font and textSize control
+    // todo view holder styles
+    // todo shimmer
+    // todo dark mode
+    // todo translations
+    // todo offline mode not working
+    // todo hide tabs on scroll
+    // todo unit tests
+    // todo dagger
+    // todo Own image caching mechanism
+    // todo material design
+
     public HomeTabFragment() {
     }
 
@@ -231,11 +245,11 @@ public final class HomeTabFragment extends Fragment {
                 binding.swipeRefreshLayout.setRefreshing(false);
 
                 // Insert into DB
-                for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
+//                for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
 //                    newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
-                }
+//                }
 
-                Toast.makeText(getContext(), valueOf(stateMediator.getData()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), valueOf(stateMediator.getData()), Toast.LENGTH_SHORT).show();
                 hideLoading();
                 binding.tvNoInternet.setVisibility(View.GONE);
             }
