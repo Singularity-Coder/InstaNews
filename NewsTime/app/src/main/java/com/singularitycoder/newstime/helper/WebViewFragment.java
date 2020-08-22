@@ -83,11 +83,11 @@ public final class WebViewFragment extends Fragment {
     private void setUpToolBar() {
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (null != activity) {
-            activity.setSupportActionBar(binding.toolbarLayout.toolbar);
+            activity.setSupportActionBar(binding.toolbar);
             activity.setTitle(toolbarTitle);
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+        binding.toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private void initialiseWebView() {

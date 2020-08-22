@@ -15,11 +15,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.transition.Slide;
 import android.util.Log;
 import android.util.TimingLogger;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
@@ -77,6 +79,25 @@ public final class AppUtils extends AppCompatActivity {
     public static synchronized AppUtils getInstance() {
         if (null == _instance) _instance = new AppUtils();
         return _instance;
+    }
+
+    public final void checkFunctionExecutionTimings() {
+        TimingLogger timingLogger = new TimingLogger(TAG, "hasValidInput");
+        timingLogger.addSplit("");
+        timingLogger.dumpToLog();
+    }
+
+    public final void setupWindowAnimations(Activity activity) {
+        Slide slide = new Slide();
+        slide.setDuration(1000);
+        activity.getWindow().setExitTransition(slide);
+    }
+
+    public final void setFadeAnimation(View view) {
+        int FADE_DURATION = 550;
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
     }
 
     public final boolean hasInternet(Context context) {
@@ -196,12 +217,6 @@ public final class AppUtils extends AppCompatActivity {
         intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-    }
-
-    public final void checkFunctionExecutionTimings() {
-        final TimingLogger timingLogger = new TimingLogger(TAG, "hasValidInput");
-        timingLogger.addSplit("");
-        timingLogger.dumpToLog();
     }
 
     public final void dialogActionMessage(Activity activity, String title, String message, String positiveActionWord, String negativeActionWord, Callable<Void> positiveAction, Callable<Void> negativeAction, boolean cancelableDialog) {

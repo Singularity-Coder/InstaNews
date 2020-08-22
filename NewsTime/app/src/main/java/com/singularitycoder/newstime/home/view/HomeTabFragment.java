@@ -159,7 +159,7 @@ public final class HomeTabFragment extends Fragment {
             final Bundle bundle = new Bundle();
             bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
             bundle.putString("SOURCE_TITLE", newsList.get(position).getTitle());
-            showFragment(bundle, R.id.con_lay_news_home_root, new WebViewFragment());
+            showFragment(bundle, R.id.con_lay_base_activity_root, new WebViewFragment());
         });
     }
 
@@ -173,7 +173,7 @@ public final class HomeTabFragment extends Fragment {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(parentLayout, fragment)
+                .add(parentLayout, fragment)
                 .addToBackStack(null)
                 .commit();
     }

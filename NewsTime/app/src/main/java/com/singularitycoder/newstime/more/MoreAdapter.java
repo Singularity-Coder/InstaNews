@@ -99,7 +99,7 @@ public final class MoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (null != appSharedPreference.getNewsLayout() && !("").equals(appSharedPreference.getNewsLayout())) {
             moreViewHolder.binding.tvMoreSubtitle.setText("Layout: " + appSharedPreference.getNewsLayout());
         } else {
-            moreViewHolder.binding.tvMoreSubtitle.setText("Layout: Standard");
+            moreViewHolder.binding.tvMoreSubtitle.setText("Layout: All Details");
         }
     }
 

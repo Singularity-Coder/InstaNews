@@ -15,11 +15,17 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.singularitycoder.newstime.BaseActivity;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ActivitySplashBinding;
+import com.singularitycoder.newstime.helper.AppUtils;
+import com.singularitycoder.newstime.intro.IntroActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 public class SplashActivity extends AppCompatActivity {
+
+    @NotNull
+    AppUtils appUtils = AppUtils.getInstance();
 
     @Nullable
     private ActivitySplashBinding binding;
@@ -52,9 +58,11 @@ public class SplashActivity extends AppCompatActivity {
     private void delaySplashFor2Sec() {
         int SHOW_SPLASH_FOR = 2000; // milli seconds
         new Handler().postDelayed(() -> {
-            Intent mainIntent = new Intent(SplashActivity.this, BaseActivity.class);
-            SplashActivity.this.startActivity(mainIntent);
-            SplashActivity.this.finish();
+            appUtils.setupWindowAnimations(SplashActivity.this);
+            Intent mainIntent = new Intent(SplashActivity.this, IntroActivity.class);
+            startActivity(mainIntent);
+            finish();
+            overridePendingTransition(R.transition.enter, R.transition.exit);
         }, SHOW_SPLASH_FOR);
     }
 
@@ -66,5 +74,17 @@ public class SplashActivity extends AppCompatActivity {
     private void startZoomOutAnimation() {
         Animation animZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out_animation);
         binding.ivLogo.startAnimation(animZoomOut);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.transition.left_to_right, R.transition.right_to_left);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

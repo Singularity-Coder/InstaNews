@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".intro.IntroActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_intro"
+            android:theme="@style/AppThemeNoActionBar"/>
+        <activity
             android:name=".BaseActivity"
             android:screenOrientation="portrait"/>
         <activity

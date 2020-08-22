@@ -16,6 +16,7 @@ import com.singularitycoder.newstime.databinding.FragmentBaseBinding;
 import com.singularitycoder.newstime.favorites.FavoritesFragment;
 import com.singularitycoder.newstime.home.view.HomeFragment;
 import com.singularitycoder.newstime.more.MoreFragment;
+import com.singularitycoder.newstime.weather.WeatherFragment;
 
 public final class BaseFragment extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -71,6 +72,11 @@ public final class BaseFragment extends Fragment implements BottomNavigationView
 
             case R.id.nav_categories:
                 fragment = new CategoriesFragment();
+                binding.conLayBaseFragRoot.setBackgroundColor(getResources().getColor(android.R.color.white));
+                break;
+
+            case R.id.nav_weather:
+                fragment = new WeatherFragment();
                 binding.conLayBaseFragRoot.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
 

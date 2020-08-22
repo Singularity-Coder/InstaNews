@@ -22,6 +22,9 @@ public final class AppSharedPreference {
     private static final String KEY_APP_THEME = "KEY_APP_THEME";
 
     @NonNull
+    private static final String KEY_INTRO_FINISHED = "KEY_INTRO_FINISHED";
+
+    @NonNull
     private static final String KEY_FCM_TOKEN = "KEY_FCM_TOKEN";
 
     @Nullable
@@ -82,5 +85,14 @@ public final class AppSharedPreference {
 
     public final String getAppTheme() {
         return sharedPref.getString(KEY_APP_THEME, "");
+    }
+
+    public final void setIntroFinished(String introFinished) {
+        sharedPrefEditor.putString(KEY_INTRO_FINISHED, introFinished);
+        sharedPrefEditor.commit();
+    }
+
+    public final String getIntroFinished() {
+        return sharedPref.getString(KEY_INTRO_FINISHED, "no");
     }
 }
