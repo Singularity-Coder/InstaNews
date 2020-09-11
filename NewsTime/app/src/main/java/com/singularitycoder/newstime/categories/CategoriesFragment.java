@@ -71,9 +71,11 @@ public final class CategoriesFragment extends Fragment {
         if (null != activity) {
             activity.setTitle(getString(R.string.app_name));
             activity.setTitle("Categories");
+//            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         binding.toolbarLayout.toolbar.setBackgroundColor(getResources().getColor(android.R.color.white));
         binding.toolbarLayout.toolbar.setTitleTextColor(getResources().getColor(android.R.color.black));
+//        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private void setUpRecyclerView() {

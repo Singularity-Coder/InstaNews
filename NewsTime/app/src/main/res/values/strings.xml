@@ -8,4 +8,22 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="string_search_hint">Search</string>
+
+<!--delete these-->
+    <string name="string_no_internet">No Internet</string>
+    <string name="string_nothing_to_show">Nothing to show :(</string>
+    <string name="string_name">Name</string>
+    <string name="string_phone">Phone</string>
+    <string name="string_category">Category</string>
+    <string name="string_address">Address</string>
+    <string name="string_description">Description</string>
+    <string name="string_contact">Contact</string>
+    <string name="string_empcode">Empcode</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_upload">Upload</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_print">Print</string>
+
 </resources>

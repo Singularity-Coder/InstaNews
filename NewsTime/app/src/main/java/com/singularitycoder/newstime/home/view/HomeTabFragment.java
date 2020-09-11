@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -22,6 +21,7 @@ import androidx.test.espresso.IdlingResource;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.singularitycoder.newstime.R;
+import com.singularitycoder.newstime.categories.CategoriesFragment;
 import com.singularitycoder.newstime.databinding.FragmentHomeTabBinding;
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.AppSharedPreference;
@@ -33,7 +33,6 @@ import com.singularitycoder.newstime.home.adapter.NewsAdapter;
 import com.singularitycoder.newstime.home.adapter.NewsViewPagerAdapter;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
-import com.singularitycoder.newstime.intro.DepthPageTransformer;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -77,10 +76,13 @@ public final class HomeTabFragment extends Fragment {
     @Nullable
     private FragmentHomeTabBinding binding;
 
-    // todo detail view - share, browser, favorite - swipe to go to next article
+    // todo detail view - share, browser, favorite - swipe to go to next article, clickable image FRESCO, swipe down to dismiss
+    // todo Weather APi integration
+    // todo webview features
+    // todo draggable settings list to adjust settings position
+
     // todo audio speech to text
     // todo font and textSize control
-    // todo view holder styles
     // todo shimmer
     // todo dark mode
     // todo translations
@@ -133,6 +135,7 @@ public final class HomeTabFragment extends Fragment {
             if (null != getArguments()) activity.setTitle(getArguments().getString("KEY_CATEGORY"));
             else activity.setTitle("News");
         }
+        binding.toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
         binding.toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
@@ -209,8 +212,10 @@ public final class HomeTabFragment extends Fragment {
             final Bundle bundle = new Bundle();
             bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
             bundle.putString("SOURCE_TITLE", newsList.get(position).getTitle());
-            showFragment(bundle, R.id.con_lay_base_activity_root, new WebViewFragment());
+            appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new WebViewFragment());
         });
+
+        binding.btnAdd.setOnClickListener(view -> appUtils.showFragment(getActivity(), null, R.id.con_lay_base_activity_root, new CategoriesFragment()));
     }
 
     private void setUpSwipeRefresh() {
@@ -252,16 +257,6 @@ public final class HomeTabFragment extends Fragment {
                 }
             }
         };
-    }
-
-    private void showFragment(@Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
-        fragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(parentLayout, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     private Observer<List<NewsItem.NewsArticle>> liveDataObserverForRoomDb() {

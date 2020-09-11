@@ -22,7 +22,7 @@ import com.singularitycoder.newstime.intro.IntroActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-public class SplashActivity extends AppCompatActivity {
+public final class SplashActivity extends AppCompatActivity {
 
     @NotNull
     AppUtils appUtils = AppUtils.getInstance();

@@ -19,7 +19,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="@android:color/black" />
+
+    <include
+        layout="@layout/item_shimmer_loading"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/con_lay_list_details"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -86,4 +91,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_baseline_category_24"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

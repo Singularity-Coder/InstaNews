@@ -1,5 +1,6 @@
 package com.singularitycoder.newstime.helper;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -34,6 +35,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -41,7 +43,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -49,6 +53,7 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.singularitycoder.newstime.R;
+import com.singularitycoder.newstime.databinding.ActivityIntroBinding;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -106,11 +111,12 @@ public final class AppUtils extends AppCompatActivity {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    public final void showFragment(Bundle bundle, int parentLayout, Fragment fragment) {
+    public final void showFragment(@NonNull final Activity activity, @Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
         fragment.setArguments(bundle);
-        getSupportFragmentManager()
+        ((AppCompatActivity) activity).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(parentLayout, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(parentLayout, fragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -150,7 +156,7 @@ public final class AppUtils extends AppCompatActivity {
         snackbar.show();
     }
 
-    public final void showSnackBar(View view, String message, int snackTextColor, String actionBtnText, View.OnClickListener actionClickListener){
+    public final void showSnackBar(View view, String message, int snackTextColor, String actionBtnText, View.OnClickListener actionClickListener) {
         final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
         final View snackbarView = snackbar.getView();
         final TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -173,15 +179,21 @@ public final class AppUtils extends AppCompatActivity {
         }
     }
 
-    public final void checkPermissions(Activity activity, Callable<Void> permissionsGrantedFunction, String... permissionsArray) {
+    public final void checkPermissions(Activity activity, Callable<Void> permissionsGrantedFunction, Callable<Void> permissionsDeniedFunction, String... permissionsVarArgsArray) {
         Dexter.withActivity(activity)
-                .withPermissions(permissionsArray)
+                .withPermissions(permissionsVarArgsArray)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
                             try {
                                 permissionsGrantedFunction.call();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                permissionsDeniedFunction.call();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -377,5 +389,51 @@ public final class AppUtils extends AppCompatActivity {
                 })
                 .transition(withCrossFade())
                 .into(imageView);
+    }
+
+    public Void shareData(Activity activity, Object imageDrawableOrUrl, ImageView imageView, String title, String subtitle) {
+        if (null != imageDrawableOrUrl && null != imageView) {
+            checkPermissions(activity, () -> shareImageAndText(activity, imageDrawableOrUrl, imageView, title, subtitle), null, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        } else {
+            shareOnlyText(activity, title, subtitle);
+        }
+        return null;
+    }
+
+    private Void shareImageAndText(Activity activity, Object imageDrawableOrUrl, ImageView imageView, String title, String subtitle) {
+        Glide.with(activity)
+                .asBitmap()
+                .load(imageDrawableOrUrl)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        imageView.setImageBitmap(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
+
+        Uri bmpUri = getLocalBitmapUri(activity, imageView);
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("image/.*");
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, subtitle);
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        activity.startActivity(Intent.createChooser(sharingIntent, "Share Image Using"));
+        return null;
+    }
+
+
+    private void shareOnlyText(Activity activity, String title, String subtitle) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT, title);
+        share.putExtra(Intent.EXTRA_TEXT, subtitle);
+//                share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        activity.startActivity(Intent.createChooser(share, "Share to"));
     }
 }
