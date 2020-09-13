@@ -70,7 +70,7 @@ public final class BaseFragment extends Fragment implements BottomNavigationView
                 binding.conLayBaseFragRoot.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;
 
-            case R.id.nav_categories:
+            case R.id.nav_discover:
                 fragment = new CategoriesFragment();
                 binding.conLayBaseFragRoot.setBackgroundColor(getResources().getColor(android.R.color.white));
                 break;

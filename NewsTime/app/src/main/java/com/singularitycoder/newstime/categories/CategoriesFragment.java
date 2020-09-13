@@ -57,7 +57,7 @@ public final class CategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
         final View view = binding.getRoot();
-        setUpToolBar();
+//        setUpToolBar();
         setUpRecyclerView();
         setCategories();
         setUpSwipeRefresh();
@@ -79,7 +79,8 @@ public final class CategoriesFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categoriesAdapter = new CategoriesAdapter(categoriesList, getContext());
         binding.recyclerView.setAdapter(categoriesAdapter);
         binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -119,6 +120,10 @@ public final class CategoriesFragment extends Fragment {
                     showFragment(bundle, R.id.con_lay_base_activity_root, new HomeTabFragment(tabTitles[i]));
                 }
             }
+        });
+
+        binding.cardSearch.setOnClickListener(v -> {
+
         });
     }
 
