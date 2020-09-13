@@ -95,4 +95,13 @@ public final class AppSharedPreference {
     public final String getIntroFinished() {
         return sharedPref.getString(KEY_INTRO_FINISHED, "no");
     }
+
+    public final void setFcmToken(String fcmToken) {
+        sharedPrefEditor.putString(KEY_FCM_TOKEN, fcmToken);
+        sharedPrefEditor.commit();
+    }
+
+    public final String getFcmToken() {
+        return sharedPref.getString(KEY_FCM_TOKEN, "no");
+    }
 }

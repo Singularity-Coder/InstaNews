@@ -60,6 +60,11 @@ public final class NewsItem {
         @Expose
         private String description;
 
+        @ColumnInfo(name = "content")
+        @SerializedName("content")
+        @Expose
+        private String content;
+
         @ColumnInfo(name = "urlToImage")
         @SerializedName("urlToImage")
         @Expose
@@ -108,6 +113,14 @@ public final class NewsItem {
 
         public void setDescription(String description) {
             this.description = description;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
 
         public String getUrlToImage() {

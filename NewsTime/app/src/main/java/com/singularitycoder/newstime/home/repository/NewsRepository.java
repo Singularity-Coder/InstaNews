@@ -20,7 +20,11 @@ import io.reactivex.Single;
 public final class NewsRepository {
 
     @NonNull
-    private static final String TAG = "NewsRepository";
+    private final String TAG = "NewsRepository";
+
+    @NonNull
+    private final String NEWS_API_KEY = "c39be54286e4427c9f8cd00f97a96398";
+//    private final String API_KEY = "YOUR_NEWSAPI.ORG_API_KEY";
 
     @Nullable
     private static NewsRepository _instance;
@@ -76,8 +80,21 @@ public final class NewsRepository {
             @Nullable final String country,
             @NonNull final String category) {
         ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
-//        Single<NewsResponse> observer = apiService.getNewsList(country, category, "YOUR_NEWSAPI.ORG_API_KEY");
-        Single<NewsItem.NewsResponse> observer = apiService.getNewsList(country, category, "c39be54286e4427c9f8cd00f97a96398");
+        Single<NewsItem.NewsResponse> observer = apiService.getNewsList(country, category, NEWS_API_KEY);
+        return observer;
+    }
+
+    @Nullable
+    public Single<NewsItem.NewsResponse> getSearchResultsFromApi(@Nullable final String searchQuery) {
+        ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
+        Single<NewsItem.NewsResponse> observer = apiService.getSearchResults("everything", searchQuery, NEWS_API_KEY);
+        return observer;
+    }
+
+    @Nullable
+    public Single<NewsItem.NewsResponse> getSourcesFromApi() {
+        ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
+        Single<NewsItem.NewsResponse> observer = apiService.getSources("sources", NEWS_API_KEY);
         return observer;
     }
 }

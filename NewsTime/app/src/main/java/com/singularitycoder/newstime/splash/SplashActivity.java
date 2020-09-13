@@ -1,8 +1,5 @@
 package com.singularitycoder.newstime.splash;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,6 +11,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.ActivitySplashBinding;

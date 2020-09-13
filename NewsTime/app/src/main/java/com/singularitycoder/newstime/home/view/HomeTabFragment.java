@@ -44,7 +44,7 @@ import static java.lang.String.valueOf;
 public final class HomeTabFragment extends Fragment {
 
     @NonNull
-    private final String TAG = "MainFragment";
+    private final String TAG = "HomeTabFragment";
 
     @NonNull
     private final List<NewsItem.NewsArticle> newsList = new ArrayList<>();
@@ -210,9 +210,14 @@ public final class HomeTabFragment extends Fragment {
 
         newsAdapter.setNewsViewListener(position -> {
             final Bundle bundle = new Bundle();
-            bundle.putString("SOURCE_URL", newsList.get(position).getSource().getName());
-            bundle.putString("SOURCE_TITLE", newsList.get(position).getTitle());
-            appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new WebViewFragment());
+            bundle.putString("NEWS_IMAGE_URL", newsList.get(position).getUrlToImage());
+            bundle.putString("NEWS_TITLE", newsList.get(position).getTitle());
+            bundle.putString("NEWS_DESCRIPTION", newsList.get(position).getDescription());
+            bundle.putString("NEWS_CONTENT", newsList.get(position).getContent());
+            bundle.putString("NEWS_AUTHOR", newsList.get(position).getAuthor());
+            bundle.putString("NEWS_SOURCE", newsList.get(position).getSource().getName());
+            bundle.putString("NEWS_DATE", newsList.get(position).getPublishedAt());
+            appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new HomeDetailFragment());
         });
 
         binding.btnAdd.setOnClickListener(view -> appUtils.showFragment(getActivity(), null, R.id.con_lay_base_activity_root, new CategoriesFragment()));
@@ -306,7 +311,7 @@ public final class HomeTabFragment extends Fragment {
             if (("NEWS").equals(stateMediator.getKey())) {
                 newsList.clear();
                 newsResponse = (NewsItem.NewsResponse) stateMediator.getData();
-                List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
+                final List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
                 newsList.addAll(newsArticles);
                 if (null != newsAdapter) {
                     newsAdapter.notifyDataSetChanged();

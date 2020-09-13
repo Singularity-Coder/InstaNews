@@ -1,9 +1,11 @@
 package com.singularitycoder.newstime.home.view;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentHomeBinding;
 import com.singularitycoder.newstime.helper.AppSharedPreference;
@@ -46,6 +49,7 @@ public final class HomeFragment extends Fragment {
         final View viewRoot = binding.getRoot();
         initialise();
         setUpToolBar();
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> getDeviceToken());
         initialiseViewPager();
         return viewRoot;
     }
@@ -60,6 +64,26 @@ public final class HomeFragment extends Fragment {
         if (null != activity) {
             activity.setTitle(getString(R.string.app_name));
             activity.setTitle("Home");
+        }
+    }
+
+    private void getDeviceToken() {
+        try {
+            FirebaseInstanceId
+                    .getInstance()
+                    .getInstanceId()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String token = task.getResult().getToken();
+                            if (!("").equals(token)) {
+                                appSharedPreference.setFcmToken(token);
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Something went wrong with FCM!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
+        } catch (Exception ignored) {
         }
     }
 

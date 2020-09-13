@@ -58,12 +58,17 @@ import com.singularitycoder.newstime.databinding.ActivityIntroBinding;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
@@ -314,14 +319,20 @@ public final class AppUtils extends AppCompatActivity {
         return outputDate + " at " + outputTime;
     }
 
-    public final String formatDate(String inputDate) {
+    public final String formatDate(String date) {
+        final String DATE_FORMAT_ONE = "yyyy-MM-dd";
+        final String DATE_FORMAT_TWO = "dd/MM/yyyy hh:mm a";
+        final String DATE_FORMAT_THREE = "MM/dd/yyyy, hh:mm:ss aa";
+        final String DATE_FORMAT_FOUR = "yyyy-MM-dd'T'HH:mm:ss";
+        final String DATE_FORMAT_FIVE = "MM/dd/yyyy";
+        final String DATE_FORMAT_SIX = "DD";
+        final String DATE_FORMAT_SEVEN = "dd MMM yyyy, hh:mm a";
         String outputDate = "";
         try {
-            final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-            final DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.US);
-            final Date date = inputFormat.parse(inputDate);
-
-            if (null != date) outputDate = outputFormat.format(date);
+            final DateFormat inputFormat = new SimpleDateFormat(DATE_FORMAT_FOUR, Locale.getDefault());
+            final DateFormat outputFormat = new SimpleDateFormat(DATE_FORMAT_SEVEN, Locale.getDefault());
+            final Date inputDate = inputFormat.parse(date);
+            outputDate = outputFormat.format(inputDate);
         } catch (Exception ex) {
             Log.e("log", ex.toString());
         }
@@ -435,5 +446,67 @@ public final class AppUtils extends AppCompatActivity {
 //                share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         activity.startActivity(Intent.createChooser(share, "Share to"));
+    }
+
+    @Nullable
+    public final String getAndroidId(@NonNull final Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    @NonNull
+    public final String getDeviceProduct() {
+        return Build.PRODUCT;
+    }
+
+    @NonNull
+    public final String getDeviceType() {
+        return Build.TYPE;
+    }
+
+    @NonNull
+    public final String getDeviceCodeName() {
+        return Build.VERSION.CODENAME;
+    }
+
+    @NonNull
+    public final String getDeviceVersion() {
+        return Build.VERSION.RELEASE;
+    }
+
+    @NonNull
+    public final String getDeviceManufacturer() {
+        return Build.MANUFACTURER;
+    }
+
+    @NonNull
+    public final String getDeviceBrand() {
+        return Build.BRAND;
+    }
+
+    @NonNull
+    public final String getDeviceName() {
+        return Build.DEVICE;
+    }
+
+    @NonNull
+    public final String getDeviceModel() {
+        return Build.MODEL;
+    }
+
+    @NonNull
+    public static String getIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException ignored) {
+        }
+        return "0.0.0.0";
     }
 }
