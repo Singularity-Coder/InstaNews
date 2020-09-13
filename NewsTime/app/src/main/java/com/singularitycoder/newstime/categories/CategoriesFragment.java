@@ -24,6 +24,7 @@ import com.singularitycoder.newstime.home.adapter.NewsAdapter;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.view.HomeTabFragment;
 import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
+import com.singularitycoder.newstime.search.SearchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,9 +123,7 @@ public final class CategoriesFragment extends Fragment {
             }
         });
 
-        binding.cardSearch.setOnClickListener(v -> {
-
-        });
+        binding.cardSearch.setOnClickListener(v -> showFragment(null, R.id.con_lay_base_activity_root, new SearchFragment()));
     }
 
     private void showFragment(@Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
