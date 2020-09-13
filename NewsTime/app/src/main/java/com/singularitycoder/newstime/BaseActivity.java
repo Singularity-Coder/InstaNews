@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.singularitycoder.newstime.helper.AppUtils;
 
 public final class BaseActivity extends AppCompatActivity {
@@ -42,6 +43,7 @@ public final class BaseActivity extends AppCompatActivity {
 
     private void initialise() {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        Fresco.initialize(this);
     }
 
     @Override

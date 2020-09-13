@@ -69,15 +69,10 @@ public final class FrescoImageViewerFragment extends Fragment implements View.On
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentFrescoImageViewerBinding.inflate(inflater, container, false);
         final View viewRoot = binding.getRoot();
-        initialise();
         getBundleData();
         createFolderToSaveImages();
         setUpListeners();
         return viewRoot;
-    }
-
-    private void initialise() {
-        Fresco.initialize(getContext());
     }
 
     private void getBundleData() {
@@ -106,7 +101,7 @@ public final class FrescoImageViewerFragment extends Fragment implements View.On
         });
 
         binding.ivBack.setOnClickListener(view -> getActivity().getSupportFragmentManager().popBackStackImmediate());
-        binding.ibShareImage.setOnClickListener(v -> appUtils.shareData(getActivity(), getArguments().getString("NEWS_IMAGE_URL"), binding.simpleDraweeView, getArguments().getString("NEWS_TITLE"), ""));
+        binding.ibShareImage.setOnClickListener(v -> appUtils.shareData(getActivity(), getArguments().getString("IMAGE_URL"), binding.simpleDraweeView, getArguments().getString("IMAGE_TITLE"), ""));
 
 //        binding.conLayFresco.setOnTouchListener(() -> onTouch(this));
     }

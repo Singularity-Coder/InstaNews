@@ -17,7 +17,7 @@
         android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        fresco:actualImageScaleType="focusCrop"
+        fresco:actualImageScaleType="center"
         fresco:fadeDuration="300"
         fresco:failureImage="@drawable/ic_error_outline_black_24dp"
         fresco:failureImageScaleType="centerInside"

@@ -66,7 +66,7 @@ public final class HomeDetailFragment extends Fragment {
         appUtils.glideImage(getContext(), getArguments().getString("NEWS_IMAGE_URL"), binding.ivHeaderImage);
         binding.tvTitle.setText(getArguments().getString("NEWS_TITLE"));
         binding.tvDescription.setText(getArguments().getString("NEWS_DESCRIPTION"));
-        binding.tvDescription.setText(getArguments().getString("NEWS_CONTENT"));
+        binding.tvContent.setText(getArguments().getString("NEWS_CONTENT"));
         binding.tvAuthor.setText("Author: " + getArguments().getString("NEWS_AUTHOR"));
         binding.tvSource.setText("Source: " + getArguments().getString("NEWS_SOURCE"));
         binding.tvPublishedAt.setText("Published At: " + appUtils.formatDate(getArguments().getString("NEWS_DATE")));
@@ -145,6 +145,7 @@ public final class HomeDetailFragment extends Fragment {
             if (null == getArguments()) return;
             final Bundle bundle = new Bundle();
             bundle.putString("IMAGE_URL", getArguments().getString("NEWS_IMAGE_URL"));
+            bundle.putString("IMAGE_TITLE", getArguments().getString("NEWS_TITLE"));
             appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new FrescoImageViewerFragment());
         });
         binding.tvShareNews.setOnClickListener(v -> {

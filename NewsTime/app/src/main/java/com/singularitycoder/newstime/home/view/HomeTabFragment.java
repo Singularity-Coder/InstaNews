@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.test.espresso.IdlingResource;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.gson.Gson;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.categories.CategoriesFragment;
 import com.singularitycoder.newstime.databinding.FragmentHomeTabBinding;
@@ -313,6 +314,9 @@ public final class HomeTabFragment extends Fragment {
                 newsResponse = (NewsItem.NewsResponse) stateMediator.getData();
                 final List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
                 newsList.addAll(newsArticles);
+                final String response = new Gson().toJson(newsResponse);
+                Log.d(TAG, "showSuccessState: resp: " + response);
+
                 if (null != newsAdapter) {
                     newsAdapter.notifyDataSetChanged();
                 }
