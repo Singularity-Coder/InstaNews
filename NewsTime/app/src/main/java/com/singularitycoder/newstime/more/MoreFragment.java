@@ -90,6 +90,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
 
     private void loadData() {
         moreList.add(new MoreItem(getAppVersion()));
+        moreList.add(new MoreItem("News Sources", "List of News Sources", R.drawable.ic_baseline_dynamic_feed_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("News Location", "Choose a Country", R.drawable.ic_baseline_location_on_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("News Layout", "Customise News Layout", R.drawable.ic_layout_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
         moreList.add(new MoreItem("App Language", "Choose App Language", R.drawable.ic_baseline_language_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
@@ -104,28 +105,43 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
 
     private void setClickListeners() {
         moreAdapter.setOnItemClickListener((position, tvMoreSubtitle) -> {
+            final int POS_NEWS_SOURCES = 1;
+            final int POS_NEWS_LOCATION = 2;
+            final int POS_NEWS_LAYOUT = 3;
+            final int POS_APP_LANGUAGE = 4;
+            final int POS_APP_THEME = 5;
+            final int POS_RECENTLY_VIEWED = 6;
+            final int POS_TEXT_TO_SPEECH = 7;
+            final int POS_CHANGE_FONT = 8;
+            final int POS_CHANGE_TEXT_SIZE = 9;
+            final int POS_SHOW_INTRO = 10;
 
-            if (1 == position) {
+            if (POS_NEWS_SOURCES == position) {
+
+                this.tvMoreSubtitle = tvMoreSubtitle;
+            }
+
+            if (POS_NEWS_LOCATION == position) {
                 btnShowCountriesDialog();
                 this.tvMoreSubtitle = tvMoreSubtitle;
             }
 
-            if (2 == position) {
+            if (POS_NEWS_LAYOUT == position) {
                 btnShowNewsLayoutsDialog();
                 this.tvMoreSubtitle = tvMoreSubtitle;
             }
 
-            if (3 == position) {
+            if (POS_APP_LANGUAGE == position) {
                 btnShowAppLanguageDialog();
                 this.tvMoreSubtitle = tvMoreSubtitle;
             }
 
-            if (4 == position) {
+            if (POS_APP_THEME == position) {
                 btnShowAppThemesDialog();
                 this.tvMoreSubtitle = tvMoreSubtitle;
             }
 
-            if (9 == position) {
+            if (POS_SHOW_INTRO == position) {
                 Toast.makeText(getContext(), "Done!", Toast.LENGTH_SHORT).show();
                 appSharedPreference.setIntroFinished("no");
             }

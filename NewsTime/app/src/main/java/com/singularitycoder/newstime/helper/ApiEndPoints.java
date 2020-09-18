@@ -1,11 +1,14 @@
 package com.singularitycoder.newstime.helper;
 
 import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.sources.model.SourceItem;
+import com.singularitycoder.newstime.weather.model.WeatherItem;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface ApiEndPoints {
 
@@ -24,9 +27,17 @@ public interface ApiEndPoints {
     );
 
     @GET("{type}")
-    Single<NewsItem.NewsResponse> getSources(
+    Single<SourceItem> getSources(
             @Path("type") String newsType,
             @Query("apiKey") String apiKey
+    );
+
+    @GET
+    Single<WeatherItem> getWeather(
+            @Url String url,
+            @Query("lat") long latitude,
+            @Query("lon") long longitude,
+            @Query("appid") String apiKey
     );
 
     default void printStuff() {

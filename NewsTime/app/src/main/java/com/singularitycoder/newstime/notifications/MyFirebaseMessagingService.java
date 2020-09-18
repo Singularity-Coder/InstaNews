@@ -13,7 +13,7 @@ import com.singularitycoder.newstime.R;
 
 import java.util.Map;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public final class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String newToken) {

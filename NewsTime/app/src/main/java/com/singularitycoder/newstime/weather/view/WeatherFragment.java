@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.weather;
+package com.singularitycoder.newstime.weather.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

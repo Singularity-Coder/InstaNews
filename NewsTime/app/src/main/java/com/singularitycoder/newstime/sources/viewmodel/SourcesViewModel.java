@@ -1,74 +1,35 @@
-package com.singularitycoder.newstime.home.viewmodel;
+package com.singularitycoder.newstime.sources.viewmodel;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.singularitycoder.newstime.helper.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.StateMediator;
 import com.singularitycoder.newstime.helper.UiState;
-import com.singularitycoder.newstime.home.model.NewsItem;
-import com.singularitycoder.newstime.home.repository.NewsRepository;
-
-import java.util.List;
+import com.singularitycoder.newstime.sources.repository.SourcesRepository;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public final class NewsViewModel extends AndroidViewModel {
+public final class SourcesViewModel extends ViewModel {
 
     @NonNull
-    private final String TAG = "NewsViewModel";
+    private final String TAG = "SourcesViewModel";
 
     @NonNull
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @NonNull
-    private NewsRepository newsRepository = NewsRepository.getInstance();
+    private SourcesRepository sourcesRepository = SourcesRepository.getInstance();
 
-    @Nullable
-    private LiveData<List<NewsItem.NewsArticle>> newsArticleList;
-
-    public NewsViewModel(@NonNull Application application) {
-        super(application);
-        newsRepository = new NewsRepository(application);
-        newsArticleList = newsRepository.getAllFromRoomDb();
-    }
-
-    // ROOM START______________________________________________________________
-
-    public final void insertIntoRoomDbThroughRepository(NewsItem.NewsArticle newsArticle) {
-        newsRepository.insertIntoRoomDb(newsArticle);
-    }
-
-    public final void updateInRoomDbThroughRepository(NewsItem.NewsArticle newsArticle) {
-        newsRepository.updateInRoomDb(newsArticle);
-    }
-
-    public final void deleteFromRoomDbThroughRepository(NewsItem.NewsArticle newsArticle) {
-        newsRepository.deleteFromRoomDb(newsArticle);
-    }
-
-    public final void deleteAllFromRoomDbThroughRepository() {
-        newsRepository.deleteAllFromRoomDb();
-    }
-
-    public final LiveData<List<NewsItem.NewsArticle>> getAllFromRoomDbThroughRepository() {
-        return newsArticleList;
-    }
-
-    // ROOM END______________________________________________________________
-
-    public final LiveData<StateMediator<Object, UiState, String, String>> getNewsFromRepository(
-            @Nullable final String country,
-            @NonNull final String category,
+    public final LiveData<StateMediator<Object, UiState, String, String>> getSourcesFromRepository(
             @Nullable final ApiIdlingResource idlingResource) throws IllegalArgumentException {
 
         if (null != idlingResource) idlingResource.setIdleState(false);
@@ -80,7 +41,7 @@ public final class NewsViewModel extends AndroidViewModel {
         mutableLiveData.postValue(stateMediator);
 
         final DisposableSingleObserver observer =
-                newsRepository.getNewsFromApi(country, category)
+                sourcesRepository.getSourcesFromApi()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver() {
@@ -88,7 +49,7 @@ public final class NewsViewModel extends AndroidViewModel {
                             public void onSuccess(Object o) {
                                 Log.d(TAG, "onResponse: resp: " + o);
                                 if (null != o) {
-                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", "NEWS");
+                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", "SOURCES");
                                     mutableLiveData.postValue(stateMediator);
                                     if (null != idlingResource) idlingResource.setIdleState(true);
                                 }

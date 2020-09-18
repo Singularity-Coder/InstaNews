@@ -4,6 +4,10 @@ import android.view.View;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+/**
+ * https://www.androidhive.info/2020/01/viewpager2-pager-transformations-intro-slider-pager-animations-pager-transformations/
+ * */
+
 public final class ZoomOutPageTransformer implements ViewPager2.PageTransformer {
     private static final float MIN_SCALE = 0.85f;
     private static final float MIN_ALPHA = 0.5f;

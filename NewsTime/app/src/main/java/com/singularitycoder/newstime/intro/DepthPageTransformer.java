@@ -6,6 +6,10 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 import androidx.viewpager2.widget.ViewPager2;
 
+/**
+ * https://www.androidhive.info/2020/01/viewpager2-pager-transformations-intro-slider-pager-animations-pager-transformations/
+ * */
+
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public final class DepthPageTransformer implements ViewPager2.PageTransformer {
     private static final float MIN_SCALE = 0.75f;

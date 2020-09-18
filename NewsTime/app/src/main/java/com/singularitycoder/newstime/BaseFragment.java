@@ -16,7 +16,7 @@ import com.singularitycoder.newstime.databinding.FragmentBaseBinding;
 import com.singularitycoder.newstime.favorites.FavoritesFragment;
 import com.singularitycoder.newstime.home.view.HomeFragment;
 import com.singularitycoder.newstime.more.MoreFragment;
-import com.singularitycoder.newstime.weather.WeatherFragment;
+import com.singularitycoder.newstime.weather.view.WeatherFragment;
 
 public final class BaseFragment extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
 
