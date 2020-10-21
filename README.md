@@ -30,3 +30,15 @@ Daily News App!
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s23.jpg)
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s24.jpg)
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s25.jpg)
+
+### Upcoming Features
+1. FCM - Remainders (Time for News)
+2. Periodic News refreshes using Work Manager
+3. Dagger
+4. Unit and Espresso Tests
+5. Animations
+6. Bottom Sheets
+7. Webscraping and WebView enhancements - Customise fonts, clean reader view, navigaions, text size
+8. Long Press news card to preview like instagram
+9. Gestures
+10. Foreground Service to detect news from SMS
