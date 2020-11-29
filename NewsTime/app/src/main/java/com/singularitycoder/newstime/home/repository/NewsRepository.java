@@ -7,12 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import com.singularitycoder.newstime.helper.retrofit.ApiEndPoints;
 import com.singularitycoder.newstime.helper.AppConstants;
-import com.singularitycoder.newstime.helper.NewsTimeRoomDatabase;
+import com.singularitycoder.newstime.helper.retrofit.ApiEndPoints;
 import com.singularitycoder.newstime.helper.retrofit.RetrofitService;
-import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.helper.room.NewsRoomDatabase;
 import com.singularitycoder.newstime.home.dao.NewsDao;
+import com.singularitycoder.newstime.home.model.NewsItem;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public final class NewsRepository {
     }
 
     public NewsRepository(Application application) {
-        NewsTimeRoomDatabase database = NewsTimeRoomDatabase.getInstance(application);
+        NewsRoomDatabase database = NewsRoomDatabase.getInstance(application);
         newsDao = database.newsDao();
         newsArticleList = newsDao.getAllNewsArticles();
     }

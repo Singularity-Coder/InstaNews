@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="8dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView"
         style="@style/ActionItem"
         android:layout_marginTop="8dp"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:drawableStartCompat="@mipmap/ic_launcher" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView2"
         style="@style/ActionItem"
         android:text="@string/action_upload"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:drawableStartCompat="@mipmap/ic_launcher" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView3"
         style="@style/ActionItem"
         android:text="@string/action_copy"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:drawableStartCompat="@mipmap/ic_launcher" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView4"
         style="@style/ActionItem"
         android:text="@string/action_print"

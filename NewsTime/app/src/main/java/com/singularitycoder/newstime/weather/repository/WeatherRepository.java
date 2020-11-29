@@ -33,7 +33,7 @@ public final class WeatherRepository {
             final long latitude,
             final long longitude,
             @NonNull final String apiKey) {
-        final ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
+        final ApiEndPoints apiService = RetrofitService.getInstance().create(ApiEndPoints.class);
         final Single<WeatherItem> observer = apiService.getWeather(url, latitude, longitude, apiKey);
         return observer;
     }

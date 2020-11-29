@@ -30,7 +30,7 @@ public final class SearchRepository {
 
     @Nullable
     public Single<NewsItem.NewsResponse> getSearchResultsFromApi(@Nullable final String searchQuery) {
-        ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
+        ApiEndPoints apiService = RetrofitService.getInstance().create(ApiEndPoints.class);
         Single<NewsItem.NewsResponse> observer = apiService.getSearchResults("everything", searchQuery, AppConstants.NEWS_API_KEY);
         return observer;
     }
