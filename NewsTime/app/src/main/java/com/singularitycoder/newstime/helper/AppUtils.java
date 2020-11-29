@@ -377,7 +377,7 @@ public final class AppUtils extends AppCompatActivity {
 
     public final void glideImage(Context context, String imgUrl, ImageView imageView) {
         final RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.color.teal_200)
+                .placeholder(R.color.purple_200)
                 .error(android.R.color.holo_red_light)
                 .encodeQuality(40)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -392,8 +392,8 @@ public final class AppUtils extends AppCompatActivity {
                 .load(imgUrl)
                 .apply(
                         new RequestOptions()
+                                .placeholder(R.color.purple_200)
                                 .error(android.R.color.holo_red_light)
-                                .placeholder(R.color.teal_200)
                                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .centerCrop()
                 )
@@ -440,8 +440,8 @@ public final class AppUtils extends AppCompatActivity {
                     }
                 });
 
-        Uri bmpUri = getLocalBitmapUri(activity, imageView);
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        final Uri bmpUri = getLocalBitmapUri(activity, imageView);
+        final Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("image/.*");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
@@ -453,11 +453,11 @@ public final class AppUtils extends AppCompatActivity {
 
 
     private void shareOnlyText(Activity activity, String title, String subtitle) {
-        Intent share = new Intent(Intent.ACTION_SEND);
+        final Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, title);
         share.putExtra(Intent.EXTRA_TEXT, subtitle);
-//                share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+//        share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         activity.startActivity(Intent.createChooser(share, "Share to"));
     }
@@ -511,9 +511,9 @@ public final class AppUtils extends AppCompatActivity {
     public static String getIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
-                NetworkInterface intf = en.nextElement();
+                final NetworkInterface intf = en.nextElement();
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    final InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
                         return inetAddress.getHostAddress();
                     }

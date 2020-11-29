@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="@color/purple_100"
+                app:cardBackgroundColor="@color/purple_50"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
                 <LinearLayout
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

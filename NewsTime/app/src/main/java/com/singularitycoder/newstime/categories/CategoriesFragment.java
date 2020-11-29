@@ -91,10 +91,10 @@ public final class CategoriesFragment extends Fragment {
         categoriesList.clear();
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2011/12/14/12/11/astronaut-11080_960_720.jpg", "Technology"));
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2014/02/27/16/09/microscope-275984_960_720.jpg", "Science"));
-        categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2014/10/23/10/10/dollar-499481_960_720.jpg", "Business"));
+        categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2014/10/23/10/10/dollars-499481_960_720.jpg", "Business"));
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2015/03/08/17/25/musician-664432_960_720.jpg", "Entertainment"));
         categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2018/01/01/01/56/yoga-3053488_960_720.jpg", "Health"));
-        categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2012/11/28/11/11/quarterback-67701_960_720.jpg", "Sports"));
+        categoriesList.add(new CategoriesItem("https://cdn.pixabay.com/photo/2012/11/28/11/11/football-67701_960_720.jpg", "Sports"));
         categoriesAdapter.notifyDataSetChanged();
     }
 
