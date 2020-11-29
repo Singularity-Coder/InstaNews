@@ -24,7 +24,7 @@
             android:layout_marginEnd="16dp"
             android:text="Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/gray_dark" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_description"
@@ -35,7 +35,7 @@
             android:layout_marginEnd="16dp"
             android:text="Description"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/gray_dark" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_published_at"

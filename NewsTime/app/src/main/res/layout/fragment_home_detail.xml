@@ -34,7 +34,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="Title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_dark"
                 app:layout_constraintTop_toBottomOf="@+id/iv_header_image" />
 
             <com.google.android.material.card.MaterialCardView
@@ -108,7 +108,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="Description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_dark"
                 app:layout_constraintTop_toBottomOf="@+id/card_actions" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -120,7 +120,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="Content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_dark"
                 app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
             <com.google.android.material.textview.MaterialTextView

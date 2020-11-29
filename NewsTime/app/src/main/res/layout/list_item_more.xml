@@ -38,7 +38,7 @@
             android:layout_marginStart="16dp"
             android:text="More Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintStart_toEndOf="@+id/iv_more"
             app:layout_constraintTop_toTopOf="parent" />
 

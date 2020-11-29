@@ -55,7 +55,7 @@
             android:maxLines="3"
             android:text="Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_header_image"
             app:layout_constraintTop_toBottomOf="@+id/tv_source" />

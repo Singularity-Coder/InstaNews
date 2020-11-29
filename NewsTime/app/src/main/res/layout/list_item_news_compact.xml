@@ -36,7 +36,7 @@
             android:maxLines="3"
             android:text="Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintEnd_toStartOf="@+id/iv_header_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

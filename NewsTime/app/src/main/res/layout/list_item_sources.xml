@@ -10,73 +10,100 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/con_lay_list_item_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/iv_header_image"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
-            android:src="@color/purple_200" />
+            android:src="@drawable/ic_insta_news_paper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_source_category"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:text="Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/black" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:text="Description"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Category"
+            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_header_image"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_published_at"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_source_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:text="Published At"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/darker_gray" />
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="Source Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/gray_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_header_image"
+            app:layout_constraintTop_toBottomOf="@+id/tv_source_category" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_author"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_source_description"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
-            android:text="Author"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/darker_gray" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_source"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Source"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Source Description"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/darker_gray" />
-    </LinearLayout>
+            android:textColor="@color/gray_dark"
+            app:layout_constraintTop_toBottomOf="@+id/tv_source_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_header_image" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_source_country_language"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Country  |  Description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/tv_source_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_header_image" />
+
+        <ImageView
+            android:id="@+id/iv_open_link"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_baseline_open_in_new_24"
+            app:layout_constraintTop_toTopOf="@+id/tv_source_name"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

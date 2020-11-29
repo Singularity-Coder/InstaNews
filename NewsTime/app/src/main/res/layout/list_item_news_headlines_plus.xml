@@ -30,7 +30,7 @@
             android:text="Source"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +42,7 @@
             android:layout_marginEnd="16dp"
             android:text="Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_source" />
 
@@ -58,7 +58,7 @@
             android:maxLines="1"
             android:text="Author"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
@@ -75,7 +75,7 @@
             android:maxLines="1"
             android:text="Published At"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_author" />
