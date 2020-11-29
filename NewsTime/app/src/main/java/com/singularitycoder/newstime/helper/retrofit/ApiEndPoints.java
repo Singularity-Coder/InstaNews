@@ -14,14 +14,14 @@ import retrofit2.http.Url;
 public interface ApiEndPoints {
 
     @GET("top-headlines")
-    Single<NewsItem.NewsResponse> getNewsList(
+    Single<Response<NewsItem.NewsResponse>> getNewsList(
             @Query("country") String country,
             @Query("category") String category,
             @Query("apiKey") String apiKey
     );
 
     @GET("{type}")
-    Single<NewsItem.NewsResponse> getSearchResults(
+    Single<Response<NewsItem.NewsResponse>> getSearchResults(
             @Path("type") String newsType,
             @Query("q") String searchQuery,
             @Query("apiKey") String apiKey
@@ -40,7 +40,7 @@ public interface ApiEndPoints {
     );
 
     @GET
-    Single<WeatherItem> getWeather(
+    Single<Response<WeatherItem>> getWeather(
             @Url String url,
             @Query("lat") long latitude,
             @Query("lon") long longitude,

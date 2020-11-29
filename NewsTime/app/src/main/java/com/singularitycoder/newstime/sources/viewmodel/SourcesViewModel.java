@@ -92,7 +92,7 @@ public final class SourcesViewModel extends ViewModel {
                             public void onSuccess(Object o) {
                                 Log.d(TAG, "onResponse: resp: " + o);
                                 if (null != o) {
-                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", AppConstants.KEY_GET_NEWS_LIST_API_SUCCESS_STATE);
+                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", AppConstants.KEY_GET_NEWS_LIST_FROM_SOURCE_API_SUCCESS_STATE);
                                     mutableLiveData.postValue(stateMediator);
                                     if (null != idlingResource) idlingResource.setIdleState(true);
                                 }

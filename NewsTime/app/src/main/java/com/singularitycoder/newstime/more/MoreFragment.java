@@ -21,15 +21,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.databinding.FragmentMoreBinding;
 import com.singularitycoder.newstime.helper.AppSharedPreference;
+import com.singularitycoder.newstime.helper.AppUtils;
 import com.singularitycoder.newstime.helper.CustomDialogFragment;
+import com.singularitycoder.newstime.sources.view.SourcesFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.singularitycoder.newstime.helper.AppConstants.countriesArray;
+import static com.singularitycoder.newstime.helper.AppConstants.countriesArrayAlias;
+import static com.singularitycoder.newstime.helper.AppConstants.languageArray;
+import static com.singularitycoder.newstime.helper.AppConstants.layoutsArray;
+import static com.singularitycoder.newstime.helper.AppConstants.themeArray;
 
 public final class MoreFragment extends Fragment implements CustomDialogFragment.ListDialogListener {
 
     @NonNull
     private final String TAG = "MoreFragment";
+
+    @NonNull
+    private final AppUtils appUtils = AppUtils.getInstance();
 
     @NonNull
     private final List<MoreItem> moreList = new ArrayList<>();
@@ -117,8 +128,8 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
             final int POS_SHOW_INTRO = 10;
 
             if (POS_NEWS_SOURCES == position) {
-
-                this.tvMoreSubtitle = tvMoreSubtitle;
+                appUtils.addFragment(getActivity(), null, R.id.con_lay_base_activity_root, new SourcesFragment());
+                tvMoreSubtitle.setText("Read News from specific sources");
             }
 
             if (POS_NEWS_LOCATION == position) {
@@ -177,7 +188,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         bundle.putString("KEY_TITLE", "Choose Country");
         bundle.putString("KEY_CONTEXT_TYPE", "fragment");
         bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
-        bundle.putStringArray("KEY_LIST", new String[]{"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"});
+        bundle.putStringArray("KEY_LIST", countriesArrayAlias);
 
         final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setTargetFragment(this, 601);
@@ -197,7 +208,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         bundle.putString("KEY_TITLE", "Choose Layouts");
         bundle.putString("KEY_CONTEXT_TYPE", "fragment");
         bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
-        bundle.putStringArray("KEY_LIST", new String[]{"Standard", "All Details", "Compact", "Fancy", "Only Text", "Only Image", "Only Headlines", "Fancy Headlines", "Image Headlines", "Headlines Plus", "Grid View", "Vertical Swipe"});
+        bundle.putStringArray("KEY_LIST", layoutsArray);
 
         final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setTargetFragment(this, 602);
@@ -217,7 +228,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         bundle.putString("KEY_TITLE", "Choose App Language");
         bundle.putString("KEY_CONTEXT_TYPE", "fragment");
         bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
-        bundle.putStringArray("KEY_LIST", new String[]{"English", "Hindi", "Japanese", "Chinese"});
+        bundle.putStringArray("KEY_LIST", languageArray);
 
         final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setTargetFragment(this, 603);
@@ -237,7 +248,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
         bundle.putString("KEY_TITLE", "Choose App Theme");
         bundle.putString("KEY_CONTEXT_TYPE", "fragment");
         bundle.putString("KEY_CONTEXT_OBJECT", "MoreFragment");
-        bundle.putStringArray("KEY_LIST", new String[]{"Light Mode", "Dark Mode"});
+        bundle.putStringArray("KEY_LIST", themeArray);
 
         final DialogFragment dialogFragment = new CustomDialogFragment();
         dialogFragment.setTargetFragment(this, 604);
@@ -253,9 +264,7 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
     @Override
     public void onListDialogItemClick(String listItemText, String listDialogType) {
         if (("countries").equals(listDialogType)) {
-            String[] countriesArray = {"in", "jp", "cn", "ru", "us", "gb", "il", "de", "br", "au"};
-            String[] countriesArrayAlias = {"India", "Japan", "China", "Russia", "United States", "United Kingdom", "Israel", "Germany", "Brazil", "Australia"};
-            for (int i = 0; i < countriesArrayAlias.length; i++) {
+            for (byte i = 0; i < countriesArrayAlias.length; i++) {
                 if ((countriesArrayAlias[i]).equals(listItemText)) {
                     appSharedPreference.setCountry(countriesArray[i]);
                     tvMoreSubtitle.setText("Country: " + countriesArrayAlias[i]);

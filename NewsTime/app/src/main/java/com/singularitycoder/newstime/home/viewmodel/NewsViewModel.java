@@ -22,6 +22,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.singularitycoder.newstime.helper.AppConstants.KEY_GET_NEWS_LIST_API_SUCCESS_STATE;
+
 public final class NewsViewModel extends AndroidViewModel {
 
     @NonNull
@@ -88,7 +90,7 @@ public final class NewsViewModel extends AndroidViewModel {
                             public void onSuccess(Object o) {
                                 Log.d(TAG, "onResponse: resp: " + o);
                                 if (null != o) {
-                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", "NEWS");
+                                    stateMediator.set(o, UiState.SUCCESS, "Got Data!", KEY_GET_NEWS_LIST_API_SUCCESS_STATE);
                                     mutableLiveData.postValue(stateMediator);
                                     if (null != idlingResource) idlingResource.setIdleState(true);
                                 }

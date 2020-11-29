@@ -52,7 +52,7 @@
                 android:drawablePadding="16dp"
                 android:hint="Search"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_dark"
                 android:textColorHint="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ib_audio_search"
@@ -73,7 +73,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <include
-        layout="@layout/item_shimmer_loading"
+        layout="@layout/item_shimmer_news_loading"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/con_lay_list_details" />
 
@@ -137,7 +137,7 @@
         android:padding="2dp"
         android:text="Nothing to show :("
         android:textAlignment="center"
-        android:textColor="@android:color/black"
+        android:textColor="@color/gray_dark"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

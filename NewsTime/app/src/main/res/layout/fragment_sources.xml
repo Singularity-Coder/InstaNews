@@ -15,16 +15,16 @@
         android:background="@drawable/lay_round_toolbar"
         android:elevation="8dp"
         android:theme="@style/AppTheme.ToolbarTheme"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:titleTextColor="@android:color/black" />
 
     <include
-        layout="@layout/item_shimmer_loading"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/con_lay_list_details"/>
+        layout="@layout/item_shimmer_source_loading"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -36,10 +36,10 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_news"
+            android:id="@+id/recycler_sources"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_item_news_all_details" />
+            tools:listitem="@layout/list_item_sources" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.textview.MaterialTextView

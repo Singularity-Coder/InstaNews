@@ -36,7 +36,7 @@
             android:text="@string/string_name"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_dark"
             app:layout_constraintStart_toEndOf="@+id/iv_user_image"
             app:layout_constraintTop_toTopOf="@+id/iv_user_image" />
 
@@ -135,7 +135,7 @@
                 android:text="@string/string_name"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/gray_dark" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_category_desc_text"
@@ -156,7 +156,7 @@
                 android:text="@string/string_category"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/gray_dark" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_address_desc_text"
@@ -177,7 +177,7 @@
                 android:text="@string/string_address"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/gray_dark" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_description_desc_text"
@@ -198,7 +198,7 @@
                 android:text="@string/string_description"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/gray_dark" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_contact_desc_text"
@@ -219,7 +219,7 @@
                 android:text="@string/string_contact"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/gray_dark" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_empcode_desc_text"
@@ -240,7 +240,7 @@
                 android:text="@string/string_empcode"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/gray_dark" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

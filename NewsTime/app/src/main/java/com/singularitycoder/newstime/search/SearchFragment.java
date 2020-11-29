@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Response;
+
 import static android.app.Activity.RESULT_OK;
 import static java.lang.String.valueOf;
 
@@ -281,11 +283,12 @@ public final class SearchFragment extends Fragment {
         getActivity().runOnUiThread(() -> {
             if (("SEARCH").equals(stateMediator.getKey())) {
                 newsList.clear();
-                newsResponse = (NewsItem.NewsResponse) stateMediator.getData();
+                final Response<NewsItem.NewsResponse> response = (Response<NewsItem.NewsResponse>) stateMediator.getData();
+                newsResponse = (NewsItem.NewsResponse) response.body();
                 final List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
                 newsList.addAll(newsArticles);
-                final String response = new Gson().toJson(newsResponse);
-                Log.d(TAG, "showSuccessState: resp: " + response);
+                final String stringResponse = new Gson().toJson(newsResponse);
+                Log.d(TAG, "showSuccessState: resp: " + stringResponse);
 
                 if (null != newsAdapter) {
                     newsAdapter.notifyDataSetChanged();

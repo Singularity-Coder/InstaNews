@@ -17,6 +17,7 @@ import com.singularitycoder.newstime.home.model.NewsItem;
 import java.util.List;
 
 import io.reactivex.Single;
+import retrofit2.Response;
 
 public final class NewsRepository {
 
@@ -73,7 +74,7 @@ public final class NewsRepository {
     // ROOM END______________________________________________________________
 
     @Nullable
-    public Single<NewsItem.NewsResponse> getNewsFromApi(
+    public Single<Response<NewsItem.NewsResponse>> getNewsFromApi(
             @Nullable final String country,
             @NonNull final String category) {
         final ApiEndPoints apiService = RetrofitService.getInstance().create(ApiEndPoints.class);

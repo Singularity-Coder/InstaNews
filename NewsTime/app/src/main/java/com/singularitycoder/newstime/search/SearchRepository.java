@@ -9,6 +9,7 @@ import com.singularitycoder.newstime.helper.retrofit.RetrofitService;
 import com.singularitycoder.newstime.home.model.NewsItem;
 
 import io.reactivex.Single;
+import retrofit2.Response;
 
 public final class SearchRepository {
 
@@ -29,9 +30,8 @@ public final class SearchRepository {
     }
 
     @Nullable
-    public Single<NewsItem.NewsResponse> getSearchResultsFromApi(@Nullable final String searchQuery) {
+    public Single<Response<NewsItem.NewsResponse>> getSearchResultsFromApi(@Nullable final String searchQuery) {
         ApiEndPoints apiService = RetrofitService.getInstance().create(ApiEndPoints.class);
-        Single<NewsItem.NewsResponse> observer = apiService.getSearchResults("everything", searchQuery, AppConstants.NEWS_API_KEY);
-        return observer;
+         return apiService.getSearchResults("everything", searchQuery, AppConstants.NEWS_API_KEY);
     }
 }

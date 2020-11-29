@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_source_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/card_source_root"
     android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
@@ -18,92 +18,64 @@
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
-        <ImageView
+        <View
             android:id="@+id/iv_header_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_insta_news_paper"
+            android:background="#dddddd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <View
             android:id="@+id/tv_source_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="4dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Category"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toStartOf="@+id/iv_open_link"
+            android:background="#dddddd"
             app:layout_constraintStart_toEndOf="@+id/iv_header_image"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <View
             android:id="@+id/tv_source_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="Source Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/gray_dark"
-            app:layout_constraintEnd_toStartOf="@+id/iv_open_link"
+            android:background="#dddddd"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_header_image"
             app:layout_constraintTop_toBottomOf="@+id/tv_source_category" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <View
             android:id="@+id/tv_source_description"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="8dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="48dp"
             android:layout_marginBottom="16dp"
-            android:ellipsize="end"
-            android:text="Source Description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/gray_dark"
-            app:layout_constraintEnd_toStartOf="@+id/iv_open_link"
+            android:background="#dddddd"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_header_image"
             app:layout_constraintTop_toBottomOf="@+id/tv_source_name" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <View
             android:id="@+id/tv_source_country_language"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="4dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Country  |  Description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="#dddddd"
             app:layout_constraintStart_toEndOf="@+id/iv_header_image"
             app:layout_constraintTop_toBottomOf="@+id/tv_source_description" />
-
-        <ImageView
-            android:id="@+id/iv_open_link"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_open_in_new_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_source_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

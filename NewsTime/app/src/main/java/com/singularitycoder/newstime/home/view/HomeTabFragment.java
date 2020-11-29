@@ -24,21 +24,32 @@ import com.google.gson.Gson;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.categories.CategoriesFragment;
 import com.singularitycoder.newstime.databinding.FragmentHomeTabBinding;
-import com.singularitycoder.newstime.helper.espresso.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.AppConstants;
 import com.singularitycoder.newstime.helper.AppSharedPreference;
 import com.singularitycoder.newstime.helper.AppUtils;
+import com.singularitycoder.newstime.helper.NetworkStateListenerBuilder;
+import com.singularitycoder.newstime.helper.espresso.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.retrofit.StateMediator;
 import com.singularitycoder.newstime.helper.retrofit.UiState;
 import com.singularitycoder.newstime.home.adapter.NewsAdapter;
 import com.singularitycoder.newstime.home.adapter.NewsViewPagerAdapter;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
+import com.singularitycoder.newstime.sources.viewmodel.SourcesViewModel;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Response;
+
+import static com.singularitycoder.newstime.helper.AppConstants.KEY_GET_NEWS_LIST_API_SUCCESS_STATE;
+import static com.singularitycoder.newstime.helper.AppConstants.KEY_GET_NEWS_LIST_FROM_SOURCE_API_SUCCESS_STATE;
 import static java.lang.String.valueOf;
 
 public final class HomeTabFragment extends Fragment {
@@ -54,6 +65,9 @@ public final class HomeTabFragment extends Fragment {
 
     @Nullable
     private NewsViewModel newsViewModel;
+
+    @Nullable
+    private SourcesViewModel sourcesViewModel;
 
     @Nullable
     private NewsItem.NewsResponse newsResponse;
@@ -119,6 +133,24 @@ public final class HomeTabFragment extends Fragment {
         return viewRoot;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (null != getArguments()) {
+            if (null != getArguments().getString("KEY_SOURCE_ID") && !("").equals(getArguments().getString("KEY_SOURCE_ID"))) {
+                getNewsListFromSourceFromApi();
+            }
+        } else {
+            getNewsListFromApi();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
     private void getBundleData() {
         if (null != getArguments()) {
             binding.toolbar.setVisibility(View.VISIBLE);
@@ -141,6 +173,7 @@ public final class HomeTabFragment extends Fragment {
 
     private void initialise() {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+        sourcesViewModel = new ViewModelProvider(this).get(SourcesViewModel.class);
         appSharedPreference = AppSharedPreference.getInstance(getContext());
     }
 
@@ -180,31 +213,6 @@ public final class HomeTabFragment extends Fragment {
         binding.recyclerNews.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void getNewsData() {
-        if (appUtils.hasInternet(getContext())) showOnlineState();
-        else showOfflineState();
-    }
-
-    private void showOnlineState() {
-        if (null != appSharedPreference.getCountry() && !("").equals(appSharedPreference.getCountry())) {
-            strSelectedCountry = appSharedPreference.getCountry();
-        }
-        newsViewModel.getNewsFromRepository(
-                strSelectedCountry,
-                strSelectedCategory,
-                idlingResource
-        ).observe(getViewLifecycleOwner(), liveDataObserver());
-    }
-
-    private void showOfflineState() {
-        binding.tvNoInternet.setVisibility(View.VISIBLE);
-        binding.swipeRefreshLayout.setRefreshing(false);
-        newsList.clear();
-
-        // If offline get List from Room DB
-        newsViewModel.getAllFromRoomDbThroughRepository().observe(getViewLifecycleOwner(), liveDataObserverForRoomDb());
-    }
-
     private void setClickListeners() {
         if (null == newsAdapter) return;
 
@@ -224,7 +232,7 @@ public final class HomeTabFragment extends Fragment {
     }
 
     private void setUpSwipeRefresh() {
-        binding.swipeRefreshLayout.setOnRefreshListener(this::getNewsData);
+        binding.swipeRefreshLayout.setOnRefreshListener(this::getNewsListFromApi);
         binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_500));
     }
 
@@ -264,6 +272,53 @@ public final class HomeTabFragment extends Fragment {
         };
     }
 
+    private void getNewsListFromApi() {
+        if (appUtils.hasInternet(getContext())) showNewsListOnlineState();
+        else showNewsListOfflineState();
+    }
+
+    private void showNewsListOnlineState() {
+        if (null != appSharedPreference.getCountry() && !("").equals(appSharedPreference.getCountry())) {
+            strSelectedCountry = appSharedPreference.getCountry();
+        }
+        newsViewModel.getNewsFromRepository(
+                strSelectedCountry,
+                strSelectedCategory,
+                idlingResource
+        ).observe(getViewLifecycleOwner(), observeLiveData());
+    }
+
+    private void showNewsListOfflineState() {
+        binding.tvNoInternet.setVisibility(View.VISIBLE);
+        binding.swipeRefreshLayout.setRefreshing(false);
+        newsList.clear();
+
+        // If offline get List from Room DB
+        newsViewModel.getAllFromRoomDbThroughRepository().observe(getViewLifecycleOwner(), liveDataObserverForRoomDb());
+    }
+
+    private void getNewsListFromSourceFromApi() {
+        new NetworkStateListenerBuilder(getContext())
+                .setOnlineMobileFunction(() -> showOnlineState())
+                .setOnlineWifiFunction(() -> showOnlineState())
+                .setOfflineFunction(() -> showOfflineState())
+                .build();
+    }
+
+    private Void showOnlineState() {
+        binding.tvNoInternet.setVisibility(View.GONE);
+        final String apiKey = AppConstants.NEWS_API_KEY;
+        final String sourceId = getArguments().getString("KEY_SOURCE_ID");
+        sourcesViewModel.getNewsListFromNewsSourceFromRepository(sourceId, apiKey, idlingResource).observe(getViewLifecycleOwner(), observeLiveData());
+        return null;
+    }
+
+    private Void showOfflineState() {
+        binding.tvNoInternet.setVisibility(View.VISIBLE);
+        hideLoading();
+        return null;
+    }
+
     private Observer<List<NewsItem.NewsArticle>> liveDataObserverForRoomDb() {
         Observer<List<NewsItem.NewsArticle>> observer = null;
         observer = (List<NewsItem.NewsArticle> newsArticles) -> {
@@ -277,15 +332,7 @@ public final class HomeTabFragment extends Fragment {
         return observer;
     }
 
-    private void showLoading() {
-        binding.swipeRefreshLayout.setRefreshing(true);
-    }
-
-    private void hideLoading() {
-        binding.swipeRefreshLayout.setRefreshing(false);
-    }
-
-    private Observer<StateMediator<Object, UiState, String, String>> liveDataObserver() {
+    private Observer<StateMediator<Object, UiState, String, String>> observeLiveData() {
         Observer<StateMediator<Object, UiState, String, String>> observer = null;
         if (appUtils.hasInternet(getContext())) {
             observer = stateMediator -> {
@@ -308,32 +355,88 @@ public final class HomeTabFragment extends Fragment {
 
     private void showSuccessState(StateMediator<Object, UiState, String, String> stateMediator) {
         getActivity().runOnUiThread(() -> {
-            if (("NEWS").equals(stateMediator.getKey())) {
-                newsList.clear();
-                newsResponse = (NewsItem.NewsResponse) stateMediator.getData();
-                final List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
-                newsList.addAll(newsArticles);
-                final String response = new Gson().toJson(newsResponse);
-                Log.d(TAG, "showSuccessState: resp: " + response);
+            if ((KEY_GET_NEWS_LIST_API_SUCCESS_STATE).equals(stateMediator.getKey())) {
+                showNewsListSuccessState(stateMediator);
+            }
 
-                if (null != newsAdapter) {
-                    newsAdapter.notifyDataSetChanged();
-                }
-                if (null != binding.viewPager.getAdapter()) {
-                    binding.viewPager.getAdapter().notifyDataSetChanged();
-                }
-                binding.swipeRefreshLayout.setRefreshing(false);
-
-                // Insert into DB
-//                for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
-//                    newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
-//                }
-
-//                Toast.makeText(getContext(), valueOf(stateMediator.getData()), Toast.LENGTH_SHORT).show();
-                hideLoading();
-                binding.tvNoInternet.setVisibility(View.GONE);
+            if ((KEY_GET_NEWS_LIST_FROM_SOURCE_API_SUCCESS_STATE).equals(stateMediator.getKey())) {
+                showNewsListSuccessState(stateMediator);
             }
         });
+    }
+
+    private void showNewsListSuccessState(StateMediator<Object, UiState, String, String> stateMediator) {
+        newsList.clear();
+        hideLoading();
+        binding.tvNothing.setVisibility(View.GONE);
+        binding.lottieViewNothing.setVisibility(View.GONE);
+
+        final Response<NewsItem.NewsResponse> response = (Response<NewsItem.NewsResponse>) stateMediator.getData();
+
+        if (HttpURLConnection.HTTP_OK == response.code()) {
+            showHttpOkState(stateMediator, response);
+        }
+
+        if (HttpURLConnection.HTTP_BAD_REQUEST == response.code()) {
+            showHttpBadRequestState(response);
+        }
+
+        if (HttpURLConnection.HTTP_INTERNAL_ERROR == response.code()) {
+            showHttpInternalErrorState();
+        }
+    }
+
+    private void showHttpOkState(StateMediator<Object, UiState, String, String> stateMediator, Response<NewsItem.NewsResponse> response) {
+        if (null == response.body()) return;
+        newsResponse = (NewsItem.NewsResponse) response.body();
+        final List<NewsItem.NewsArticle> newsArticles = newsResponse.getArticles();
+        newsList.addAll(newsArticles);
+        final String stringResponse = new Gson().toJson(newsResponse);
+        Log.d(TAG, "showSuccessState: resp: " + stringResponse);
+
+        if (null != newsAdapter) {
+            newsAdapter.notifyDataSetChanged();
+        }
+        if (null != binding.viewPager.getAdapter()) {
+            binding.viewPager.getAdapter().notifyDataSetChanged();
+        }
+        binding.swipeRefreshLayout.setRefreshing(false);
+
+        // Insert into DB
+//        for (NewsItem.NewsArticle newsArticle : newsResponse.getArticles()) {
+//            newsViewModel.insertIntoRoomDbFromRepository(newsArticle);
+//        }
+
+        binding.tvNoInternet.setVisibility(View.GONE);
+        appUtils.showSnack(binding.getRoot(), valueOf(stateMediator.getData()), getResources().getColor(R.color.white), "OK", null);
+
+        if (0 == newsList.size()) {
+            binding.tvNothing.setVisibility(View.VISIBLE);
+            binding.lottieViewNothing.setVisibility(View.VISIBLE);
+            binding.lottieViewNothing.setAnimation(R.raw.nothing);
+            binding.lottieViewNothing.playAnimation();
+        }
+    }
+
+    private void showHttpBadRequestState(Response<NewsItem.NewsResponse> response) {
+        if (null == response.errorBody()) return;
+        try {
+            JSONObject jsonErrorObject = null;
+            try {
+                jsonErrorObject = new JSONObject(response.errorBody().string());
+            } catch (IOException ignored) {
+            }
+            final String status = jsonErrorObject.getString("status");
+            final String code = jsonErrorObject.getString("code");
+            final String message = jsonErrorObject.getString("message");
+            appUtils.showSnack(binding.getRoot(), message, getResources().getColor(R.color.white), "OK", null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showHttpInternalErrorState() {
+        appUtils.showSnack(binding.getRoot(), "Something is wrong. Try again!", getResources().getColor(R.color.white), "OK", null);
     }
 
     private void showEmptyState(StateMediator<Object, UiState, String, String> stateMediator) {
@@ -360,16 +463,12 @@ public final class HomeTabFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getNewsData();
+    private void showLoading() {
+        binding.swipeRefreshLayout.setRefreshing(true);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    private void hideLoading() {
+        binding.swipeRefreshLayout.setRefreshing(false);
     }
 
     @VisibleForTesting

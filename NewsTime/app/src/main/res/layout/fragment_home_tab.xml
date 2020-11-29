@@ -22,7 +22,7 @@
         app:titleTextColor="@android:color/black" />
 
     <include
-        layout="@layout/item_shimmer_loading"
+        layout="@layout/item_shimmer_news_loading"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/con_lay_list_details"/>
 
@@ -76,12 +76,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_view_nothing"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_nothing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="40dp"
-        android:background="@android:color/white"
         android:letterSpacing="0.15"
         android:padding="2dp"
         android:text="Nothing to show :("
@@ -90,7 +103,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/lottie_view_nothing" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"

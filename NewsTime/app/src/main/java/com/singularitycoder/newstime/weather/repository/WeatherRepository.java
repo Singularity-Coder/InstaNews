@@ -8,6 +8,7 @@ import com.singularitycoder.newstime.helper.retrofit.RetrofitService;
 import com.singularitycoder.newstime.weather.model.WeatherItem;
 
 import io.reactivex.Single;
+import retrofit2.Response;
 
 public final class WeatherRepository {
 
@@ -17,24 +18,21 @@ public final class WeatherRepository {
     @Nullable
     private static WeatherRepository _instance;
 
-    public WeatherRepository() {
+    private WeatherRepository() {
     }
 
     public static synchronized WeatherRepository getInstance() {
-        if (_instance == null) {
-            _instance = new WeatherRepository();
-        }
+        if (_instance == null) _instance = new WeatherRepository();
         return _instance;
     }
 
     @Nullable
-    public Single<WeatherItem> getWeatherFromApi(
+    public Single<Response<WeatherItem>> getWeatherFromApi(
             @NonNull final String url,
             final long latitude,
             final long longitude,
             @NonNull final String apiKey) {
         final ApiEndPoints apiService = RetrofitService.getInstance().create(ApiEndPoints.class);
-        final Single<WeatherItem> observer = apiService.getWeather(url, latitude, longitude, apiKey);
-        return observer;
+        return apiService.getWeather(url, latitude, longitude, apiKey);
     }
 }
