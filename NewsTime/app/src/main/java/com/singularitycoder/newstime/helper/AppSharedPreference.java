@@ -36,6 +36,9 @@ public final class AppSharedPreference {
     @Nullable
     private SharedPreferences.Editor sharedPrefEditor;
 
+    private AppSharedPreference() {
+    }
+
     @NonNull
     public static synchronized AppSharedPreference getInstance(Context context) {
         if (null == _instance) {

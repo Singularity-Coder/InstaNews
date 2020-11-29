@@ -148,7 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/purple_500"
         android:src="@drawable/ic_baseline_category_24"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

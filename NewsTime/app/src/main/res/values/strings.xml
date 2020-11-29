@@ -10,7 +10,7 @@
     <string name="play_again">Play Again</string>
     <string name="string_search_hint">Search</string>
 
-<!--delete these-->
+    <!--delete these-->
     <string name="string_no_internet">No Internet</string>
     <string name="string_nothing_to_show">Nothing to show :(</string>
     <string name="string_name">Name</string>

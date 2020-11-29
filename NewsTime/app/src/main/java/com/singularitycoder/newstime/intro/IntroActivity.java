@@ -77,7 +77,7 @@ public final class IntroActivity extends AppCompatActivity {
         }
 
         if (tvDotsArray.length > 0) {
-            tvDotsArray[currentPage].setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvDotsArray[currentPage].setTextColor(getResources().getColor(R.color.purple_500));
         }
     }
 

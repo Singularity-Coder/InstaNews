@@ -53,7 +53,6 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.singularitycoder.newstime.R;
-import com.singularitycoder.newstime.databinding.ActivityIntroBinding;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -116,12 +115,22 @@ public final class AppUtils extends AppCompatActivity {
         return cm.getActiveNetworkInfo() != null;
     }
 
-    public final void showFragment(@NonNull final Activity activity, @Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
+    public final void addFragment(@NonNull final Activity activity, @Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
         fragment.setArguments(bundle);
         ((AppCompatActivity) activity).getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(parentLayout, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public final void replaceFragment(@NonNull final Activity activity, @Nullable final Bundle bundle, final int parentLayout, @NonNull final Fragment fragment) {
+        fragment.setArguments(bundle);
+        ((AppCompatActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(parentLayout, fragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -146,7 +155,12 @@ public final class AppUtils extends AppCompatActivity {
         return mimeType.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    public final void showSnack(View view, String message, int snackTextColor, String actionBtnText, Callable<Void> voidFunction) {
+    public final void showSnack(
+            @NonNull final View view,
+            @NonNull final String message,
+            int snackTextColor,
+            @NonNull final String actionBtnText,
+            @Nullable Callable<Void> voidFunction) {
         final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
         final View snackbarView = snackbar.getView();
         final TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -363,7 +377,7 @@ public final class AppUtils extends AppCompatActivity {
 
     public final void glideImage(Context context, String imgUrl, ImageView imageView) {
         final RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.color.colorAccent)
+                .placeholder(R.color.teal_200)
                 .error(android.R.color.holo_red_light)
                 .encodeQuality(40)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -379,7 +393,7 @@ public final class AppUtils extends AppCompatActivity {
                 .apply(
                         new RequestOptions()
                                 .error(android.R.color.holo_red_light)
-                                .placeholder(R.color.colorAccent)
+                                .placeholder(R.color.teal_200)
                                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .centerCrop()
                 )

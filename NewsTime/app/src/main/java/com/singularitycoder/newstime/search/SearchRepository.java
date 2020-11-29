@@ -3,9 +3,9 @@ package com.singularitycoder.newstime.search;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.singularitycoder.newstime.helper.ApiEndPoints;
+import com.singularitycoder.newstime.helper.retrofit.ApiEndPoints;
 import com.singularitycoder.newstime.helper.AppConstants;
-import com.singularitycoder.newstime.helper.RetrofitService;
+import com.singularitycoder.newstime.helper.retrofit.RetrofitService;
 import com.singularitycoder.newstime.home.model.NewsItem;
 
 import io.reactivex.Single;

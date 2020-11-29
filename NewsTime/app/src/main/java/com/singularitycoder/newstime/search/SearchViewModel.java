@@ -8,9 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.singularitycoder.newstime.helper.ApiIdlingResource;
-import com.singularitycoder.newstime.helper.StateMediator;
-import com.singularitycoder.newstime.helper.UiState;
+import com.singularitycoder.newstime.helper.espresso.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.retrofit.StateMediator;
+import com.singularitycoder.newstime.helper.retrofit.UiState;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;

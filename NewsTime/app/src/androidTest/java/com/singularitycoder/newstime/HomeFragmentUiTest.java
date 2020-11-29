@@ -18,8 +18,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
 
-import com.singularitycoder.newstime.helper.StateMediator;
-import com.singularitycoder.newstime.helper.UiState;
+import com.singularitycoder.newstime.helper.retrofit.StateMediator;
+import com.singularitycoder.newstime.helper.retrofit.UiState;
 import com.singularitycoder.newstime.helper.WebViewFragment;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.view.HomeFragment;

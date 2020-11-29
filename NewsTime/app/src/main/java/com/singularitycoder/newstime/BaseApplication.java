@@ -4,26 +4,21 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.squareup.leakcanary.LeakCanary;
 
 public final class BaseApplication extends Application {
 
     private static final String TAG = "BaseApplication";
 
-    private static BaseApplication instance;
+    private static BaseApplication _instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        if (null == instance) instance = this;
+        if (null == _instance) _instance = this;
 
         // Initializing Fresco
         Fresco.initialize(this);
-
-        // Initializing Leaky Canary
-        if (LeakCanary.isInAnalyzerProcess(this)) return;
-        LeakCanary.install(this);
     }
 
     @Override
@@ -31,7 +26,7 @@ public final class BaseApplication extends Application {
         super.attachBaseContext(base);
     }
 
-    public static synchronized BaseApplication getInstance() {
-        return instance;
+    public static synchronized BaseApplication get_instance() {
+        return _instance;
     }
 }

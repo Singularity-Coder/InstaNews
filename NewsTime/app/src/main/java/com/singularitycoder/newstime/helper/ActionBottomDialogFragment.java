@@ -16,7 +16,7 @@ import com.singularitycoder.newstime.R;
 //  Create a subclass of BottomSheetDialogFragment
 //In src folder create a new java file name is ActionBottomDialogFragment which is extending BottomSheetDialogFragment. Apart from this, I’m exposing an interface (callback) that notify the parent activity when one of the buttons is tapped on the Bottom Sheet.
 
-public class ActionBottomDialogFragment extends BottomSheetDialogFragment implements View.OnClickListener {
+public final class ActionBottomDialogFragment extends BottomSheetDialogFragment implements View.OnClickListener {
     public static final String TAG = "ActionBottomDialog";
     private ItemClickListener mListener;
 

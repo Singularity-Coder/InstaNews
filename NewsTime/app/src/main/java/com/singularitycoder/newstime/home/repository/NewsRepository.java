@@ -7,12 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import com.singularitycoder.newstime.helper.ApiEndPoints;
+import com.singularitycoder.newstime.helper.retrofit.ApiEndPoints;
 import com.singularitycoder.newstime.helper.AppConstants;
 import com.singularitycoder.newstime.helper.NewsTimeRoomDatabase;
-import com.singularitycoder.newstime.helper.RetrofitService;
+import com.singularitycoder.newstime.helper.retrofit.RetrofitService;
 import com.singularitycoder.newstime.home.model.NewsItem;
-import com.singularitycoder.newstime.home.roomdao.NewsDaoRoom;
+import com.singularitycoder.newstime.home.dao.NewsDao;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public final class NewsRepository {
     private static NewsRepository _instance;
 
     @Nullable
-    private NewsDaoRoom newsDaoRoom;
+    private NewsDao newsDao;
 
     @Nullable
     private LiveData<List<NewsItem.NewsArticle>> newsArticleList;
@@ -37,8 +37,8 @@ public final class NewsRepository {
 
     public NewsRepository(Application application) {
         NewsTimeRoomDatabase database = NewsTimeRoomDatabase.getInstance(application);
-        newsDaoRoom = database.newsDao();
-        newsArticleList = newsDaoRoom.getAllNews();
+        newsDao = database.newsDao();
+        newsArticleList = newsDao.getAllNewsArticles();
     }
 
     public static synchronized NewsRepository getInstance() {
@@ -51,19 +51,19 @@ public final class NewsRepository {
     // ROOM START______________________________________________________________
 
     public final void insertIntoRoomDb(NewsItem.NewsArticle newsArticle) {
-        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.insertNews(newsArticle));
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDao.insertNewsArticle(newsArticle));
     }
 
     public final void updateInRoomDb(NewsItem.NewsArticle newsArticle) {
-        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.updateNews(newsArticle));
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDao.updateNewsArticle(newsArticle));
     }
 
     public final void deleteFromRoomDb(NewsItem.NewsArticle newsArticle) {
-        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDaoRoom.deleteNews(newsArticle));
+        AsyncTask.SERIAL_EXECUTOR.execute(() -> newsDao.deleteNewsArticle(newsArticle));
     }
 
     public final void deleteAllFromRoomDb() {
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(() -> newsDaoRoom.deleteAllNews());
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(() -> newsDao.deleteAllNewsArticles());
     }
 
     public final LiveData<List<NewsItem.NewsArticle>> getAllFromRoomDb() {
@@ -76,15 +76,7 @@ public final class NewsRepository {
     public Single<NewsItem.NewsResponse> getNewsFromApi(
             @Nullable final String country,
             @NonNull final String category) {
-        ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
-        Single<NewsItem.NewsResponse> observer = apiService.getNewsList(country, category, AppConstants.NEWS_API_KEY);
-        return observer;
-    }
-
-    @Nullable
-    public Single<NewsItem.NewsResponse> getSourcesFromApi() {
-        ApiEndPoints apiService = RetrofitService.getRetrofitInstance().create(ApiEndPoints.class);
-        Single<NewsItem.NewsResponse> observer = apiService.getSources("sources", AppConstants.NEWS_API_KEY);
-        return observer;
+        final ApiEndPoints apiService = RetrofitService.getInstance().create(ApiEndPoints.class);
+        return apiService.getNewsList(country, category, AppConstants.NEWS_API_KEY);
     }
 }

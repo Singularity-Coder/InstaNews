@@ -9,9 +9,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.singularitycoder.newstime.helper.ApiIdlingResource;
-import com.singularitycoder.newstime.helper.StateMediator;
-import com.singularitycoder.newstime.helper.UiState;
+import com.singularitycoder.newstime.helper.espresso.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.retrofit.StateMediator;
+import com.singularitycoder.newstime.helper.retrofit.UiState;
 import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.repository.NewsRepository;
 

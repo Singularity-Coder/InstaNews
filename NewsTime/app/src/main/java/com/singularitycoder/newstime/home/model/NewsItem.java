@@ -1,46 +1,83 @@
 package com.singularitycoder.newstime.home.model;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.singularitycoder.newstime.helper.room.NewsArticleConverter;
 
 import java.util.Collections;
 import java.util.List;
 
 public final class NewsItem {
 
+    @Entity(tableName = "table_news_response")
     public static final class NewsResponse {
 
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "roomIdNewsResponse")
+        private int roomIdNewsResponse;
+
+        @ColumnInfo(name = "status")
         @SerializedName("status")
         @Expose
         private String status;
 
+        @ColumnInfo(name = "totalResults")
         @SerializedName("totalResults")
         @Expose
         private Integer totalResults;
 
+        @TypeConverters(NewsArticleConverter.class)
         @SerializedName("articles")
         @Expose
         private List<NewsArticle> articles = Collections.EMPTY_LIST;
 
+        public int getRoomIdNewsResponse() {
+            return roomIdNewsResponse;
+        }
+
+        public void setRoomIdNewsResponse(int roomIdNewsResponse) {
+            this.roomIdNewsResponse = roomIdNewsResponse;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public Integer getTotalResults() {
+            return totalResults;
+        }
+
+        public void setTotalResults(Integer totalResults) {
+            this.totalResults = totalResults;
+        }
+
         public List<NewsArticle> getArticles() {
             return articles;
         }
+
+        public void setArticles(List<NewsArticle> articles) {
+            this.articles = articles;
+        }
     }
 
-    @Entity(tableName = "table_article")
+    @Entity(tableName = "table_news_article")
     public static final class NewsArticle {
 
         @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "RoomId")
-        private int roomId;
+        @ColumnInfo(name = "roomIdNewsArticle")
+        private int roomIdNewsArticle;
 
-        //    @ColumnInfo(name = "source")
-        @Ignore
+        @Embedded(prefix = "source")
         @SerializedName("source")
         @Expose
         private NewsSource source;
@@ -75,12 +112,12 @@ public final class NewsItem {
         @Expose
         private String publishedAt;
 
-        public int getRoomId() {
-            return roomId;
+        public int getRoomIdNewsArticle() {
+            return roomIdNewsArticle;
         }
 
-        public void setRoomId(int roomId) {
-            this.roomId = roomId;
+        public void setRoomIdNewsArticle(int roomIdNewsArticle) {
+            this.roomIdNewsArticle = roomIdNewsArticle;
         }
 
         public NewsSource getSource() {
@@ -140,15 +177,30 @@ public final class NewsItem {
         }
     }
 
+    @Entity(tableName = "table_news_source")
     public static final class NewsSource {
 
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "roomIdNewsSource")
+        private int roomIdNewsSource;
+
+        @ColumnInfo(name = "sourceId")
         @SerializedName("id")
         @Expose
         private String id;
 
+        @ColumnInfo(name = "sourceName")
         @SerializedName("name")
         @Expose
         private String name;
+
+        public int getRoomIdNewsSource() {
+            return roomIdNewsSource;
+        }
+
+        public void setRoomIdNewsSource(int roomIdNewsSource) {
+            this.roomIdNewsSource = roomIdNewsSource;
+        }
 
         public String getId() {
             return id;

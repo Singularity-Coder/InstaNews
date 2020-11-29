@@ -28,7 +28,7 @@ public final class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appUtils.setStatusBarColor(this, R.color.colorPrimaryDark);
+        appUtils.setStatusBarColor(this, R.color.purple_700);
         showBaseFragment();
         setContentView(R.layout.activity_base);
         initialise();

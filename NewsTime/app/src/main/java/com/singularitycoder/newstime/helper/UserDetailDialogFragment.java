@@ -19,7 +19,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.singularitycoder.newstime.R;
 
-public class UserDetailDialogFragment extends DialogFragment {
+public final class UserDetailDialogFragment extends DialogFragment {
 
     private static final String TAG = "UserDetailDialogFragment";
 

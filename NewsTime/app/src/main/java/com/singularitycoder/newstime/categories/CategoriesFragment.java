@@ -11,19 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.singularitycoder.newstime.R;
-import com.singularitycoder.newstime.databinding.FragmentBaseBinding;
 import com.singularitycoder.newstime.databinding.FragmentCategoriesBinding;
-import com.singularitycoder.newstime.helper.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.AppUtils;
-import com.singularitycoder.newstime.helper.WebViewFragment;
-import com.singularitycoder.newstime.home.adapter.NewsAdapter;
-import com.singularitycoder.newstime.home.model.NewsItem;
 import com.singularitycoder.newstime.home.view.HomeTabFragment;
-import com.singularitycoder.newstime.home.viewmodel.NewsViewModel;
 import com.singularitycoder.newstime.search.SearchFragment;
 
 import java.util.ArrayList;
@@ -138,6 +131,6 @@ public final class CategoriesFragment extends Fragment {
 
     private void setUpSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener(this::setCategories);
-        binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_500));
     }
 }

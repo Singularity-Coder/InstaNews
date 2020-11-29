@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.helper;
+package com.singularitycoder.newstime.helper.retrofit;
 
 public enum UiState {
     LOADING,

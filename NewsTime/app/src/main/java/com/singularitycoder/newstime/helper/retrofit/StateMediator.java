@@ -1,4 +1,4 @@
-package com.singularitycoder.newstime.helper;
+package com.singularitycoder.newstime.helper.retrofit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

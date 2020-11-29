@@ -90,16 +90,16 @@ public final class MoreFragment extends Fragment implements CustomDialogFragment
 
     private void loadData() {
         moreList.add(new MoreItem(getAppVersion()));
-        moreList.add(new MoreItem("News Sources", "List of News Sources", R.drawable.ic_baseline_dynamic_feed_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("News Location", "Choose a Country", R.drawable.ic_baseline_location_on_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("News Layout", "Customise News Layout", R.drawable.ic_layout_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("App Language", "Choose App Language", R.drawable.ic_baseline_language_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("App Theme", "Choose an App Theme", R.drawable.ic_theme_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("Recently Viewed", "Recently Viewed News", R.drawable.ic_recently_viewed_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("Text-To-Speech", "Change TTS Settings", R.drawable.ic_text_to_speech_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("Change Font", "Change Text Style of News", R.drawable.ic_font_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("Change Text Size", "Change Text Size of News", R.drawable.ic_text_size_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
-        moreList.add(new MoreItem("Show Intro", "Shows Intro Screen at the start", R.drawable.ic_baseline_assistant_24, android.R.color.black, android.R.color.darker_gray, R.color.colorPrimary));
+        moreList.add(new MoreItem("News Sources", "List of News Sources", R.drawable.ic_baseline_dynamic_feed_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("News Location", "Choose a Country", R.drawable.ic_baseline_location_on_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("News Layout", "Customise News Layout", R.drawable.ic_layout_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("App Language", "Choose App Language", R.drawable.ic_baseline_language_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("App Theme", "Choose an App Theme", R.drawable.ic_theme_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("Recently Viewed", "Recently Viewed News", R.drawable.ic_recently_viewed_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("Text-To-Speech", "Change TTS Settings", R.drawable.ic_text_to_speech_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("Change Font", "Change Text Style of News", R.drawable.ic_font_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("Change Text Size", "Change Text Size of News", R.drawable.ic_text_size_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
+        moreList.add(new MoreItem("Show Intro", "Shows Intro Screen at the start", R.drawable.ic_baseline_assistant_24, android.R.color.black, android.R.color.darker_gray, R.color.purple_500));
         moreAdapter.notifyDataSetChanged();
     }
 

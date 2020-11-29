@@ -28,11 +28,11 @@ import com.google.gson.Gson;
 import com.singularitycoder.newstime.R;
 import com.singularitycoder.newstime.categories.CategoriesFragment;
 import com.singularitycoder.newstime.databinding.FragmentSearchBinding;
-import com.singularitycoder.newstime.helper.ApiIdlingResource;
+import com.singularitycoder.newstime.helper.espresso.ApiIdlingResource;
 import com.singularitycoder.newstime.helper.AppSharedPreference;
 import com.singularitycoder.newstime.helper.AppUtils;
-import com.singularitycoder.newstime.helper.StateMediator;
-import com.singularitycoder.newstime.helper.UiState;
+import com.singularitycoder.newstime.helper.retrofit.StateMediator;
+import com.singularitycoder.newstime.helper.retrofit.UiState;
 import com.singularitycoder.newstime.home.adapter.NewsAdapter;
 import com.singularitycoder.newstime.home.adapter.NewsViewPagerAdapter;
 import com.singularitycoder.newstime.home.model.NewsItem;
@@ -178,10 +178,10 @@ public final class SearchFragment extends Fragment {
             bundle.putString("NEWS_AUTHOR", newsList.get(position).getAuthor());
             bundle.putString("NEWS_SOURCE", newsList.get(position).getSource().getName());
             bundle.putString("NEWS_DATE", newsList.get(position).getPublishedAt());
-            appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new HomeDetailFragment());
+            appUtils.addFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new HomeDetailFragment());
         });
 
-        binding.btnAdd.setOnClickListener(view -> appUtils.showFragment(getActivity(), null, R.id.con_lay_base_activity_root, new CategoriesFragment()));
+        binding.btnAdd.setOnClickListener(view -> appUtils.addFragment(getActivity(), null, R.id.con_lay_base_activity_root, new CategoriesFragment()));
 
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -209,7 +209,7 @@ public final class SearchFragment extends Fragment {
 
     private void setUpSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener(this::getSearchData);
-        binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        binding.swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_500));
     }
 
     private void setUpViewPager() {

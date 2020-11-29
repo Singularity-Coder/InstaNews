@@ -3,10 +3,8 @@ package com.singularitycoder.newstime.weather.repository;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.singularitycoder.newstime.helper.ApiEndPoints;
-import com.singularitycoder.newstime.helper.AppConstants;
-import com.singularitycoder.newstime.helper.RetrofitService;
-import com.singularitycoder.newstime.home.model.NewsItem;
+import com.singularitycoder.newstime.helper.retrofit.ApiEndPoints;
+import com.singularitycoder.newstime.helper.retrofit.RetrofitService;
 import com.singularitycoder.newstime.weather.model.WeatherItem;
 
 import io.reactivex.Single;

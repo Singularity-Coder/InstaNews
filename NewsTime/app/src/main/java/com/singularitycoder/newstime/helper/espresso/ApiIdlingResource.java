@@ -1,5 +1,4 @@
-
-package com.singularitycoder.newstime.helper;
+package com.singularitycoder.newstime.helper.espresso;
 
 import androidx.annotation.Nullable;
 import androidx.test.espresso.IdlingResource;

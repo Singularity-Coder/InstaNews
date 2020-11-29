@@ -139,14 +139,14 @@ public final class HomeDetailFragment extends Fragment {
             final Bundle bundle = new Bundle();
             bundle.putString("SOURCE_URL", getArguments().getString("NEWS_SOURCE"));
             bundle.putString("SOURCE_TITLE", getArguments().getString("NEWS_TITLE"));
-            appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new WebViewFragment());
+            appUtils.addFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new WebViewFragment());
         });
         binding.ivHeaderImage.setOnClickListener(v -> {
             if (null == getArguments()) return;
             final Bundle bundle = new Bundle();
             bundle.putString("IMAGE_URL", getArguments().getString("NEWS_IMAGE_URL"));
             bundle.putString("IMAGE_TITLE", getArguments().getString("NEWS_TITLE"));
-            appUtils.showFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new FrescoImageViewerFragment());
+            appUtils.addFragment(getActivity(), bundle, R.id.con_lay_base_activity_root, new FrescoImageViewerFragment());
         });
         binding.tvShareNews.setOnClickListener(v -> {
             if (null == getArguments()) return;
