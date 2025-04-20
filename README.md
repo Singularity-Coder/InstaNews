@@ -3,11 +3,7 @@
 Daily News App!
 
 # Screenshots
-![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s1.jpg)
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s2.jpg)
-![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s3.jpg)
-![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s4.jpg)
-![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s5.jpg)
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s6.jpg)
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s7.jpg)
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s7.5.jpg)
