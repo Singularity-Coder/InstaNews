@@ -44,7 +44,7 @@ Daily News App!
 - [Glide](https://github.com/bumptech/glide): Loading images from the network.
 
 ## Architecture
-![alt text](https://github.com/Singularity-Coder/FOLK-Database/blob/master/assets/arch.png)
+![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/arch.png)
 
 This App is based on the MVVM architecture and the Repository pattern, which follows the [Google's official architecture guidance](https://developer.android.com/topic/architecture).
 
