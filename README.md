@@ -1,6 +1,6 @@
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/logo192.png)
 # InstaNews
-Daily News App!
+An Open Source News App like Bloomberg!
 
 # Screenshots
 ![alt text](https://github.com/Singularity-Coder/InstaNews/blob/master/screenshots/s2.jpg)
